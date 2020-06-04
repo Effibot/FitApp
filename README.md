@@ -1,1 +1,1 @@
-# FitApp_Project
+# FitApp
