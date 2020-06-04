@@ -1,12 +1,11 @@
 language: java
 jdk:
     -openjdk8    
-
+  
 addons:
   apt:
     packages:
       - openjfx
-addons:
   sonarcloud:
     organization: effibot
     token: 
