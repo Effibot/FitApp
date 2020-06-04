@@ -6,6 +6,13 @@ addons:
   apt:
     packages:
       - openjfx
+addons:
+  sonarcloud:
+    organization: effibot
+    token: 
+      secure: d7a9e0486fcb71a2ada220d5575b4befe572566e
 
 script: 
 - ant build
+- sonar-scanner
+
