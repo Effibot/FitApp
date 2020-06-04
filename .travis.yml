@@ -3,5 +3,5 @@ jdk:
     -openjdk8    
 
 script: 
-- ant build
 - ant build.fxbuild
+- ant build
