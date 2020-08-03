@@ -1,8 +1,9 @@
 package logic.controller;
 
 import logic.bean.LoginBean;
-import logic.entity.dao.LoginDAO;
-
+import logic.entity.dao.UserDAO;
+import logic.exception.UserNotFoundException;
+import logic.factory.alertfactory.AlertFactory;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,12 @@ public class LoginController {
 	
 	public boolean checkAuthentication(LoginBean bean) {
 		logger.log(Level.INFO, "Connecting...");
-		return LoginDAO.getInstance().authetication(bean);
+		try {
+			return UserDAO.getInstance().checkLogIn(bean);
+		} catch (UserNotFoundException e) {
+			AlertFactory.getInstance().createAlert(e);
+			return false;
+		}
 	}
 
 }

@@ -2,19 +2,15 @@ package logic.viewcontroller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import logic.controller.MainController;
-import logic.factory.alertfactory.AlertFactory;
-import logic.factory.viewfactory.ViewFactory;
-import logic.factory.viewfactory.ViewType;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,23 +26,17 @@ public class MainViewController implements Initializable{
 	private BorderPane container;
 	
 	@FXML
-	private ImageView btnReduce;
+	private Circle btnReduce;
 
 	@FXML
-	private ImageView btnClose;
-	
+	private Circle btnExpand;
+
 	@FXML
-	private ImageView logOutIcon;
-	
+	private Circle btnClose;
+
 	@FXML
-	private BorderPane topBar;
-	
-	@FXML
-	private VBox topBox;
-	
-	private MainController ctrl;
-	private ViewFactory factory;
-	
+	private Button place;
+
 	@FXML
 	private void onMouseClickedEvent(MouseEvent event){
 		if(event.getSource()==btnClose) {
@@ -56,23 +46,10 @@ public class MainViewController implements Initializable{
 			Stage stage = (Stage)main.getScene().getWindow();
 			stage.setIconified(true);
 		}
-		if(event.getSource() == logOutIcon) {
-			try {
-				topBox.getChildren().remove(topBar);
-				ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.LOGIN));
-			} catch (IOException e) {
-				AlertFactory.getInstance().createAlert(e);
-			}
-		}	
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ctrl = MainController.getInstance();
-		factory = ViewFactory.getInstance();
-		ctrl.setContainer(container);
-		ctrl.setTopBar(topBar);
-		ctrl.setTopBox(topBox);
-		topBox.getChildren().remove(topBar);
+		MainController.setContainer(container);
 	}	
 }

@@ -3,11 +3,11 @@ package logic.exception;
 public class UserNotFoundException extends Exception{
 
 	private static final long serialVersionUID = -1482962286272110475L;
-	private static final String MESSAGE ="USER_NOT_FOUND";
-	private final Throwable cause = new Throwable(MESSAGE);
+	
+	private final Throwable cause = new Throwable("USER_NOT_FOUND");
 	
 	public UserNotFoundException() {
-		super(MESSAGE);
+		super("USER_NOT_FOUND");
 		this.initCause(cause);
 	}
 		

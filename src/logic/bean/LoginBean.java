@@ -2,15 +2,15 @@ package logic.bean;
 
 public class LoginBean {
 	
-	private String password;
-	private String username;
-	private int id;
-	private boolean type = false;
-	
 	public LoginBean(String usrname, String pword) {
 		username = usrname;
 		password = pword;
 	}
+	
+	private String password;
+	private String username;
+	private int id;
+	private boolean type = false;
 	
 	public boolean getType() {
 		return type;
