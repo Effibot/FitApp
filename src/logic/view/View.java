@@ -1,11 +1,11 @@
 package logic.view;
 
+import java.io.IOException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewType;
-
-import java.io.IOException;
 
 public class View {
 	private Parent root;

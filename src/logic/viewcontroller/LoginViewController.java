@@ -56,7 +56,9 @@ public class LoginViewController {
 	private Pane pnSignIn;
 	@FXML
 	private AnchorPane anchRoot;
-
+	
+	private MainController ctrl;
+	
 	@FXML
 	private void handleButtonEvent(ActionEvent event) throws IOException {
 		if (event.getSource().equals(btnNoAcc)) {
@@ -65,7 +67,7 @@ public class LoginViewController {
 		if (event.getSource().equals(btnSignUp)) {
 			String email = tfEmailAddr.getText();
 			if (!email.equals(""))
-				logger.log(Level.INFO, "Sending email to: " + tfEmailAddr.getText());
+				logger.log(Level.INFO, "Sending email to: {}", tfEmailAddr.getText());
 		}
 		if (event.getSource().equals(btnLogIn)) {
 			loginTransitions();
@@ -83,9 +85,9 @@ public class LoginViewController {
 		String username = tfUsername.getText();
 		String password = tfPwd.getText();
 		if (!username.equals("") && !password.equals("")) {
-			LoginController ctrl = new LoginController();
+			LoginController logCtrl = new LoginController();
 			LoginBean bean = new LoginBean(username, password);
-			if (ctrl.checkAuthentication(bean)) {
+			if (logCtrl.checkAuthentication(bean)) {
 				MainController.getInstance().setId(bean.getId());
 				ViewFactory factory = ViewFactory.getInstance();
 				View view;
@@ -94,9 +96,10 @@ public class LoginViewController {
 				} else {
 					view = factory.createView(ViewType.USERPAGE);
 				}
-				MainController.getInstance().replace(MainController.getContainer(), view);
+				ctrl.replace(ctrl.getContainer(), view);
+				ctrl.getTopBox().getChildren().add(ctrl.getTopBar());
 			}
-		}
+		} 
 	}
 
 	@FXML
@@ -139,5 +142,7 @@ public class LoginViewController {
 		assert tfPwd != null : "fx:id=\"tfPwd\" was not injected: check your FXML file 'scene.fxml'.";
 		assert btnLogIn != null : "fx:id=\"btnLogIn\" was not injected: check your FXML file 'scene.fxml'.";
 		assert btnNoAcc != null : "fx:id=\"btnNoAcc\" was not injected: check your FXML file 'scene.fxml'.";
+		
+		ctrl = MainController.getInstance();
 	}
 }

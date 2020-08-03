@@ -80,3 +80,7 @@
 .linear-grad{
     -fx-background-color: linear-gradient(to bottom left, #78909c, #8d6e63);
 }
+
+.container{
+    -fx-background-color: linear-gradient(to bottom, rgba(213,213,213,1) 0%, rgba(255,255,255,1) 6%, rgba(213,213,213,1) 90%);
+}
