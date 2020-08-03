@@ -1,0 +1,15 @@
+language: java
+jdk:
+    -openjdk8    
+  
+addons:
+  apt:
+    packages:
+      - openjfx
+  sonarcloud:
+    organization: effibot
+    token: cd7144d9b74845e2e0af9341c4694b77106aa903
+
+script: 
+- ant build
+- sonar-scanner
