@@ -21,7 +21,7 @@ public class CardController {
 		}
 		CardViewController controller = loader.getController();
 		controller.setDate(s.getDate().toString());
-		controller.setGymName(s.getGym().getGymName());
+		controller.setGymName(s.getGym());
 		controller.setDescription(s.getDescription());
 		controller.setDuration(s.printDuration(s.getDuration()));
 		controller.setSessionName("Session: "+s.getSessionId());

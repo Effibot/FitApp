@@ -1,19 +1,18 @@
 package logic.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.util.MarkerImageFactory;
 
-import javafx.fxml.FXMLLoader;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import logic.entity.dao.GymDAO;
-import logic.maputil.Geocode;
 import logic.entity.Gym;
-import logic.viewcontroller.BookingOnMapViewController;
+import logic.entity.Session;
+import logic.entity.dao.GymDAO;
+import logic.entity.dao.SessionDAO;
+import logic.maputil.Geocode;
 
 public class MapController {
 	 private static MapController instance = null;
@@ -22,7 +21,8 @@ public class MapController {
 	    LatLong posit;
 	    List<Marker> listMarker = new ArrayList<>();
 	    List<String> listGymsName = new ArrayList<>();
-        GymDAO dao = GymDAO.getInstance();
+        SessionDAO dao = SessionDAO.getInstance();
+        GymDAO daoGym = GymDAO.getInstance();
 
 	    Marker marker;
 	    private String center;
@@ -39,15 +39,17 @@ public class MapController {
 	        return listMarker;
 	    }
 
-	    public List<String> getListIdGym() {
+	    public List<Session> getListIdGym() {
 	        return listIdGym;
 	    }
+	    
 
-	    public void setListIdGym(List<String> listIdGym) {
-	        this.listIdGym = listIdGym;
+	    
+	    public void setListIdGym(List<Session> listIdGym2) {
+	        this.listIdGym = listIdGym2;
 	    }
 
-	    private List<String> listIdGym;
+	    private List<Session> listIdGym;
 
 	    public void setListMarker(List<Marker> listMarker) {
 	        this.listMarker = listMarker;
@@ -65,48 +67,63 @@ public class MapController {
 	        return base;
 	    }
 
-//	    public void startGeocode(String data, String timeStart, String distance,String  baseAddress){
-//	        this.setListMarker(this.distance(data,timeStart,distance,baseAddress));
-//	    }
+	    public void startGeocode(String data, String timeStart, double distance,String  baseAddress, int event){
+	        this.setListMarker(this.distance(data,timeStart,distance,baseAddress, event));
+	    }
 
 
-//	    public List<Marker> distance(String data, String timeStart, String dist, String baseAddress) {
-//	        dao = GymDAO.getInstance();
-//	        listIdGym = dao.getGymList(data, timeStart);
-//	        LatLong endPoint;
-//	        double distance = Integer.parseInt(dist);
-//
-//
-//	        this.setCenter(baseAddress);
-//
-//
-//	        Geocode pos = Geocode.getSingletonInstance();
-//	        pos.getLocation(baseAddress);
-//	        base = pos.getCoordinates();
-//	        Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress);
-//	        listMarker.add(baseMarker);
-//	        for (String s : listIdGym) {
-//	            Gym gymEntity = dao.getGymEntity(Integer.parseInt(s));
-//	            pos.getLocation(gymEntity.getstreet());
-//	            endPoint = pos.getCoordinates();
-//	            double relativeDistance = distanceRelative(base.getLatitude(), endPoint.getLatitude(), base.getLongitude(), endPoint.getLongitude());
-//	            if (relativeDistance <= distance) {
-//	                setPosit(endPoint);
-//	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getstreet());
-//	                listMarker.add(newMarker);
-//
-//
-//	            } else{
-//	                listIdGym.remove(s);
-//	            }
-//
-//	        }
-//	        this.setListIdGym(listIdGym);
-//	        this.listGymName();
-//	       
-//	        return listMarker;
-//
-//	    }
+	    public List<Marker> distance(String data, String timeStart, double dist, String baseAddress, int event) {
+	        LatLong endPoint;
+	        double distance = dist;
+	        if(event == 0) {
+	        listIdGym = dao.getEventList(data, timeStart);
+	        }else {
+
+	        	listIdGym = dao.getGymListEvent(data, timeStart,event);
+
+	        }
+
+	        this.setCenter(baseAddress);
+
+
+	        Geocode pos = Geocode.getSingletonInstance();
+	        pos.getLocation(baseAddress);
+	        base = pos.getCoordinates();
+	        Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress);
+	        listMarker.add(baseMarker);
+
+	        for(int i = listIdGym.size()-1; i>=0;--i) {
+	        	Session tempList;
+	        	tempList = listIdGym.get(i);
+	        	
+
+	            Gym gymEntity = daoGym.getGymEntityById(Integer.parseInt(tempList.getGym()));
+	            pos.getLocation(gymEntity.getStreet());
+	            endPoint = pos.getCoordinates();
+	            double relativeDistance = distanceRelative(base.getLatitude(), endPoint.getLatitude(), base.getLongitude(), endPoint.getLongitude());
+	            if (Double.compare(relativeDistance, distance)<0) {
+	                setPosit(endPoint);
+	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet());
+	                listMarker.add(newMarker);
+	                tempList.setGym(gymEntity.getGymName());
+	                tempList.setCourseName(dao.getCourseById(tempList.getCourseId()));
+					
+	            } 
+	            else{
+	            	
+	            	listIdGym.remove(tempList);
+	
+
+
+	            }
+	        }
+	
+	        this.setListIdGym(listIdGym);
+	    
+
+	        return listMarker;
+
+	    }
 
 	    public static double distanceRelative(double lat1,
 	                                          double lat2, double lon1,
@@ -142,7 +159,7 @@ public class MapController {
 	        if (position == null)
 	            return null;
 
-	        String pathUser=MarkerImageFactory.createMarkerImage("/icons/pathUser.png", "png");
+	        String pathUser = MarkerImageFactory.createMarkerImage("/icons/pathUser.png", "png");
 	        pathUser = pathUser.replace("(", "");
 	        pathUser = pathUser.replace(")", "");
 
@@ -175,22 +192,24 @@ public class MapController {
 	        return marker;
 	    }
 	    
-	    public List<String> listGymName(){
-	   
-			if(listIdGym!= null) {
-				for(String s: listIdGym) {
-						listGymsName.add(dao.getGymEntity(Integer.parseInt(s)).getGymName());
-						
-				}
-			}
-			return listGymsName;
-	    }
+
 	    
 	    public static synchronized  MapController getSingletonInstance() {
 	        if (MapController.instance == null)
 	            MapController.instance = new MapController();
 	        return instance;
 	    }
+
+		public void wipeAll() {
+			this.listGymsName.clear();
+			this.listIdGym.clear();
+			this.listMarker.clear();
+		}
+
+	
+
+
+
 
 	
 }

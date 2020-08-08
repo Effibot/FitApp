@@ -34,4 +34,6 @@ public class ManagerDAO extends ConnectionManager{
 		}
 		return null;
 	}
+
+	
 }

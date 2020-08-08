@@ -3,7 +3,7 @@ package logic.bean;
 public class BookingOnMapBean {
 	private String date;
 	private String time;
-	private String event;
+	private int event;
 	private double radius;
 	
 	public BookingOnMapBean() {
@@ -21,10 +21,10 @@ public class BookingOnMapBean {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public String getEvent() {
+	public int getEvent() {
 		return event;
 	}
-	public void setEvent(String event) {
+	public void setEvent(int event) {
 		this.event = event;
 	}
 	public double getRadius() {

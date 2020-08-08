@@ -1,7 +1,9 @@
 package logic.entity.dao;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 import logic.entity.Gym;
 import logic.factory.alertfactory.AlertFactory;
@@ -43,9 +45,12 @@ public class GymDAO extends ConnectionManager {
 //	}
 
 
+	
+	
 	public Gym getGymEntity(int id) {
 		try {
 			ResultSet rs = Query.getGym(this.st, id);
+			while(rs.next()) {
 			if(checkResultValidity(1, 3, rs)) {
 				Gym g = new Gym();
 				g.setGymId(rs.getInt("gym_id"));
@@ -53,11 +58,69 @@ public class GymDAO extends ConnectionManager {
 				g.setStreet(rs.getString("street"));
 				return g;
 			}
+			}
 		} catch (SQLException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
 		return null;
 	}
+	
+	public Gym getGymEntityById(int id) {
+		try {
+			ResultSet rs = Query.getGymById(this.st, id);
+			while(rs.next()) {
+				Gym g = new Gym();
+				String gymName = rs.getString("gym_name");
+				String street = rs.getString("street");
+				g.setGymId(id);
+				g.setGymName(gymName);
+				g.setStreet(street);
+				return g;
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return null;
+	}
+
+	public String getManagerNameGymIdByName(String gym) {
+		try {
+			ResultSet rs = Query.getGymByName(this.st, gym);
+			while(rs.next()) {
+				 
+				return rs.getString("manager_id");
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return null;
+	}
+	
+	/*
+	 * public Map<String,List<String>> getGymList(String data, String timeStart) {
+	 * Map<String,List<String>> map = new HashMap<>();
+	 * 
+	 * 
+	 * try { ResultSet rs = Query.getGymList(this.st, data, timeStart); int i = 0;
+	 * while (rs.next()) { ArrayList<String> gymList = new ArrayList<>();
+	 * gymList.add(rs.getString("gym_id")); gymList.add(rs.getString("course_id"));
+	 * gymList.add(rs.getString("description")); map.put(Integer.toString(i),
+	 * gymList); i++; } } catch (SQLException e) {
+	 * AlertFactory.getInstance().createAlert(e); } return map; }
+	 * 
+	 * public Map<String,List<String>> getGymListEvent(String data, String
+	 * timeStart, int event) { Map<String,List<String>> map = new HashMap<>();
+	 * 
+	 * ArrayList<String> gymList = new ArrayList<>(); try { ResultSet rs =
+	 * Query.getGymListByEvent(this.st, data, timeStart,String.valueOf(event)); int
+	 * i = 0; while (rs.next()) { gymList.add(rs.getString("gym_id"));
+	 * gymList.add(rs.getString("course_id"));
+	 * gymList.add(rs.getString("description")); map.put(Integer.toString(i),
+	 * gymList); i++; } } catch (SQLException e) {
+	 * AlertFactory.getInstance().createAlert(e); } System.out.println(map); return
+	 * map; }
+	 */
+
 	// return a map of registered trainer for the current gymUser instance
 //	public Map<Integer,String> getTrainers(int gymId) {
 //		String sql = "select trainer_id, trainer_name from trainer where gym_id = "+gymId;
@@ -74,6 +137,7 @@ public class GymDAO extends ConnectionManager {
 //		return null;
 //	}
 
+	
 	// return a map of all available courses in the database
 //	public Map<Integer, String> getCourses(){
 //		String sql = "select course_id, course_name from course";

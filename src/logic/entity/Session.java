@@ -12,23 +12,38 @@ public class Session {
 	private Time timeEnd;
 	private Date date;
 	private String description;
-	private Gym gym;
+	private String gym;
+	private String courseName;
+	private String street;
 	
+
 	private Time[] duration;
 	
-	public Session(int sessionId, Gym gym, Time[] duration, Date date, String description) {
-		setSessionId(sessionId);
-		setGym(gym);
-		setDuration(duration);
-		setDate(date);
-		setDescription(description);
+	public Session(int sessionId, String gym, Time[] duration, Date date, String description, String courseName,String street) {
+		/*
+		 * setSessionId(sessionId); setGym(gym); setDuration(duration); setDate(date);
+		 * setDescription(description); setStreet(street); setCourseName(courseName);
+		 */
+		this.courseId =sessionId;
+		this.gym = gym;
+		this.duration = duration;
+		this.date = date;
+		this.description = description;
+		this.courseName = courseName;
+		this.street = street;
 	}
-	public Gym getGym() {
+	public String getGym() {
 		return gym;
 	}
 
-	public void setGym(Gym gym) {
-		this.gym = gym;
+	public void setGym(String gym2) {
+		this.gym = gym2;
+	}
+	public String getCourseName() {
+		return courseName;
+	}
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 	public int getSessionId() {
 		return sessionId;
@@ -89,6 +104,12 @@ public class Session {
 
 	public String printDuration(Time[] duration) {
 		return duration[0].toString()+" - "+duration[1].toString();
+	}
+	public String getStreet() {
+		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
 	}
 	
 }

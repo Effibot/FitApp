@@ -1,53 +1,96 @@
 package logic.maputil;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.jfoenix.controls.JFXListView;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
+import com.lynden.gmapsfx.javascript.object.Marker;
+
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import logic.controller.MapController;
+import logic.entity.Session;
+import logic.factory.alertfactory.AlertFactory;
+import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {
-	private GoogleMapView view;
-	private static final String STYLE ="[{'featureType':'landscape','stylers':[{'saturation':-100},{'lightness':65},{'visibility':'on'}]},"
-			+ "{'featureType':'poi','stylers':[{'saturation':-100},{'lightness':51},{'visibility':'simplified'}]},"
-			+ "{'featureType':'road.highway','stylers':[{'saturation':-100},{'visibility':'simplified'}]},"
-			+ "{\"featureType\":\"road.arterial\",\"stylers\":[{\"saturation\":-100},{\"lightness\":30},{\"visibility\":\"on\"}]},"
-			+ "{\"featureType\":\"road.local\",\"stylers\":[{\"saturation\":-100},{\"lightness\":40},{\"visibility\":\"on\"}]},"
-			+ "{\"featureType\":\"transit\",\"stylers\":[{\"saturation\":-100},{\"visibility\":\"simplified\"}]},"
-			+ "{\"featureType\":\"administrative.province\",\"stylers\":[{\"visibility\":\"off\"}]},"
-			+ "{\"featureType\":\"water\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"on\"},"
-			+ "{\"lightness\":-25},{\"saturation\":-100}]},"
-			+ "{\"featureType\":\"water\",\"elementType\":\"geometry\",\"stylers\":[{\"hue\":\"#ffff00\"},{\"lightness\":-25},{\"saturation\":-97}]}]";
+	private GoogleMapView views;
+	List<Session> listEvent = new ArrayList();
+	
+	MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
-		return view;
+		return views;
 	}
 
 	public void setView(GoogleMapView view) {
-		this.view = view;
 	}
 
 	private GoogleMap map;
+	ListView<Label> listCell;
 
-	public MapInitializer() {
+	List<Marker> mark;
+	private String date = null;
+	private String time = null;
+	private int event = 0;
+	private double radius = 0;
+	public MapInitializer(String date, String time, int event, double radius) {
 		super();
-		this.view = new GoogleMapView();
-		this.view.setKey("AIzaSyDP-NfD5FVlNeLw52M7Ff_HPa8K3MByAa8");
-		this.view.addMapInitializedListener(this);
+
+		this.views = new GoogleMapView();
+		this.views.setKey("AIzaSyDP-NfD5FVlNeLw52M7Ff_HPa8K3MByAa8");
+		this.views.addMapInitializedListener(this);
+		this.date = date;
+		this.time = time;
+		this.event = event;
+		this.radius = radius;
+
 	}
 
 	@Override
 	public void mapInitialized() {
-		LatLong center = new LatLong(47.606189, -122.335842);
-		view.addMapReadyListener(() -> { // This call will fail unless the map is completely ready.
+		views.addMapReadyListener(() -> { // This call will fail unless the map is completely ready.
 		});
-		MapOptions options = new MapOptions();
-		options.center(center).zoom(9).overviewMapControl(false).panControl(false).rotateControl(false)
-				.scaleControl(false).streetViewControl(false).zoomControl(false).mapType(MapTypeIdEnum.TERRAIN)
-				.styleString(STYLE);
+		
+		search.startGeocode(this.date, this.time, this.radius, "via principessa pignatelli 8 Ciampino", this.event);
+		listEvent = search.getListIdGym();		
+		this.setListView(listEvent);
+		mark = new ArrayList<>();
+		MapOptions mapOptions = new MapOptions();
+		mapOptions.center(search.getBase())
+		.mapType(MapTypeIdEnum.ROADMAP)
+		.panControl(true)
+		.rotateControl(false)
+		.scaleControl(false)
+		.streetViewControl(false)
+		.zoomControl(true)
+		.zoom(14);
 
-		setMap(view.createMap(options, false));
+		map = views.createMap(mapOptions);
+
+		mark = search.getListMarker();
+
+
+		map.addMarkers(mark);
+		for (Marker i : mark) {
+			map.addUIEventHandler(i, UIEventType.click, e -> this.startUpPopup(i,listEvent)); }
 	}
+
+
 
 	public GoogleMap getMap() {
 		return map;
@@ -56,4 +99,63 @@ public class MapInitializer implements MapComponentInitializedListener {
 	public void setMap(GoogleMap map) {
 		this.map = map;
 	}
+	public void setListView(List<Session> list) {
+		int numberElement = 1;
+		for(Session s: list ) {
+
+			Label lbl = new Label(s.getGym());
+			listCell.getItems().add(lbl);
+			listCell.prefHeight(lbl.getHeight()*numberElement);
+			numberElement++;
+
+		}
+		listCell.setOnMouseClicked(e->{
+			Label selectedItem = listCell.getSelectionModel().getSelectedItem();
+			if(selectedItem != null) {
+				String selectedTextItem = selectedItem.getText();
+				for(Marker i: mark) {
+					if(i.getTitle().contentEquals(selectedTextItem) ) {
+						this.startUpPopup(i,list);
+						break;
+					}
+					listCell.getSelectionModel().clearSelection();
+				}
+			}
+			
+		});
+
+	}
+
+
+
+	public void startUpPopup(Marker i, List<Session> list) {
+		try {
+				if(!i.getTitle().contentEquals("You are Here!")) {
+					Stage window = new Stage(); 
+					window.initStyle(StageStyle.UNDECORATED);
+					window.initModality(Modality.APPLICATION_MODAL); 
+					window.setMinWidth(400);
+					window.setMinHeight(150); 
+					FXMLLoader rootFXML = new FXMLLoader(getClass().getResource("/logic/fxml/gymMapPopup.fxml"));
+					Parent root = rootFXML.load(); 
+					GymPopupViewController gymDialogView =rootFXML.getController();
+					gymDialogView.setPopupView(i,list);
+		
+					Scene scene = new Scene(root);
+					window.setScene(scene); 
+					window.showAndWait();
+				}
+		} 
+		catch (IOException ex) { AlertFactory.getInstance().createAlert(ex);
+
+		}
+
+	}
+
+	public void setListCell(JFXListView<Label> listCell) {
+		this.listCell = listCell;
+	}
+
+
+
 }

@@ -3,6 +3,7 @@ package logic.viewcontroller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -13,11 +14,9 @@ import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import logic.bean.BookingOnMapBean;
 import logic.controller.BookingFormController;
@@ -72,11 +71,12 @@ public class BookingFormViewController {
 
 	@FXML
 	private Button backBtn;
-
+	
+	BookingOnMapBean bookingOnMapBean;
 	private static final double MAX_DISTANCE = 30;
-	private static final double MIN_DISTANCE = 5;
+	private static final double MIN_DISTANCE = 0.5;
 	private static final double DEFAULT_DISTANCE = 17;
-
+	private int course_id = 0;
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
 	
@@ -107,51 +107,69 @@ public class BookingFormViewController {
 		String txt = null;
 		if (obj.hashCode() == evt1.hashCode()) {
 			txt = evt1.getText();
+			eventMenu.setText(txt);
+			course_id = 1;
+
 
 		}
 		if (obj.hashCode() == evt2.hashCode()) {
 			txt = evt2.getText();
+			eventMenu.setText(txt);
+			course_id = 2;
+
 
 		}
 		if (obj.hashCode() == evt3.hashCode()) {
 			txt = evt3.getText();
+			eventMenu.setText(txt);
+			course_id = 3;
+
 
 		}
 		if (obj.hashCode() == evt4.hashCode()) {
 			txt = evt4.getText();
+			eventMenu.setText(txt);
+			course_id = 4;
+
 
 		}
 		if (obj.hashCode() == evt5.hashCode()) {
 			txt = evt5.getText();
+			eventMenu.setText(txt);
+			course_id = 5;
+
 
 		}
 		if (obj.hashCode() == evt6.hashCode()) {
 			txt = evt6.getText();
+			eventMenu.setText(txt);
+			course_id = 6;
+
 
 		}
 		if (obj.hashCode() == evt7.hashCode()) {
 			txt = evt7.getText();
+			eventMenu.setText(txt);
+			course_id = 7;
+
 
 		}
-		eventMenu.setText(txt);
 	}
 
 	@FXML
-	public void goBooking(MouseEvent event) {
-		LocalDate localDate = LocalDate.now();
+	public void goBooking(MouseEvent event){
 		LocalTime localTime = LocalTime.now();
 		LocalDate sltDate = dateBtn.getValue();
 		LocalTime sltTime = timeBtn.getValue();
-		String str = null;
 
 		if (sltDate == null || sltTime == null) {
-			str = "Please insert date and time";
+			//str = "Please insert date and time";
 			// AlertFactory.getInstance().createAlert(str);
 			return;
 		}
-		if ((sltDate.compareTo(localDate) < 0) || (sltTime.compareTo(localTime) < 0)) {
-			str = "The date or time cannot be selected";
-			// AlertFactory.getInstance().createAlert(str);
+		if  (sltTime.compareTo(localTime) < 0) {
+			//str = "The date or time cannot be selected";
+			//AlertFactory.getInstance().createAlert(e)
 		} else {
 
 			if (mapBtn.isSelected()) {
@@ -159,10 +177,15 @@ public class BookingFormViewController {
 				try {
 
 					BookingFormController bookFormController = BookingFormController.getSingletoneInstance();
-					BookingOnMapBean bookingOnMapBean = bookFormController.getBookingOnMapBean();
-					bookingOnMapBean.setDate(sltDate.toString());
-					bookingOnMapBean.setDate(sltTime.toString());
-					bookingOnMapBean.setEvent(eventMenu.getText());
+					bookingOnMapBean = bookFormController.getBookingOnMapBean();
+
+					DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm:ss");
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+					bookingOnMapBean.setDate(sltDate.format(formatter));
+					bookingOnMapBean.setTime(sltTime.format(pattern));
+					
+					bookingOnMapBean.setEvent(course_id);
+					
 					bookingOnMapBean.setRadius(slideBtn.getValue());
 					ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));
 
@@ -172,6 +195,8 @@ public class BookingFormViewController {
 			}
 		}
 	}
+	
+
 
 	@FXML
 	public void initialize() {
@@ -181,6 +206,7 @@ public class BookingFormViewController {
 		slideBtn.setValue(DEFAULT_DISTANCE);
 		slideBtn.setVisible(false);
 		radiousLbl.setVisible(false);
+		eventMenu.setText("Select event");
 	}
 
 }
