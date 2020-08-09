@@ -1,5 +1,6 @@
 package logic.controller;
 
+
 import javax.mail.MessagingException;
 
 import logic.bean.EmailBean;
