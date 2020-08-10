@@ -13,13 +13,11 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import com.lynden.gmapsfx.javascript.object.Marker;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,15 +28,13 @@ import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
-	List<Session> listEvent = new ArrayList();
 	
 	MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
 		return views;
 	}
 
-	public void setView(GoogleMapView view) {
-	}
+	
 
 	private GoogleMap map;
 	ListView<Label> listCell;
@@ -67,7 +63,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 		});
 		
 		search.startGeocode(this.date, this.time, this.radius, "via principessa pignatelli 8 Ciampino", this.event);
-		listEvent = search.getListIdGym();		
+		List<Session> listEvent = search.getListIdGym();		
 		this.setListView(listEvent);
 		mark = new ArrayList<>();
 		MapOptions mapOptions = new MapOptions();

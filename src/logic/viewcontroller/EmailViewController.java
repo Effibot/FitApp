@@ -33,9 +33,7 @@ public class EmailViewController {
 	@FXML
 	private JFXTextArea txtArea;
 
-	private EmailBean emailBean;
-	private String subject;
-	private String msg;
+
 	private String gymName;
 
 
@@ -53,10 +51,10 @@ public class EmailViewController {
 	void sendEmail(MouseEvent event) {
 		EmailController emailController = EmailController.getSingletoneInstance();
 
-		emailBean = emailController.getEmailBean();
+		EmailBean emailBean = emailController.getEmailBean();
 
-		subject = subjectTXTField.getText(); 
-		msg = txtArea.getText();
+		String subject = subjectTXTField.getText(); 
+		String msg = txtArea.getText();
 		if(!subject.equals("") && !msg.equals("")) {
 			emailBean.setGym(gymName);
 			emailBean.setSubject(subject);

@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import logic.bean.BookingOnMapBean;
 import logic.controller.BookingFormController;
 import logic.controller.MainController;
+import logic.exception.InputNotComplianException;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
@@ -71,25 +72,25 @@ public class BookingFormViewController {
 
 	@FXML
 	private Button backBtn;
-	
+
 	BookingOnMapBean bookingOnMapBean;
 	private static final double MAX_DISTANCE = 30;
 	private static final double MIN_DISTANCE = 0.5;
 	private static final double DEFAULT_DISTANCE = 17;
-	private int course_id = 0;
+	private int courseId = 0;
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
-	
+
 	@FXML
-    public void goBack(MouseEvent event) {
-	  try {
+	public void goBack(MouseEvent event) {
+		try {
 			ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.USERPAGE));
 		} catch (IOException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
-    }
+	}
 
-	
+
 	@FXML
 	public void onMap(MouseEvent event) {
 		if (mapBtn.isSelected()) {
@@ -108,49 +109,49 @@ public class BookingFormViewController {
 		if (obj.hashCode() == evt1.hashCode()) {
 			txt = evt1.getText();
 			eventMenu.setText(txt);
-			course_id = 1;
+			courseId = 1;
 
 
 		}
 		if (obj.hashCode() == evt2.hashCode()) {
 			txt = evt2.getText();
 			eventMenu.setText(txt);
-			course_id = 2;
+			courseId = 2;
 
 
 		}
 		if (obj.hashCode() == evt3.hashCode()) {
 			txt = evt3.getText();
 			eventMenu.setText(txt);
-			course_id = 3;
+			courseId = 3;
 
 
 		}
 		if (obj.hashCode() == evt4.hashCode()) {
 			txt = evt4.getText();
 			eventMenu.setText(txt);
-			course_id = 4;
+			courseId = 4;
 
 
 		}
 		if (obj.hashCode() == evt5.hashCode()) {
 			txt = evt5.getText();
 			eventMenu.setText(txt);
-			course_id = 5;
+			courseId = 5;
 
 
 		}
 		if (obj.hashCode() == evt6.hashCode()) {
 			txt = evt6.getText();
 			eventMenu.setText(txt);
-			course_id = 6;
+			courseId = 6;
 
 
 		}
 		if (obj.hashCode() == evt7.hashCode()) {
 			txt = evt7.getText();
 			eventMenu.setText(txt);
-			course_id = 7;
+			courseId = 7;
 
 
 		}
@@ -159,43 +160,41 @@ public class BookingFormViewController {
 	@FXML
 	public void goBooking(MouseEvent event){
 		LocalTime localTime = LocalTime.now();
+		LocalDate localDate = LocalDate.now();
 		LocalDate sltDate = dateBtn.getValue();
 		LocalTime sltTime = timeBtn.getValue();
+		try {
+			if (sltDate != null && sltTime != null) {
+				if  (sltTime.isBefore(localTime) || sltDate.isBefore(localDate)) {
+					throw new InputNotComplianException();
+				} else {
+					if (mapBtn.isSelected()) {
 
-		if (sltDate == null || sltTime == null) {
-			//str = "Please insert date and time";
-			// AlertFactory.getInstance().createAlert(str);
-			return;
-		}
-		if  (sltTime.compareTo(localTime) < 0) {
-			//str = "The date or time cannot be selected";
-			//AlertFactory.getInstance().createAlert(e)
-		} else {
+						
 
-			if (mapBtn.isSelected()) {
+							BookingFormController bookFormController = BookingFormController.getSingletoneInstance();
+							bookingOnMapBean = bookFormController.getBookingOnMapBean();
 
-				try {
+							DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm:ss");
+							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+							bookingOnMapBean.setDate(sltDate.format(formatter));
+							bookingOnMapBean.setTime(sltTime.format(pattern));
 
-					BookingFormController bookFormController = BookingFormController.getSingletoneInstance();
-					bookingOnMapBean = bookFormController.getBookingOnMapBean();
+							bookingOnMapBean.setEvent(courseId);
 
-					DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm:ss");
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-					bookingOnMapBean.setDate(sltDate.format(formatter));
-					bookingOnMapBean.setTime(sltTime.format(pattern));
+							bookingOnMapBean.setRadius(slideBtn.getValue());
+							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));
+
 					
-					bookingOnMapBean.setEvent(course_id);
-					
-					bookingOnMapBean.setRadius(slideBtn.getValue());
-					ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));
-
-				} catch (IOException e) {
-					AlertFactory.getInstance().createAlert(e);
+					}
 				}
 			}
 		}
+		catch(InputNotComplianException|IOException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
 	}
-	
+
 
 
 	@FXML

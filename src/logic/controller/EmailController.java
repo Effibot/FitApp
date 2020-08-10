@@ -10,6 +10,7 @@ import logic.entity.User;
 import logic.entity.dao.GymDAO;
 import logic.entity.dao.ManagerDAO;
 import logic.entity.dao.UserDAO;
+import logic.factory.alertfactory.AlertFactory;
 
 public class EmailController {
 	private static EmailController instance = null;
@@ -52,7 +53,7 @@ public class EmailController {
 		try {
 			emailSender.sendEmails();
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			AlertFactory.getInstance().createAlert(e);
 		}
 		
 		

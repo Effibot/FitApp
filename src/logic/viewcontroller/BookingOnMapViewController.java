@@ -38,10 +38,8 @@ public class BookingOnMapViewController {
 
     @FXML
     private HBox mapBox;
-    private String date = null;
-    private String time = null;
-    private int event = 0;
-    private double radius = 0;
+
+
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
 	private MapController mapController = MapController.getSingletonInstance();
@@ -71,12 +69,12 @@ public class BookingOnMapViewController {
     void initialize() {
     		BookingFormController bookingFormController = BookingFormController.getSingletoneInstance();
     		BookingOnMapBean bookingOnMapBean = bookingFormController.getBookingOnMapBean();
-    		date = bookingOnMapBean.getDate();
-    		time = bookingOnMapBean.getTime();
+    		String date = bookingOnMapBean.getDate();
+    		String time = bookingOnMapBean.getTime();
 
-    		event = bookingOnMapBean.getEvent();
+    		int event = bookingOnMapBean.getEvent();
 
-    		radius = bookingOnMapBean.getRadius();
+    		double radius = bookingOnMapBean.getRadius();
     		MapInitializer map = new MapInitializer(date, time, event, radius);
   
     		map.setListCell(listCell);

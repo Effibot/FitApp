@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import logic.controller.MainController;
 import logic.entity.User;
 import logic.entity.dao.UserDAO;
@@ -33,6 +34,9 @@ public class UserPageViewController {
 
 	@FXML
 	private Label sideUsername;
+
+    @FXML
+    private HBox calendarBox;
 
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
