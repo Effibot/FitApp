@@ -20,10 +20,7 @@ public class Session {
 	private Time[] duration;
 	
 	public Session(int sessionId, String gym, Time[] duration, Date date, String description, String courseName,String street) {
-		/*
-		 * setSessionId(sessionId); setGym(gym); setDuration(duration); setDate(date);
-		 * setDescription(description); setStreet(street); setCourseName(courseName);
-		 */
+
 		this.courseId =sessionId;
 		this.gym = gym;
 		this.duration = duration;

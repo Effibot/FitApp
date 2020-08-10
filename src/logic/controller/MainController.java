@@ -60,13 +60,7 @@ public class MainController {
 		new FadeIn(container.getCenter()).play();
 	}
 	
-//	public void showDateAlert() {
-//		Alert dateAlert = new Alert(AlertType.ERROR, "You cannot select a past date", ButtonType.OK);	    	
-//		dateAlert.showAndWait();
-//		if(dateAlert.getResult() == ButtonType.OK) {
-//			dateAlert.close();
-//		}
-//	}
+
 }
 
 

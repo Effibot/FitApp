@@ -53,22 +53,7 @@ public class UserPageViewController {
 		}
 	}
 
-//	public void fillActiveSessions() {
-//		SessionDAO sDao = SessionDAO.getInstance();
-//		// get the id list of booked sessions
-//		ArrayList<Integer> bookings = (ArrayList<Integer>) sDao.getBooking(user.getId());
-//		// get the actual list
-//		ArrayList<Session> list = (ArrayList<Session>) sDao.getSessionList(bookings);
-//		CardController cc = new CardController();
-//		if (!list.isEmpty()) {
-//			for (Session s : list) {
-//				// add the card to the list
-//				sessionList.getItems().add(cc.createCard(s));
-//				// set selection mode to single
-//				sessionList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//			}
-//		}
-//	}
+
 
 	@FXML
 	void initialize() {
