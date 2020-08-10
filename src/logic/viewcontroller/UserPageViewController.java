@@ -40,7 +40,6 @@ public class UserPageViewController {
 
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
-	private User user;
 
 	@FXML
 	public void bookSession(ActionEvent event) {
@@ -63,7 +62,7 @@ public class UserPageViewController {
 		assert sideUserIcon != null : "fx:id=\"sideUserIcon\" was not injected: check your FXML file 'UserPage.fxml'.";
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'UserPage.fxml'.";
 
-		user = UserDAO.getInstance().getUserEntity(ctrl.getId());
+		User user = UserDAO.getInstance().getUserEntity(ctrl.getId());
 		sideUsername.setText(user.getName());
 	}
 }

@@ -28,8 +28,7 @@ public class GymPageViewController {
 	@FXML
 	private Label sideGymStreet;
 
-	private MainController ctrl;
-	private ViewFactory factory;
+	
 	private GymPageController gymCtrl;
 
 	private void fillGraphics() {
@@ -49,8 +48,9 @@ public class GymPageViewController {
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymName != null : "fx:id=\"sideGymName\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
-		ctrl = MainController.getInstance();
-		factory = ViewFactory.getInstance();
+		
+		MainController ctrl = MainController.getInstance();
+		ViewFactory.getInstance();
 		gymCtrl = new GymPageController(ctrl.getId());
 		fillGraphics();
 	}

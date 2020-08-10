@@ -49,7 +49,6 @@ public class GymPopupViewController {
     private JFXButton bookBtn;
     private String course;
     private String gym;
-    private String addressGym;
     private String time;
 	    
 
@@ -92,6 +91,7 @@ public class GymPopupViewController {
 
 	    public void setPopupView(Marker i, List<Session> list) {
 	    	String gymName = i.getTitle();
+	    	String addressGym;
 
 	    	for(Session s: list) {
 	    		if(s.getGym().equals(gymName) && !gymName.contentEquals("You are Here!")) {
