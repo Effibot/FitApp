@@ -23,26 +23,6 @@ public class GymDAO extends ConnectionManager {
 		return GymDAO.instance;
 	}
 
-	/**
-	 * Get a list of all available trainings inserted in the db
-	 *
-	 * @return linked list with training names.
-	 */
-
-//	public List<String> getTrainingList() {
-//		ArrayList<String> trainingList = new ArrayList<>();
-//		String query = "select * from course;";
-//		this.setTable(connect(query));
-//		if (!this.getTable().isEmpty()) {
-//			Map<String, Object> map;
-//			for (int i = 0; i < this.getTable().size(); i++) {
-//				map = this.getTable().get(i);
-//				trainingList.add((String) map.get("course_name"));
-//			}
-//			return trainingList;
-//		}
-//		return Collections.emptyList();
-//	}
 
 
 	
@@ -96,59 +76,5 @@ public class GymDAO extends ConnectionManager {
 		return null;
 	}
 	
-	/*
-	 * public Map<String,List<String>> getGymList(String data, String timeStart) {
-	 * Map<String,List<String>> map = new HashMap<>();
-	 * 
-	 * 
-	 * try { ResultSet rs = Query.getGymList(this.st, data, timeStart); int i = 0;
-	 * while (rs.next()) { ArrayList<String> gymList = new ArrayList<>();
-	 * gymList.add(rs.getString("gym_id")); gymList.add(rs.getString("course_id"));
-	 * gymList.add(rs.getString("description")); map.put(Integer.toString(i),
-	 * gymList); i++; } } catch (SQLException e) {
-	 * AlertFactory.getInstance().createAlert(e); } return map; }
-	 * 
-	 * public Map<String,List<String>> getGymListEvent(String data, String
-	 * timeStart, int event) { Map<String,List<String>> map = new HashMap<>();
-	 * 
-	 * ArrayList<String> gymList = new ArrayList<>(); try { ResultSet rs =
-	 * Query.getGymListByEvent(this.st, data, timeStart,String.valueOf(event)); int
-	 * i = 0; while (rs.next()) { gymList.add(rs.getString("gym_id"));
-	 * gymList.add(rs.getString("course_id"));
-	 * gymList.add(rs.getString("description")); map.put(Integer.toString(i),
-	 * gymList); i++; } } catch (SQLException e) {
-	 * AlertFactory.getInstance().createAlert(e); } System.out.println(map); return
-	 * map; }
-	 */
 
-	// return a map of registered trainer for the current gymUser instance
-//	public Map<Integer,String> getTrainers(int gymId) {
-//		String sql = "select trainer_id, trainer_name from trainer where gym_id = "+gymId;
-//		this.setTable(connect(sql));
-//		if(!this.getTable().isEmpty()){
-//			HashMap<Integer, String> tMap = new HashMap<>();
-//			Map<String, Object> map;
-//			for(int i = 0; i < this.getTable().size(); i++){
-//				map = this.getTable().get(i);
-//				tMap.put((Integer)map.get("trainer_id"),(String)map.get("trainer_name"));
-//			}
-//			return tMap;
-//		}
-//		return null;
-//	}
-
-	
-	// return a map of all available courses in the database
-//	public Map<Integer, String> getCourses(){
-//		String sql = "select course_id, course_name from course";
-//		this.setTable(connect(sql));
-//		if(!this.getTable().isEmpty()){
-//			HashMap<Integer, String> cMap = new HashMap<>();
-//			for(Map<String, Object> m : this.getTable()){
-//				cMap.put((Integer)m.get("course_id"), (String)m.get("course_name"));
-//			}
-//			return cMap;
-//		}
-//		return null;
-//	}
 }
