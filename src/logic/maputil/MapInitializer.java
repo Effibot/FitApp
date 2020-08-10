@@ -114,7 +114,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 					currmarker.setAnimation(Animation.BOUNCE);
 					if(currmarker.getTitle().contentEquals(selectedTextItem) ) {
 						this.startUpPopup(currmarker,list);
-						break;
+						return;
 					}
 					listCell.getSelectionModel().clearSelection();
 				}
