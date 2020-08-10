@@ -18,7 +18,8 @@
         <pathelement location="src/lib/animatefx-1.2.0.jar"/>
         <pathelement location="src/lib/byte-buddy-1.6.11.jar"/>
         <pathelement location="src/lib/byte-buddy-agent-1.6.11.jar"/>
-        <pathelement location="src/lib/gmapsFX-lib.jar"/>
+        <pathelement location="src/lib/GMapsFXlib.jar"/>
+	<pathelement location="src/lib/javax.mail.jar"/>
         <pathelement location="src/lib/jfoenix-8.0.8.jar"/>
         <pathelement location="src/lib/json-simple-1.1.1.jar"/>
         <pathelement location="src/lib/logback-classic-1.2.1.jar"/>
