@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXListView;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
-import com.lynden.gmapsfx.javascript.object.Animation;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
@@ -29,7 +28,8 @@ import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
-	
+	private Marker tempMark;
+
 	MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
 		return views;
@@ -102,6 +102,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 
 			Label lbl = new Label(s.getGym());
 			listCell.getItems().add(lbl);
+			
 			listCell.prefHeight(lbl.getHeight()*numberElement);
 			numberElement++;
 
@@ -110,10 +111,10 @@ public class MapInitializer implements MapComponentInitializedListener {
 			Label selectedItem = listCell.getSelectionModel().getSelectedItem();
 			if(selectedItem != null) {
 				String selectedTextItem = selectedItem.getText();
-				for(Marker currmarker: mark) {
-					currmarker.setAnimation(Animation.BOUNCE);
-					if(currmarker.getTitle().contentEquals(selectedTextItem) ) {
-						this.startUpPopup(currmarker,list);
+				for(Marker currMarker: mark) {
+					tempMark = currMarker;
+					if(tempMark.getTitle().contentEquals(selectedTextItem) ) {
+						this.startUpPopup(tempMark,list);
 						return;
 					}
 					listCell.getSelectionModel().clearSelection();
