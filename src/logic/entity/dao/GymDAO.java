@@ -30,7 +30,6 @@ public class GymDAO extends ConnectionManager {
 	public Gym getGymEntity(int id) {
 		try {
 			ResultSet rs = Query.getGym(this.st, id);
-			System.out.println("RESULT SET  && ROW ="+rs.getRow());
 			while(rs.next()) {
 			if(checkResultValidity(1, 4, rs)) {
 				Gym g = new Gym();

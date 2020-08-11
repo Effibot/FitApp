@@ -34,7 +34,6 @@ public class GymPageViewController {
 
 	private MainController ctrl = MainController.getInstance();
 	private GymPageController gymCtrl;
-	private MonthPage calendar;
 	private void fillGraphics() {
 		sideGymName.setText(gymCtrl.getGym().getGymName());
 		sideGymName.setWrapText(true);
@@ -56,7 +55,7 @@ public class GymPageViewController {
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymName != null : "fx:id=\"sideGymName\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
-		calendar = new MonthPage();
+		 MonthPage calendar = new MonthPage();
 		calendar.setMinWidth(688);
 		calendar.setMaxWidth(688);
 		calendarBox.getChildren().add(calendar);
