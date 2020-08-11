@@ -1,12 +1,14 @@
 package logic.viewcontroller;
 
+import com.calendarfx.view.page.MonthPage;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
-import logic.factory.viewfactory.ViewFactory;
 
 public class GymPageViewController {
 
@@ -27,10 +29,12 @@ public class GymPageViewController {
 
 	@FXML
 	private Label sideGymStreet;
+	@FXML
+	private HBox calendarBox;
 
-	
+	private MainController ctrl = MainController.getInstance();
 	private GymPageController gymCtrl;
-
+	private MonthPage calendar;
 	private void fillGraphics() {
 		sideGymName.setText(gymCtrl.getGym().getGymName());
 		sideGymName.setWrapText(true);
@@ -38,6 +42,10 @@ public class GymPageViewController {
 		sideUsername.setWrapText(true);
 		sideGymStreet.setText(gymCtrl.getGym().getStreet());
 		sideGymStreet.setWrapText(true);
+	}
+
+	public GymPageViewController() {
+		gymCtrl = new GymPageController(ctrl.getId());
 	}
 
 	@FXML
@@ -48,10 +56,10 @@ public class GymPageViewController {
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymName != null : "fx:id=\"sideGymName\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
-		
-		MainController ctrl = MainController.getInstance();
-		ViewFactory.getInstance();
-		gymCtrl = new GymPageController(ctrl.getId());
+		calendar = new MonthPage();
+		calendar.setMinWidth(688);
+		calendar.setMaxWidth(688);
+		calendarBox.getChildren().add(calendar);
 		fillGraphics();
 	}
 }

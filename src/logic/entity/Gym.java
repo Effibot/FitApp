@@ -5,19 +5,21 @@ import java.util.Map;
 public class Gym {
 
 	private int gymId;
-	private Manager manager;
 	private String gymName;
 	private String street;
+	private int managerId;
+	private String managerName;
 	private Map<Integer, String> trainers;
 	private Map<Integer, String> courses;
 
 	public Gym() {
 	}
 
-	public Gym(int gymId, String gymName, Manager manager, String street) {
+	public Gym(int gymId, String gymName, String street,int managerId, String managerName) {
 		setGymId(gymId);
 		setGymName(gymName);
-		setManager(manager);
+		setManagerId(managerId);
+		setManagerName(managerName);
 		setStreet(street);
 	}
 
@@ -37,13 +39,7 @@ public class Gym {
 		this.gymName = gymName;
 	}
 
-	public Manager getManager() {
-		return manager;
-	}
 
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
 
 	public String getStreet() {
 		return street;
@@ -67,5 +63,21 @@ public class Gym {
 
 	public void setCourses(Map<Integer, String> courses) {
 		this.courses = courses;
+	}
+
+	public int getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 }

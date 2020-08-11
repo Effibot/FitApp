@@ -23,13 +23,13 @@ public class ViewFactory {
 			return new UserPageView(view);
 		case 3: // return offerTraining
 			return new TrainingFormView(view);
-		case 4:
+		case 4:	//return Training Form
 			return new BookingFormView(view);
-		case 5:
+		case 5:	//return Booking Form
 			return new TrainingConfView(view);
-		case 7:
+		case 7: //return TraningCOnf
 			return new BookingOnMapView(view);
-		default:
+		default:	//return booking on Map
 			throw new IOException("Factory exception: view not found");
 		}
 	}

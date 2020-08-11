@@ -11,8 +11,10 @@ public class GymPageController {
 	private Gym gym;
 	
 	public GymPageController(int id) {
-		this.manager = ManagerDAO.getInstance().getManagerEntity(id);
+		
 		this.gym = GymDAO.getInstance().getGymEntity(id);
+		this.manager = ManagerDAO.getInstance().getManagerEntity(gym.getManagerId());
+		
 	}
 
 	public Manager getManager() {

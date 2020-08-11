@@ -30,12 +30,15 @@ public class GymDAO extends ConnectionManager {
 	public Gym getGymEntity(int id) {
 		try {
 			ResultSet rs = Query.getGym(this.st, id);
+			System.out.println("RESULT SET  && ROW ="+rs.getRow());
 			while(rs.next()) {
-			if(checkResultValidity(1, 3, rs)) {
+			if(checkResultValidity(1, 4, rs)) {
 				Gym g = new Gym();
-				g.setGymId(rs.getInt("gym_id"));
+				g.setGymId(id);
 				g.setGymName(rs.getString("gym_name"));
 				g.setStreet(rs.getString("street"));
+				g.setManagerId(Integer.parseInt(rs.getString("manager_id")));
+				g.setManagerName(rs.getString("manager_name"));
 				return g;
 			}
 			}

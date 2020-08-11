@@ -9,21 +9,22 @@ import logic.factory.viewfactory.ViewType;
 
 public class View {
 	private Parent root;
-	
+
 	protected View(ViewType view) {
-		FXMLLoader loader = new FXMLLoader(ViewType.getUrl(view));
-        try {
-            setRoot(loader.load());
-        } catch (IOException e) {
-            AlertFactory.getInstance().createAlert(e);
-        }
-    }
+		try {
+			FXMLLoader loader = new FXMLLoader(ViewType.getUrl(view));
 
-    public Parent getRoot() {
-        return root;
-    }
+			setRoot(loader.load());
+		} catch (IOException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+	}
 
-    public void setRoot(Parent root) {
-        this.root = root;
-    }
+	public Parent getRoot() {
+		return root;
+	}
+
+	public void setRoot(Parent root) {
+		this.root = root;
+	}
 }
