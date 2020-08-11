@@ -108,10 +108,11 @@ public class MapInitializer implements MapComponentInitializedListener {
 		}
 		listCell.setOnMouseClicked(e->{
 			Label selectedItem = listCell.getSelectionModel().getSelectedItem();
+		
 			if(selectedItem != null) {
-				for(Marker currMarker: mark) {
-					if(selectedItem.getText().contentEquals(currMarker.getTitle())) {
-						this.startUpPopup(currMarker,list);
+				for( Marker s: mark) {
+					if(selectedItem.getText().contentEquals(s.getTitle())) {
+						this.startUpPopup(s,list);
 						break;
 					
 					}
