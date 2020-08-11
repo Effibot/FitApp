@@ -37,7 +37,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 	
 
 	private GoogleMap map;
-	private ListView<Label> listCell;
+	ListView<Label> listCell;
 
 	private List<Marker> mark;
 	private String date = null;
@@ -113,6 +113,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 				for( Marker s: mark) {
 					if(selectedItem.getText().contentEquals(s.getTitle())) {
 						this.startUpPopup(s,list);
+						
 						break;
 					
 					}
