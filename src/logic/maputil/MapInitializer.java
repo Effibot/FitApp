@@ -28,7 +28,6 @@ import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
-	private Marker tempMark;
 
 	MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
@@ -110,16 +109,15 @@ public class MapInitializer implements MapComponentInitializedListener {
 		listCell.setOnMouseClicked(e->{
 			Label selectedItem = listCell.getSelectionModel().getSelectedItem();
 			if(selectedItem != null) {
-				String selectedTextItem = selectedItem.getText();
 				for(Marker currMarker: mark) {
-					tempMark = currMarker;
-					if(tempMark.getTitle().contentEquals(selectedTextItem) ) {
-						this.startUpPopup(tempMark,list);
-						return;
+					if(selectedItem.getText().contentEquals(currMarker.getTitle())) {
+						this.startUpPopup(currMarker,list);
+						break;
+					
 					}
+				}
 					listCell.getSelectionModel().clearSelection();
 				}
-			}
 			
 		});
 
