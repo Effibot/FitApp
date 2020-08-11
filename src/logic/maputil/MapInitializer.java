@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXListView;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
-import com.lynden.gmapsfx.javascript.object.Animation;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
@@ -29,7 +28,7 @@ import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
-
+	
 	private MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
 		return views;
@@ -95,14 +94,13 @@ public class MapInitializer implements MapComponentInitializedListener {
 		for (Marker i : mark) {
 			map.addUIEventHandler(i, UIEventType.click, e -> this.startUpPopup(i,listEvent));
 			}
-		
+			int numberElements = numberElement;
 			listCell.setOnMouseClicked(e->{
 				Label selectedItem = listCell.getSelectionModel().getSelectedItem();
 				if(selectedItem!=null) {
-					for(Marker t: mark) {
-						t.setAnimation(Animation.BOUNCE);
-						if(selectedItem.getText().contentEquals(t.getTitle())) {
-							this.startUpPopup(t, listEvent);
+					for(int i = 0; i<numberElements; i++) {
+						if(selectedItem.getText().contentEquals(mark.get(i).getTitle())) {
+							this.startUpPopup(mark.get(i), listEvent);
 							break;
 						} 
 					}
