@@ -29,7 +29,7 @@ import logic.viewcontroller.GymPopupViewController;
 public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
 
-	MapController search = MapController.getSingletonInstance();
+	private MapController search = MapController.getSingletonInstance();
 	public GoogleMapView getView() {
 		return views;
 	}
@@ -37,9 +37,9 @@ public class MapInitializer implements MapComponentInitializedListener {
 	
 
 	private GoogleMap map;
-	ListView<Label> listCell;
+	private ListView<Label> listCell;
 
-	List<Marker> mark;
+	private List<Marker> mark;
 	private String date = null;
 	private String time = null;
 	private int event = 0;
