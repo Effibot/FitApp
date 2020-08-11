@@ -39,7 +39,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMap map;
 	ListView<Label> listCell;
 
-	private List<Marker> mark;
+	List<Marker> mark;
 	private String date = null;
 	private String time = null;
 	private int event = 0;
