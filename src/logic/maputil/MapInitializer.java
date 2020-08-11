@@ -64,7 +64,6 @@ public class MapInitializer implements MapComponentInitializedListener {
 		
 		search.startGeocode(this.date, this.time, this.radius, "via principessa pignatelli 8 Ciampino", this.event);
 		List<Session> listEvent = search.getListIdGym();		
-		this.setListView(listEvent);
 		mark = new ArrayList<>();
 		MapOptions mapOptions = new MapOptions();
 		mapOptions.center(search.getBase())
@@ -82,8 +81,34 @@ public class MapInitializer implements MapComponentInitializedListener {
 
 
 		map.addMarkers(mark);
+		int numberElement = 1;
+		for(Session s: listEvent ) {
+
+			Label lbl = new Label(s.getGym());
+			listCell.getItems().add(lbl);
+			
+			listCell.prefHeight(lbl.getHeight()*numberElement);
+			numberElement++;
+
+		}
 		for (Marker i : mark) {
-			map.addUIEventHandler(i, UIEventType.click, e -> this.startUpPopup(i,listEvent)); }
+			map.addUIEventHandler(i, UIEventType.click, e -> this.startUpPopup(i,listEvent));
+			}
+		
+			listCell.setOnMouseClicked(e->{
+				Label selectedItem = listCell.getSelectionModel().getSelectedItem();
+				if(selectedItem!=null) {
+					for(Marker t: mark) {
+						if(selectedItem.getText().contentEquals(t.getTitle())) {
+							this.startUpPopup(t, listEvent);
+							break;
+						}
+					}
+					listCell.getSelectionModel().clearSelection();
+				}
+				
+			});
+		
 	}
 
 
@@ -94,35 +119,6 @@ public class MapInitializer implements MapComponentInitializedListener {
 
 	public void setMap(GoogleMap map) {
 		this.map = map;
-	}
-	public void setListView(List<Session> list) {
-		int numberElement = 1;
-		for(Session s: list ) {
-
-			Label lbl = new Label(s.getGym());
-			listCell.getItems().add(lbl);
-			
-			listCell.prefHeight(lbl.getHeight()*numberElement);
-			numberElement++;
-
-		}
-		listCell.setOnMouseClicked(e->{
-			Label selectedItem = listCell.getSelectionModel().getSelectedItem();
-		
-			if(selectedItem != null) {
-				for( Marker s: mark) {
-					if(selectedItem.getText().contentEquals(s.getTitle())) {
-						this.startUpPopup(s,list);
-						
-						break;
-					
-					}
-				}
-					listCell.getSelectionModel().clearSelection();
-				}
-			
-		});
-
 	}
 
 
