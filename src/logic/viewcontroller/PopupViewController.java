@@ -151,7 +151,7 @@ public class PopupViewController {
 					 * popupDeleteController.setEntryToDelete(selectedEntry);
 					 */
 	                CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.DELETEPOPUP);
-	                PopupDeleteController popupDeleteController = (PopupDeleteController) calendarView.getController();
+	                PopupDeleteController popupDeleteController = (PopupDeleteController) calendarView.getCurrentController();
 	                popupDeleteController.setEntryToDelete(selectedEntry);
 	                Scene scene = new Scene(calendarView.getRoot());
 	                window.setScene(scene);
@@ -265,11 +265,12 @@ public class PopupViewController {
 				/*
 				 * FXMLLoader rootFXML = new
 				 * FXMLLoader(getClass().getResource("/logic/fxml/EmailPopup.fxml")); Parent
-				 * rootEmail = rootFXML.load(); EmailViewController emailViewController =
-				 * rootFXML.getController(); //emailController.setParameters(selectedEntry);
-				 */
+				 */; 
+				// EmailViewController emailViewController =rootFXML.getController(); 
+				// emailController.setParameters(selectedEntry);
+				 
                 CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
-                EmailViewController emailViewController = (EmailViewController) calendarView.getController();
+                EmailViewController emailViewController = (EmailViewController) calendarView.getCurrentController();
                 
                 ///Da mettere
 	            Scene scene = new Scene(calendarView.getRoot());

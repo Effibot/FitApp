@@ -8,20 +8,22 @@ import logic.factory.alertfactory.AlertFactory;
 
 public class CalendarView {
 	private Parent root;
-	Object controller;
-	public Object getController() {
-		return controller;
+	private Object controller;
+	public Object getCurrentController() {
+		return this.controller;
 	}
 
-	public void setController(Object controller) {
+	public void setCurrentController(Object controller) {
 		this.controller = controller;
 	}
 
-	protected CalendarView(CalendarViewType view) {
+	public CalendarView(CalendarViewType view) {
 		try {
 			FXMLLoader loader = new FXMLLoader(CalendarViewType.getUrl(view));
-			Object controller = loader.getController();
+		
 			setRoot(loader.load());
+			this.controller = loader.getController();
+
 		} catch (IOException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}

@@ -23,6 +23,7 @@ import java.io.IOException;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
+import logic.viewcontroller.PopupViewController;
 import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 
@@ -209,10 +210,14 @@ public class CalendarInitializer {
 			try {
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.MAINPOPUP);
 			
-				
+					PopupViewController popupViewController = (PopupViewController) calendarView.getCurrentController();
+					popupViewController.setParam(param);
+					popupViewController.setSelectedEvent();
+					popupViewController.setDetailsPopup();
 				/*
 				 * PopupViewController popupViewController = (PopupViewController)
-				 * calendarView.getController(); popupViewController.setParam(param);
+				 * calendar	 * popupViewController.setSelectedEvent();
+				 * popupViewController.setDetailsPopup();View.getController(); popupViewController.setParam(param);
 				 * popupViewController.setSelectedEvent();
 				 * popupViewController.setDetailsPopup();
 				 */

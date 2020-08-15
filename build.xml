@@ -35,6 +35,7 @@
         <pathelement location="src/lib/fontawesomefx-commons-8.13.jar"/>
         <pathelement location="src/lib/fontawesomefx-fontawesome-4.7.0-1.jar"/>
         <pathelement location="src/lib/GMapsFXlib.jar"/>
+	<pathelement location="src/lib/recurrence-8.6.1.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
