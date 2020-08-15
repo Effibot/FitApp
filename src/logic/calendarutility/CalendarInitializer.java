@@ -1,10 +1,13 @@
 package logic.calendarutility;
 
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
+
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -23,6 +26,7 @@ import java.io.IOException;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
+import logic.viewcontroller.FullDayViewController;
 import logic.viewcontroller.PopupViewController;
 import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
@@ -42,6 +46,7 @@ public class CalendarInitializer {
 		MainController ctrl = MainController.getInstance();
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
+		Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
 
 
 		cal = Calendars.getSingletonInstance(); 
@@ -53,11 +58,13 @@ public class CalendarInitializer {
 		//  cal.getCalendar(4).addEntry(en);
 		monthPage.getCalendarSources().addAll(calendarSource);
 		this.multiplesEntries();
-
+        this.monthPage.fireEvent(update);
 		this.doubleClickEntry();
+        this.monthPage.fireEvent(update);
 
 		this.rightClickEntry();
 
+        this.monthPage.fireEvent(update);
 
 
 	}
@@ -214,6 +221,7 @@ public class CalendarInitializer {
 					popupViewController.setParam(param);
 					popupViewController.setSelectedEvent();
 					popupViewController.setDetailsPopup();
+					popupViewController.setMonthPage(monthPage);
 				/*
 				 * PopupViewController popupViewController = (PopupViewController)
 				 * calendar	 * popupViewController.setSelectedEvent();
@@ -249,11 +257,10 @@ public class CalendarInitializer {
 			 * fullDayViewController.setCalendarSource(calendarSource);
 			 */
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.FULLDAY);
-			/*
-			 * FullDayViewController fullDayViewController = (FullDayViewController)
-			 * calendarView.getController();
-			 * fullDayViewController.setCalendarSource(calendarSource);
-			 */
+			
+			  FullDayViewController fullDayViewController = (FullDayViewController)calendarView.getCurrentController();
+			  fullDayViewController.setDaySources(calendarSource,event);
+			  
 			
 			Scene scene = new Scene(calendarView.getRoot());
 			stage.setScene(scene);

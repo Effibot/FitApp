@@ -2,7 +2,9 @@ package logic.viewcontroller;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -25,8 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.calendarfx.model.Calendar;
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.DateControl;
+import com.calendarfx.view.page.MonthPage;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
@@ -77,6 +81,7 @@ public class PopupViewController {
 	    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
+		private MonthPage monthPage;
 
 
 
@@ -271,7 +276,7 @@ public class PopupViewController {
 				 
                 CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
                 EmailViewController emailViewController = (EmailViewController) calendarView.getCurrentController();
-                
+               
                 ///Da mettere
 	            Scene scene = new Scene(calendarView.getRoot());
 	            emlStage.setScene(scene);
@@ -287,4 +292,8 @@ public class PopupViewController {
 	            PopupViewController.instance = new PopupViewController();
 	        return instance;
 	    }
+
+		public void setMonthPage(MonthPage monthPage) {
+			this.monthPage=monthPage;
+		}
 }

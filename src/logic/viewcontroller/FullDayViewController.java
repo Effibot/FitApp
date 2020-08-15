@@ -1,6 +1,9 @@
 package logic.viewcontroller;
 
+import java.time.LocalDate;
+
 import com.calendarfx.model.CalendarSource;
+import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,10 +29,7 @@ public class FullDayViewController {
         stage.close();
     }	
     
-    public void setCalendarSource(CalendarSource calendarSource) {
-    	dayPage.getCalendarSources().add(calendarSource);
-    }
-    
+ 
     @FXML
     void initialize() {
   
@@ -40,5 +40,15 @@ public class FullDayViewController {
     	
     	
     }
+
+	
+
+	public void setDaySources(CalendarSource calendarSource, RequestEvent event ) {
+    	dayPage.getCalendarSources().add(calendarSource);
+		dayPage.setDate(event.getDate());
+		
+
+		
+	}
 	
 }
