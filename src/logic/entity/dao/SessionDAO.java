@@ -1,14 +1,15 @@
 package logic.entity.dao;
 
-import logic.entity.Session;
-import logic.factory.alertfactory.AlertFactory;
-
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.List;
+
+import logic.entity.Session;
+import logic.factory.alertfactory.AlertFactory;
 
 public class SessionDAO extends ConnectionManager {
     private static SessionDAO instance = null;

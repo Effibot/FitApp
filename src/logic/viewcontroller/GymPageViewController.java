@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import logic.calendarutility.CalendarInitializer;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
 
@@ -31,9 +32,13 @@ public class GymPageViewController {
 	private Label sideGymStreet;
 	@FXML
 	private HBox calendarBox;
+	
+	private CalendarInitializer calendar;
 
 	private MainController ctrl = MainController.getInstance();
+	
 	private GymPageController gymCtrl;
+	
 	private void fillGraphics() {
 		sideGymName.setText(gymCtrl.getGym().getGymName());
 		sideGymName.setWrapText(true);
@@ -55,10 +60,10 @@ public class GymPageViewController {
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymName != null : "fx:id=\"sideGymName\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
-		 MonthPage calendar = new MonthPage();
-		calendar.setMinWidth(688);
-		calendar.setMaxWidth(688);
-		calendarBox.getChildren().add(calendar);
+		calendar = new CalendarInitializer();
+		MonthPage monthPage = calendar.getMonthPage();
+		monthPage.autosize();
+		calendarBox.getChildren().add(monthPage);
 		fillGraphics();
 	}
 }

@@ -10,8 +10,9 @@ public class User extends AbstractUser {
 		super();
 	}
 
-	public User(int userId, String username, String pwd, String email) {
+	public User(int userId, String username, String pwd, String email, String position) {
     	super(userId, username, pwd, email);
+    	setMyPosition(position);
     }
 
 	public List<Integer> getBookedSession() {

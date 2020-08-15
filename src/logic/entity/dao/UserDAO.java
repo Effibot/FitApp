@@ -24,11 +24,12 @@ public class UserDAO extends ConnectionManager {
 		try {
 			ResultSet rs = Query.getUser(this.st, userId);
 			rs.first();
-			if (checkResultValidity(1, 3, rs)) {
+			if (checkResultValidity(1, 4, rs)) {
 				String username = rs.getString("username");
 				String email = rs.getString("email");
 				String pwd = rs.getString("password");
-				return new User(userId, username, pwd, email);
+				String street = rs.getString("street");
+				return new User(userId, username, pwd, email, street);
 			}
 		} catch (SQLException e) {
 			AlertFactory.getInstance().createAlert(e);

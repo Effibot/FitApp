@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.jfoenix.controls.JFXListView;
 
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;

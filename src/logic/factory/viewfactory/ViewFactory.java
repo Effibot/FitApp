@@ -1,8 +1,15 @@
 package logic.factory.viewfactory;
 
-import logic.view.*;
-
 import java.io.IOException;
+
+import logic.view.BookingFormView;
+import logic.view.BookingOnMapView;
+import logic.view.GymPageView;
+import logic.view.LoginView;
+import logic.view.TrainingConfView;
+import logic.view.TrainingFormView;
+import logic.view.UserPageView;
+import logic.view.View;
 
 public class ViewFactory {
 	private static ViewFactory instance = null;

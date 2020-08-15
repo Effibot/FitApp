@@ -1,5 +1,9 @@
 package logic.view;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import animatefx.animation.FadeIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +17,6 @@ import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainView extends Application {
 	private double offsetX;

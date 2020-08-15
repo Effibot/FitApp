@@ -1,4 +1,7 @@
 package logic.viewcontroller;
+import java.io.IOException;
+import java.util.List;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.lynden.gmapsfx.javascript.object.Marker;
@@ -13,13 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import logic.entity.Session;
-
 import logic.factory.alertfactory.AlertFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 
 public class GymPopupViewController {

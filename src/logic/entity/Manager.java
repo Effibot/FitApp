@@ -10,6 +10,7 @@ public class Manager extends AbstractUser {
 	public Manager(int managerId, String managerName, String pwd, String email) {
 		super(managerId, managerName, pwd, email);
 		setManager(true);
+		setMyPosition("");
 	}
 
 	public Gym getGym() {

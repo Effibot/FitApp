@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 
 import com.calendarfx.view.page.MonthPage;
 
+import animatefx.animation.ZoomIn;
+import animatefx.animation.ZoomOut;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import logic.calendarutility.CalendarInitializer;
 import logic.controller.MainController;
 import logic.entity.User;
 import logic.entity.dao.UserDAO;
@@ -37,6 +40,10 @@ public class UserPageViewController {
 
 	@FXML
 	private Label sideUsername;
+	
+	@FXML
+	private Label sideStreet;
+	
 
     @FXML
     private Pane calendarBox;
@@ -44,7 +51,9 @@ public class UserPageViewController {
     @FXML
     private Button openCalendar;
     
-    private MonthPage calendar;
+    private CalendarInitializer calendar;
+    
+    private MonthPage mPage;
    
     
 	private MainController ctrl = MainController.getInstance();
@@ -62,14 +71,32 @@ public class UserPageViewController {
 	}
 
 	@FXML
-	private void showCalendar() {
-		if(!calendar.isVisible()) {
-			calendar.setVisible(true);
-			openCalendar.setText("Close Calendar");
-		} else {
-			calendar.setVisible(false);
-			openCalendar.setText("Open Calendar");
+	private void showCalendar(ActionEvent event){
+		if(event.getSource().equals(openCalendar)) {
+			if(!mPage.isVisible()) {
+				new ZoomIn(mPage).play();
+				mPage.setVisible(true);
+				mPage.setDisable(false);
+				mPage.toFront();
+				openCalendar.setText("Close Calendar");
+			} else {
+				new ZoomOut(mPage).play();
+				mPage.toBack();
+				openCalendar.setText("Open Calendar");
+				mPage.setVisible(false);
+				mPage.setDisable(true);
+			}
 		}
+	}
+	
+	private void calendarSetUp() {
+		calendar = new CalendarInitializer();
+		mPage = calendar.getMonthPage();
+		mPage.setMaxSize(680,502);
+		mPage.setMinSize(680, 502);
+		calendarBox.getChildren().add(mPage);
+		mPage.setVisible(false);
+		mPage.setDisable(true);
 	}
 
 	@FXML
@@ -79,13 +106,10 @@ public class UserPageViewController {
 		assert bookSession != null : "fx:id=\"bookSession\" was not injected: check your FXML file 'UserPage.fxml'.";
 		assert sideUserIcon != null : "fx:id=\"sideUserIcon\" was not injected: check your FXML file 'UserPage.fxml'.";
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'UserPage.fxml'.";
-
 		User user = UserDAO.getInstance().getUserEntity(ctrl.getId());
 		sideUsername.setText(user.getName());
-		calendar = new MonthPage();
-		calendar.setMaxSize(680, 502);
-		calendar.setMinSize(680, 502);
-		calendarBox.getChildren().add(calendar);
-		calendar.setVisible(false);
+		sideStreet.setText(user.getMyPosition());
+		calendarSetUp();
+		
 	}
 }

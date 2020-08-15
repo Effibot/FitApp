@@ -1,13 +1,13 @@
 package logic.factory.alertfactory;
 
 
-import javafx.scene.control.Alert.AlertType;
-import logic.exception.InputNotComplianException;
-import logic.exception.UserNotFoundException;
-
 import java.io.IOException;
 
 import javax.mail.MessagingException;
+
+import javafx.scene.control.Alert.AlertType;
+import logic.exception.InputNotComplianException;
+import logic.exception.UserNotFoundException;
 
 public class AlertFactory {
 	private static AlertFactory instance = null;

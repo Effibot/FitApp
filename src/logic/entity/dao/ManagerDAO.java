@@ -21,7 +21,7 @@ public class ManagerDAO extends ConnectionManager{
 	}
 	public Manager getManagerEntity(Integer managerId) {
 		try {
-			ResultSet rs = Query.getUser(this.st, managerId);
+			ResultSet rs = Query.getGymUser(this.st, managerId);
 			rs.first();
 			if (checkResultValidity(1, 3, rs)) {
 				String username = rs.getString("username");

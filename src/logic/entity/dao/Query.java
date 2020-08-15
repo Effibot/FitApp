@@ -17,12 +17,12 @@ public class Query {
 	}
 
 	public static ResultSet getUser(Statement st, Integer id) throws SQLException {
-		String sql = "select username, email, password from users where user_id = '" + id + "';";
+		String sql = "select username, email, password, street from users where user_id = '" + id + "';";
 		return st.executeQuery(sql);
 	}
 	
 	public static ResultSet getUserByName(Statement st, String name) throws SQLException {
-		String sql = "select user_id, email, password from users where username = '" + name + "';";
+		String sql = "select user_id, email, password, street from users where username = '" + name + "';";
 		return st.executeQuery(sql);
 	}
 	
@@ -54,6 +54,11 @@ public class Query {
 
 	public static ResultSet getGymByName(Statement st, String gym) throws SQLException {
 		String sql = "select manager_id from gym where gym_name='"+gym+"';";
+		return st.executeQuery(sql);
+	}
+
+	public static ResultSet getGymUser(Statement st, Integer managerId) throws SQLException{
+		String sql = "select username, email, password from users where user_id = '" + managerId + "';";
 		return st.executeQuery(sql);
 	}
 }

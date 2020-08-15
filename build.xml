@@ -5,12 +5,12 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="FitApp">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../eclipse/jee-2020-03/eclipse/"/>
+    <property name="ECLIPSE_HOME" value="../../../eclipse/jee-2020-03/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
     <path id="JavaFX SDK.libraryclasspath">
-        <pathelement location="../../.p2/pool/plugins/org.eclipse.fx.ide.css.jfx8_3.5.0.201907240300.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.eclipse.fx.ide.css.jfx8_3.5.0.201907240300.jar"/>
     </path>
     <path id="FitApp.classpath">
         <pathelement location="bin"/>
@@ -18,8 +18,6 @@
         <pathelement location="src/lib/animatefx-1.2.0.jar"/>
         <pathelement location="src/lib/byte-buddy-1.6.11.jar"/>
         <pathelement location="src/lib/byte-buddy-agent-1.6.11.jar"/>
-        <pathelement location="src/lib/GMapsFXlib.jar"/>
-	<pathelement location="src/lib/javax.mail.jar"/>
         <pathelement location="src/lib/jfoenix-8.0.8.jar"/>
         <pathelement location="src/lib/json-simple-1.1.1.jar"/>
         <pathelement location="src/lib/logback-classic-1.2.1.jar"/>
@@ -28,17 +26,20 @@
         <pathelement location="src/lib/objenesis-2.5.jar"/>
         <pathelement location="src/lib/postgresql-42.2.9.jar"/>
         <pathelement location="src/lib/slf4j-api-1.7.23.jar"/>
-	<pathelement location="src/lib/view-8.6.1.jar"/>
-	<pathelement location="src/lib/rfc5545-datetime-0.3.jar"/>
-	<pathelement location="src/lib/controlsfx-8.40.14.jar"/>
-	<pathelement location="src/lib/lib-recur-0.11.6.jar"/>
+        <pathelement location="src/lib/controlsfx-8.40.14.jar"/>
+        <pathelement location="src/lib/javax_mail.jar"/>
+        <pathelement location="src/lib/javax.mail.jar"/>
+        <pathelement location="src/lib/lib-recur-0.11.6.jar"/>
+        <pathelement location="src/lib/rfc5545-datetime-0.3.jar"/>
+        <pathelement location="src/lib/view-8.6.1.jar"/>
+        <pathelement location="src/lib/fontawesomefx-commons-8.13.jar"/>
+        <pathelement location="src/lib/fontawesomefx-fontawesome-4.7.0-1.jar"/>
+        <pathelement location="src/lib/GMapsFXlib.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.xtend"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>

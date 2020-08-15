@@ -4,7 +4,6 @@ package logic.entity.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import logic.entity.Gym;
 import logic.factory.alertfactory.AlertFactory;
 

@@ -1,12 +1,12 @@
 package logic.factory.alertfactory;
 
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.stage.StageStyle;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class CustomAlertBox extends Alert {
 

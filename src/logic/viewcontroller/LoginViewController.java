@@ -1,5 +1,9 @@
 package logic.viewcontroller;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import javafx.event.ActionEvent;
@@ -21,10 +25,6 @@ import logic.controller.MainController;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
 import logic.view.View;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginViewController {
 	private final Logger logger = Logger.getLogger(getClass().getName());
@@ -119,11 +119,13 @@ public class LoginViewController {
 			new ZoomIn(pnSignUp).play();
 			pnSignUp.setVisible(true);
 			pnSignUp.toFront();
+			pnSignUp.setDisable(false);
 		} else {
 			new ZoomOut(pnSignUp).play();
 			pnSignUp.toBack();
 			new ZoomIn(pnSignIn).play();
 			pnSignIn.toFront();
+			pnSignUp.setDisable(true);
 		}
 	}
 
