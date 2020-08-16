@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import logic.calendarutility.CalendarInitializer;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
@@ -31,7 +31,7 @@ public class GymPageViewController {
 	@FXML
 	private Label sideGymStreet;
 	@FXML
-	private HBox calendarBox;
+	private Pane calendarBox;
 	
 	private CalendarInitializer calendar;
 
@@ -62,7 +62,8 @@ public class GymPageViewController {
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
 		calendar = new CalendarInitializer();
 		MonthPage monthPage = calendar.getMonthPage();
-		monthPage.autosize();
+		monthPage.setMaxSize(680,502);
+		monthPage.setMinSize(680, 502);		
 		calendarBox.getChildren().add(monthPage);
 		fillGraphics();
 	}
