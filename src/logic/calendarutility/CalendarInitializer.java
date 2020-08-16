@@ -43,13 +43,13 @@ public class CalendarInitializer {
 	private CalendarSource calendarSource;
 	private Calendars cal;
 	private CalendarViewFactory  calendarViewFactory = CalendarViewFactory.getInstance();
-
+	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
 	protected CalendarInitializer() {
 
 		MainController ctrl = MainController.getInstance();
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
-		Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
+		
 
 
 		cal = Calendars.getSingletonInstance(); 
@@ -65,11 +65,11 @@ public class CalendarInitializer {
 
         this.monthPage.fireEvent(update);
         
-        monthPage.setEntryDetailsPopOverContentCallback(param -> 
-        	doubleClickEntry(param)
+        monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param)      
+
         	);
         monthPage.setEntryContextMenuCallback(param->rightClickEntry(param));
-
+        
 
 	}
 
@@ -234,6 +234,7 @@ public class CalendarInitializer {
 				
 				HBox box = new HBox();
 				box.getChildren().add(calendarView.getRoot());
+				calendarView.getRoot().setOnMouseExited(event->monthPage.fireEvent(update));
 
 				return box;
 			} catch (IOException e) {
