@@ -90,7 +90,7 @@ public class UserPageViewController {
 	}
 	
 	private void calendarSetUp() {
-		calendar = new CalendarInitializer();
+		calendar = CalendarInitializer.getSingletonInstance();
 		mPage = calendar.getMonthPage();
 		mPage.setMaxSize(680,502);
 		mPage.setMinSize(680, 502);

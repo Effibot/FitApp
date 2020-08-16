@@ -33,7 +33,6 @@ public class GymPageViewController {
 	@FXML
 	private Pane calendarBox;
 	
-	private CalendarInitializer calendar;
 
 	private MainController ctrl = MainController.getInstance();
 	
@@ -60,7 +59,7 @@ public class GymPageViewController {
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymName != null : "fx:id=\"sideGymName\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert sideGymStreet != null : "fx:id=\"sideGymStreet\" was not injected: check your FXML file 'GymPage.fxml'.";
-		calendar = new CalendarInitializer();
+		CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
 		MonthPage monthPage = calendar.getMonthPage();
 		monthPage.setMaxSize(680,502);
 		monthPage.setMinSize(680, 502);		

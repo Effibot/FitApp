@@ -3,6 +3,8 @@ package logic.calendarutility;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
+import com.calendarfx.view.DateControl.EntryContextMenuParameter;
+import com.calendarfx.view.DateControl.EntryDetailsPopOverContentParameter;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
@@ -32,6 +34,7 @@ import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 
 public class CalendarInitializer {
+	private static CalendarInitializer instance = null;
 
 	private MonthPage monthPage;
 	private DayPage dayPage;
@@ -41,7 +44,7 @@ public class CalendarInitializer {
 	private Calendars cal;
 	private CalendarViewFactory  calendarViewFactory = CalendarViewFactory.getInstance();
 
-	public CalendarInitializer() {
+	protected CalendarInitializer() {
 
 		MainController ctrl = MainController.getInstance();
 		this.entries = Entries.getSingletonInstance();
@@ -58,19 +61,19 @@ public class CalendarInitializer {
 		//  cal.getCalendar(4).addEntry(en);
 		monthPage.getCalendarSources().addAll(calendarSource);
 		this.multiplesEntries();
-        this.monthPage.fireEvent(update);
-		this.doubleClickEntry();
-        this.monthPage.fireEvent(update);
-
-		this.rightClickEntry();
+		
 
         this.monthPage.fireEvent(update);
+        
+        monthPage.setEntryDetailsPopOverContentCallback(param -> 
+        	doubleClickEntry(param)
+        	);
+        monthPage.setEntryContextMenuCallback(param->rightClickEntry(param));
 
 
 	}
 
-	private void rightClickEntry() {
-		monthPage.setEntryContextMenuCallback(param -> {
+	public ContextMenu rightClickEntry(EntryContextMenuParameter param) {
 			MenuItem item1 = new MenuItem("Information");
 			MenuItem item2 = new MenuItem("Delete this");
 			MenuItem item3 = new MenuItem("Delete All");
@@ -209,11 +212,9 @@ public class CalendarInitializer {
 
 
 			return rBox;
-		});		
 	}
 
-	private void doubleClickEntry() {
-		monthPage.setEntryDetailsPopOverContentCallback(param -> {
+	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
 			try {
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.MAINPOPUP);
 			
@@ -238,12 +239,12 @@ public class CalendarInitializer {
 			} catch (IOException e) {
 				AlertFactory.getInstance().createAlert(e);
 			}
-
 			return null;
-		});		
+
+			
 	}
 
-	private void multiplesEntries() {
+	public void multiplesEntries() {
 		monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
 			try {
 			Stage stage = new Stage();
@@ -281,7 +282,11 @@ public class CalendarInitializer {
 	}
 
 
-
+	 public static synchronized CalendarInitializer getSingletonInstance() {
+	        if (CalendarInitializer.instance == null)
+	        	CalendarInitializer.instance = new CalendarInitializer();
+	        return instance;
+	    }
 
 
 
