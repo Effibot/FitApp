@@ -22,13 +22,15 @@ public class MainView extends Application {
 	private double offsetX;
 	private double offsetY;
 	private Parent root;
+
 	public Parent getRoot() {
 		return this.root;
 	}
+
 	public void setRoot(Parent root) {
 		this.root = root;
 	}
-	
+
 	public MainView() { // may be singleton
 		try {
 			load();
@@ -36,46 +38,50 @@ public class MainView extends Application {
 			AlertFactory.getInstance().createAlert(e);
 		}
 	}
+
 	public void load() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/logic/fxml/Container.fxml"));
 		setRoot(loader.load());
 	}
 
 	@Override
-	public void start(Stage mainStage) throws Exception{		
+	public void start(Stage mainStage) throws Exception {
 		try {
 			Scene mainView = new Scene(root);
 			mainStage.setScene(mainView);
 			mainStage.initStyle(StageStyle.UNDECORATED);
 			root.setOnMousePressed(event -> {
 				offsetX = event.getSceneX();
-				offsetY = event.getSceneY();			
+				offsetY = event.getSceneY();
 			});
 
 			root.setOnMouseDragged(event -> {
-				mainStage.setX(event.getScreenX()-offsetX);
-				mainStage.setY(event.getScreenY()-offsetY);
+				mainStage.setX(event.getScreenX() - offsetX);
+				mainStage.setY(event.getScreenY() - offsetY);
 			});
 			MainController ctrl = MainController.getInstance();
 			ViewFactory factory = ViewFactory.getInstance();
 			View subview = factory.createView(ViewType.LOGIN);
-			ctrl.replace((BorderPane)getAllNodes(root).get(0), subview);
+			ctrl.replace((BorderPane) getAllNodes(root).get(0), subview);
 			mainStage.show();
 			new FadeIn(root).play();
+			ctrl.setScene(mainView);
 		} catch (IllegalStateException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
 	}
-	public static List<Node> getAllNodes(Parent p){
+
+	public static List<Node> getAllNodes(Parent p) {
 		ArrayList<Node> nodes = new ArrayList<>();
-		addAllDescendents(p,nodes);
+		addAllDescendents(p, nodes);
 		return nodes;
 	}
+
 	private static void addAllDescendents(Parent p, ArrayList<Node> nodes) {
 		for (Node n : p.getChildrenUnmodifiable()) {
 			nodes.add(n);
-			if(n instanceof Parent)
-				addAllDescendents((Parent)n,nodes);
+			if (n instanceof Parent)
+				addAllDescendents((Parent) n, nodes);
 		}
 	}
 

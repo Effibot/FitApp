@@ -1,6 +1,9 @@
 package logic.viewcontroller;
+import java.io.IOException;
+
 import com.calendarfx.model.Entry;
 import com.jfoenix.controls.JFXButton;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -13,12 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
-import logic.factory.alertfactory.AlertFactory;
-
-import java.io.IOException;
 public class SubmitViewController {
 	  @FXML
 	    private Label reviewLbl;

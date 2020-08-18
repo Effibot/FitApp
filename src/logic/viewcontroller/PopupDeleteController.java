@@ -1,13 +1,5 @@
 package logic.viewcontroller;
-import com.calendarfx.model.Entry;
-import com.jfoenix.controls.JFXButton;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import logic.calendarutility.Calendars;
-import logic.calendarutility.Entries;
-import logic.factory.alertfactory.AlertFactory;
+import java.time.format.DateTimeFormatter;
 
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
@@ -16,7 +8,16 @@ import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter;
 import org.dmfs.rfc5545.recurrenceset.RecurrenceSet;
 import org.dmfs.rfc5545.recurrenceset.RecurrenceSetIterator;
 
-import java.time.format.DateTimeFormatter;
+import com.calendarfx.model.Entry;
+import com.jfoenix.controls.JFXButton;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import logic.calendarutility.Calendars;
+import logic.calendarutility.Entries;
+import logic.factory.alertfactory.AlertFactory;
 
 public class PopupDeleteController {
 	 private static PopupDeleteController instance = null;

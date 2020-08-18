@@ -6,6 +6,7 @@ import logic.view.BookingFormView;
 import logic.view.BookingOnMapView;
 import logic.view.GymPageView;
 import logic.view.LoginView;
+import logic.view.SignUpView;
 import logic.view.TrainingConfView;
 import logic.view.TrainingFormView;
 import logic.view.UserPageView;
@@ -36,6 +37,8 @@ public class ViewFactory {
 			return new TrainingConfView(view);
 		case 7: //return TraningCOnf
 			return new BookingOnMapView(view);
+		case 8: //return SignUp view
+			return new SignUpView(view);
 		default:	//return booking on Map
 			throw new IOException("Factory exception: view not found");
 		}

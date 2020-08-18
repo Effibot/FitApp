@@ -1,8 +1,5 @@
 package logic.calendarutility;
 
-import com.calendarfx.model.Calendar;
-import com.calendarfx.model.Entry;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.calendarfx.model.Calendar;
+import com.calendarfx.model.Entry;
 
 public class Entries {
 	 private static Entries instance = null;

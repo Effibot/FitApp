@@ -1,5 +1,14 @@
 package logic.calendarutility;
 
+import java.io.IOException;
+
+import org.dmfs.rfc5545.DateTime;
+import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
+import org.dmfs.rfc5545.recur.RecurrenceRule;
+import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter;
+import org.dmfs.rfc5545.recurrenceset.RecurrenceSet;
+import org.dmfs.rfc5545.recurrenceset.RecurrenceSetIterator;
+
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
@@ -17,21 +26,13 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.dmfs.rfc5545.DateTime;
-import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
-import org.dmfs.rfc5545.recur.RecurrenceRule;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceSet;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceSetIterator;
-import java.io.IOException;
-
+import logic.controller.MainController;
+import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
 import logic.viewcontroller.FullDayViewController;
 import logic.viewcontroller.PopupViewController;
-import logic.controller.MainController;
-import logic.factory.alertfactory.AlertFactory;
 
 public class CalendarInitializer {
 	private static CalendarInitializer instance = null;

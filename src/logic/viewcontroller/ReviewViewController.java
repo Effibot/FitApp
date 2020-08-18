@@ -1,7 +1,12 @@
 package logic.viewcontroller;
+import java.io.IOException;
+
+import org.controlsfx.control.Rating;
+
 import com.calendarfx.model.Entry;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,14 +22,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.calendarutility.Calendars;
 import logic.calendarutility.Entries;
+import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
-import logic.factory.alertfactory.AlertFactory;
-
-import org.controlsfx.control.Rating;
-
-import java.io.IOException;
 public class ReviewViewController {
 	@FXML
     private StackPane stackPane;

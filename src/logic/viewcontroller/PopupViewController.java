@@ -1,10 +1,23 @@
 package logic.viewcontroller;
 
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.calendarfx.model.Calendar;
+import com.calendarfx.model.Entry;
+import com.calendarfx.view.DateControl;
+import com.calendarfx.view.page.MonthPage;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
+
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -18,22 +31,6 @@ import logic.calendarutility.Entries;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.calendarfx.model.Calendar;
-import com.calendarfx.model.CalendarEvent;
-import com.calendarfx.model.Entry;
-import com.calendarfx.view.DateControl;
-import com.calendarfx.view.page.MonthPage;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
 
 public class PopupViewController {
 	  private static PopupViewController instance = null;

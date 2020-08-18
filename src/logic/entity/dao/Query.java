@@ -61,4 +61,13 @@ public class Query {
 		String sql = "select username, email, password from users where user_id = '" + managerId + "';";
 		return st.executeQuery(sql);
 	}
+	
+	public static int signUp(Statement st, String email, String pwd) throws SQLException {
+		String sql = "insert into users(username, password, email, manager, street) VALUES ('guest','"+pwd+"','"+email+"', false, ' ')";
+		return st.executeUpdate(sql);
+	}
+	public static ResultSet getEmailById(Statement st, int id) throws SQLException{
+		String sql = "select email from users where user_id = '" + id + "'";
+		return st.executeQuery(sql);
+	}
 }

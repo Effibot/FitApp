@@ -10,7 +10,8 @@ public enum ViewType {
 	BOOKINGFORM(4, "/logic/fxml/BookingForm.fxml"),
 	OFFERTRAININGCONFIRMATION(5, "/logic/fxml/OfferTrainingConfirmation.fxml"),
 	CARD(6, "/logic/fxml/Card.fxml"),
-	BOOKINGONMAP(7, "/logic/fxml/BookingOnMap.fxml");
+	BOOKINGONMAP(7, "/logic/fxml/BookingOnMap.fxml"),
+	SIGNUP(8, "/logic/fxml/SignUp.fxml");
 	/* MAX SUBVIEW DIM: 900 x 522
 	 * */
 

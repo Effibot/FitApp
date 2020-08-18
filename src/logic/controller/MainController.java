@@ -1,16 +1,18 @@
 package logic.controller;
 
 import animatefx.animation.FadeIn;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import logic.view.View;
 
 public class MainController {
 	private static MainController instance;
-	private  BorderPane container;
-	private  BorderPane topBar;
-	private  VBox topBox;
-	private int id = 0; 
+	private BorderPane container;
+	private BorderPane topBar;
+	private VBox topBox;
+	private Scene scene;
+	private int id = 0;
 
 	public void setId(int id) {
 		this.id = id;
@@ -20,16 +22,15 @@ public class MainController {
 		return id;
 	}
 
-	private MainController() {}
+	private MainController() {
+	}
 
 	public static synchronized MainController getInstance() {
-		if(MainController.instance == null) {
+		if (MainController.instance == null) {
 			MainController.instance = new MainController();
 		}
 		return MainController.instance;
 	}
-	
-
 
 	public BorderPane getContainer() {
 		return container;
@@ -55,12 +56,17 @@ public class MainController {
 		this.topBox = topBox;
 	}
 
+	public Scene getScene() {
+		return scene;
+	}
+
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
+
 	public void replace(BorderPane container, View node) {
 		container.setCenter(node.getRoot());
 		new FadeIn(container.getCenter()).play();
 	}
-	
 
 }
-
-

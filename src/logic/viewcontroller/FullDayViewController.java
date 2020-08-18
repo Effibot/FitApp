@@ -5,15 +5,9 @@ import com.calendarfx.model.CalendarSource;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import logic.calendarutility.CalendarInitializer;

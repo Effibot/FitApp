@@ -3,8 +3,8 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.factory.alertfactory.AlertFactory;
+import logic.factory.calendarviewfactory.CalendarViewType;
 
 public class CalendarView {
 	private Parent root;

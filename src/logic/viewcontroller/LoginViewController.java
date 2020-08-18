@@ -22,6 +22,7 @@ import javafx.scene.shape.Circle;
 import logic.bean.LoginBean;
 import logic.controller.LoginController;
 import logic.controller.MainController;
+import logic.entity.dao.UserDAO;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
 import logic.view.View;
@@ -58,7 +59,7 @@ public class LoginViewController {
 	private AnchorPane anchRoot;
 	
 	private MainController ctrl;
-	
+	private LoginController logCtrl; 
 	@FXML
 	private void handleButtonEvent(ActionEvent event) throws IOException {
 		if (event.getSource().equals(btnNoAcc)) {
@@ -66,14 +67,18 @@ public class LoginViewController {
 		}
 		if (event.getSource().equals(btnSignUp)) {
 			String email = tfEmailAddr.getText();
-			if (!email.equals(""))
-				logger.log(Level.INFO, "Sending email to: {}", tfEmailAddr.getText());
+			if (!email.equals("")) {
+				Integer pwd = logCtrl.generateRandomDigits(8);
+				UserDAO.getInstance().signUp(email, pwd.toString());
+				//EmailController.getSingletoneInstance()
+				logger.log(Level.INFO, "Sending email to: {}", email);
+			}
 		}
 		if (event.getSource().equals(btnLogIn)) {
 			loginTransitions();
 		}
 	}
-
+	
 	@FXML
 	private void onEnter(KeyEvent key) throws IOException {
 		if (key.getCode().equals(KeyCode.ENTER)) {
@@ -85,13 +90,15 @@ public class LoginViewController {
 		String username = tfUsername.getText();
 		String password = tfPwd.getText();
 		if (!username.equals("") && !password.equals("")) {
-			LoginController logCtrl = new LoginController();
+			
 			LoginBean bean = new LoginBean(username, password);
 			if (logCtrl.checkAuthentication(bean)) {
 				MainController.getInstance().setId(bean.getId());
 				ViewFactory factory = ViewFactory.getInstance();
 				View view;
-				if (bean.getType()) {
+				if(bean.getUsername().toLowerCase().contentEquals("guest")) {
+					view = factory.createView(ViewType.SIGNUP);
+				} else if (bean.getType()) {
 					view = factory.createView(ViewType.GYMPAGE);
 				} else {
 					view = factory.createView(ViewType.USERPAGE);
@@ -146,5 +153,6 @@ public class LoginViewController {
 		assert btnNoAcc != null : "fx:id=\"btnNoAcc\" was not injected: check your FXML file 'scene.fxml'.";
 		
 		ctrl = MainController.getInstance();
+		logCtrl = new LoginController();
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import logic.entity.User;
+import logic.exception.InsertException;
 import logic.factory.alertfactory.AlertFactory;
 
 public class UserDAO extends ConnectionManager {
@@ -30,6 +31,30 @@ public class UserDAO extends ConnectionManager {
 				String pwd = rs.getString("password");
 				String street = rs.getString("street");
 				return new User(userId, username, pwd, email, street);
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return null;
+	}
+	
+	public void signUp(String email, String pwd) {
+		try {
+			int count = Query.signUp(this.st, email, pwd);	
+			if(count < 1) {
+				throw new InsertException();
+			}
+		} catch (SQLException|InsertException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+	}
+	
+	public String getEmailById(int id) {
+		try {
+			ResultSet rs = Query.getEmailById(this.st, id);
+			rs.first();
+			if(checkResultValidity(1, 1, rs)) {
+				return rs.getString("email");
 			}
 		} catch (SQLException e) {
 			AlertFactory.getInstance().createAlert(e);

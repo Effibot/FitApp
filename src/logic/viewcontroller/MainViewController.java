@@ -18,52 +18,52 @@ import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
 
-public class MainViewController implements Initializable{
-	
-    @FXML
-    private AnchorPane main;
-    
+public class MainViewController implements Initializable {
+
+	@FXML
+	private AnchorPane main;
+
 	@FXML
 	private HBox topMenu;
 
 	@FXML
 	private BorderPane container;
-	
+
 	@FXML
 	private ImageView btnReduce;
 
 	@FXML
 	private ImageView btnClose;
-	
+
 	@FXML
 	private ImageView logOutIcon;
-	
+
 	@FXML
 	private BorderPane topBar;
-	
+
 	@FXML
 	private VBox topBox;
-	
+
 	private MainController ctrl;
 	private ViewFactory factory;
-	
+
 	@FXML
-	private void onMouseClickedEvent(MouseEvent event){
-		if(event.getSource()==btnClose) {
+	private void onMouseClickedEvent(MouseEvent event) {
+		if (event.getSource() == btnClose) {
 			System.exit(0);
 		}
-		if(event.getSource()==btnReduce) {
-			Stage stage = (Stage)main.getScene().getWindow();
+		if (event.getSource() == btnReduce) {
+			Stage stage = (Stage) main.getScene().getWindow();
 			stage.setIconified(true);
 		}
-		if(event.getSource() == logOutIcon) {
+		if (event.getSource() == logOutIcon) {
 			try {
 				topBox.getChildren().remove(topBar);
 				ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.LOGIN));
 			} catch (IOException e) {
 				AlertFactory.getInstance().createAlert(e);
 			}
-		}	
+		}
 	}
 
 	@Override
@@ -74,5 +74,5 @@ public class MainViewController implements Initializable{
 		ctrl.setTopBar(topBar);
 		ctrl.setTopBox(topBox);
 		topBox.getChildren().remove(topBar);
-	}	
+	}
 }
