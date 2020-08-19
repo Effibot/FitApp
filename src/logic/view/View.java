@@ -13,7 +13,6 @@ public class View {
 	protected View(ViewType view) {
 		try {
 			FXMLLoader loader = new FXMLLoader(ViewType.getUrl(view));
-
 			setRoot(loader.load());
 		} catch (IOException e) {
 			AlertFactory.getInstance().createAlert(e);

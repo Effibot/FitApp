@@ -20,6 +20,7 @@ public class AlertFactory {
 		return AlertFactory.instance;
 	}
 	
+	// for exception management
 	public CustomAlertBox createAlert(Exception e) {
 		if(e instanceof UserNotFoundException) {
 			return new CustomAlertBox(AlertType.ERROR, e);
@@ -29,8 +30,15 @@ public class AlertFactory {
 			return new CustomAlertBox(AlertType.INFORMATION, e);
 		} else if(e instanceof MessagingException){
 			return new CustomAlertBox(AlertType.ERROR,e);
+		} else if(e instanceof NullPointerException) {
+			return new CustomAlertBox(AlertType.ERROR, e);
 		}else {
 			return new CustomAlertBox(e);
 		}
+	}
+	
+	// for specific types of alert boxes.
+	public CustomAlertBox createAlert(AlertType type, String title, String header, String content) {
+		return new CustomAlertBox(type, title, header, content);
 	}
 }

@@ -179,6 +179,32 @@
                                     <Insets />
                                  </HBox.margin>
                                  <children>
+                                    <Label styleClass="signUpLabel" stylesheets="@../styles.css" text="Insert Your Street" textFill="#797878">
+                                       <font>
+                                          <Font name="System Italic" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox>
+                                       <children>
+                                          <TextField fx:id="userStreet" promptText="user's street" />
+                                          <Label fx:id="userStreetLabel" styleClass="signUpLabel" stylesheets="@../styles.css" text="user street" underline="true" wrapText="true">
+                                             <HBox.margin>
+                                                <Insets left="8.0" right="8.0" top="8.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox>
+                           <children>
+                              <VBox>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <children>
                                     <JFXCheckBox fx:id="managerCheck" checkedColor="#8d6e63" onAction="#isManager" styleClass="signUpLabel" stylesheets="@../styles.css" text="Are you a Gym Manager?" unCheckedColor="#78909c">
                                        <font>
                                           <Font size="14.0" />
@@ -234,7 +260,7 @@
                   <HBox alignment="TOP_RIGHT" layoutX="-50.0" layoutY="442.0" prefWidth="200.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
                         <Button fx:id="backBtn" mnemonicParsing="false" onAction="#back" styleClass="LogInBtn" stylesheets="@../styles.css" text="Back" />
-                        <Button fx:id="confirmBtn" mnemonicParsing="false" styleClass="LogInBtn" stylesheets="@../styles.css" text="Confirm">
+                        <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#confirmAction" styleClass="LogInBtn" stylesheets="@../styles.css" text="Confirm">
                            <HBox.margin>
                               <Insets left="20.0" right="10.0" />
                            </HBox.margin>

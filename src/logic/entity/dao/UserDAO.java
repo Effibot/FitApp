@@ -37,28 +37,39 @@ public class UserDAO extends ConnectionManager {
 		}
 		return null;
 	}
-	
+
 	public void signUp(String email, String pwd) {
 		try {
-			int count = Query.signUp(this.st, email, pwd);	
-			if(count < 1) {
+			int count = Query.signUp(this.st, email, pwd);
+			if (count < 1) {
 				throw new InsertException();
 			}
-		} catch (SQLException|InsertException e) {
+		} catch (SQLException | InsertException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
 	}
-	
+
 	public String getEmailById(int id) {
 		try {
 			ResultSet rs = Query.getEmailById(this.st, id);
 			rs.first();
-			if(checkResultValidity(1, 1, rs)) {
+			if (checkResultValidity(1, 1, rs)) {
 				return rs.getString("email");
 			}
 		} catch (SQLException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
 		return null;
+	}
+
+	public void registerUser(String name, String pwd, String email, Boolean isManager, String street, int id) {
+		try {
+			int count = Query.registerUser(this.st, name, pwd, email, isManager, street, id);
+			if (count < 1) {
+				throw new InsertException();
+			}
+		} catch (SQLException | InsertException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
 	}
 }

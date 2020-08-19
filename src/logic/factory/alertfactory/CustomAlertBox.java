@@ -4,7 +4,10 @@ package logic.factory.alertfactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.stage.StageStyle;
 
@@ -32,11 +35,28 @@ public class CustomAlertBox extends Alert {
 		this.setHeaderText(header);
 		display();
 	}
+	
+	// Default case, for user warnings
+	public CustomAlertBox(AlertType type, String title, String header, String content) {
+		super(type);
+		setAlert(title, header, content);
+	}
+	
 
 	// Edit alert style and display it.
 	public void display() {
 		this.initStyle(StageStyle.UNDECORATED);
 		this.showAndWait();
+	}
+	public void display(Button button) {
+		this.initStyle(StageStyle.UNDECORATED);
+		this.showAndWait().ifPresent( btnType -> {
+			if(btnType == ButtonType.OK) {
+				button.fireEvent(new ActionEvent());
+			} else if (btnType == ButtonType.CANCEL) {
+				this.close();
+			}
+		});
 	}
 	
 	// Setting up the dialog in case of unmapped exceptions.
@@ -48,4 +68,11 @@ public class CustomAlertBox extends Alert {
 		TextArea area = new TextArea(sw.toString());
 		alert.getDialogPane().setExpandableContent(area);
 	}
+	
+	public void setAlert(String title, String header, String content) {
+		this.setTitle(title);
+		this.setHeaderText(header);
+		this.setContentText(content);
+	}
+	
 }
