@@ -61,6 +61,18 @@ create table if not exists booked_session(
   foreign key (session_id) references training_session(session_id),
   foreign key (user_id) references users(user_id));
 
+create table if not exists review(
+    review_id serial not null primary key,
+    user_id   int    not null,
+    course_id int    not null,
+    gym_id    int    not null,
+    review    varchar,
+    rating    int    not null,
+    foreign key (user_id) references users (user_id),
+    foreign key (course_id) references course (course_id),
+    foreign key (gym_id) references gym(gym_id),
+    unique(review_id, user_id, course_id, gym_id));
+
 insert into users(username, password, email, manager, street) values ('admin', 'admin','zaguza97@gmail.com', 'false', 'via dei sette metri 5');
 insert into users(username, password, email, manager, street) values ('manager', 'manager', 'redslorenz@gmail.com','true', ' ');
 insert into users(username, password, email, manager, street) values ('effi', 'pass', 'Andrea.efficace1@gmail.com', 'false', 'via del muro linari 21');
