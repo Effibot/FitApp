@@ -11,6 +11,7 @@ create table if not exists users(
     password varchar not null,
     email varchar not null,
     manager  boolean,
+    street varchar not null,
     unique(email),
     unique (user_id, username));
 
@@ -60,22 +61,22 @@ create table if not exists booked_session(
   foreign key (session_id) references training_session(session_id),
   foreign key (user_id) references users(user_id));
 
-insert into users(username, password, email, manager) values ('admin', 'admin','zaguza97@gmail.com', 'false');
-insert into users(username, password, email, manager) values ('manager', 'manager', 'redslorenz@gmail.com','true');
-insert into users(username, password, email, manager) values ('effi', 'pass', 'Andrea.efficace1@gmail.com', 'false');
-insert into users(username, password, email, manager) values ('gym', 'gympass', 'gliassidicuori@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym1', 'gympass1', 'A.effi.97@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym2', 'gympass2', 'lorybtc@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym3', 'gympass3', 'monkey.d.rossi@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym4', 'gympass4', 'reds.lorenzorossi@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym5', 'gympass5', 'abcdefghil@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('gym6', 'gympass6', 'rimembranzeinfiore@gmail.com', 'true');
-insert into users(username, password, email, manager) values ('ginopaoluzzi', 'manager1', 'jymhgf@gmail.com','true');
-insert into users(username, password, email, manager) values ('fabiomassimo', 'manager2', 'hygtrae@gmail.com','true');
-insert into users(username, password, email, manager) values ('carloconti', 'manager3', 'jhygtfr@gmail.com','true');
-insert into users(username, password, email, manager) values ('beppeBergomi', 'manager4', 'juryhtg@gmail.com','true');
-insert into users(username, password, email, manager) values ('dilettaLeotta', 'manager5', 'jhegtrwef@gmail.com','true');
-insert into users(username, password, email, manager) values ('lanarhoades', 'manager6', 'juhyrgte@gmail.com','true');
+insert into users(username, password, email, manager, street) values ('admin', 'admin','zaguza97@gmail.com', 'false', 'via dei sette metri 5');
+insert into users(username, password, email, manager, street) values ('manager', 'manager', 'redslorenz@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('effi', 'pass', 'Andrea.efficace1@gmail.com', 'false', 'via del muro linari 21');
+insert into users(username, password, email, manager, street) values ('gym', 'gympass', 'gliassidicuori@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym1', 'gympass1', 'A.effi.97@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym2', 'gympass2', 'lorybtc@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym3', 'gympass3', 'monkey.d.rossi@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym4', 'gympass4', 'reds.lorenzorossi@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym5', 'gympass5', 'abcdefghil@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('gym6', 'gympass6', 'rimembranzeinfiore@gmail.com', 'true', ' ');
+insert into users(username, password, email, manager, street) values ('ginopaoluzzi', 'manager1', 'jymhgf@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('fabiomassimo', 'manager2', 'hygtrae@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('carloconti', 'manager3', 'jhygtfr@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('beppeBergomi', 'manager4', 'juryhtg@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('dilettaLeotta', 'manager5', 'jhegtrwef@gmail.com','true', ' ');
+insert into users(username, password, email, manager, street) values ('lanarhoades', 'manager6', 'juhyrgte@gmail.com','true', ' ');
 
 
 
@@ -106,19 +107,19 @@ insert into trainer(trainer_name, gym_id) values('Biagio Antonacci', 7);
 
 
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (1,'Mario Rossi',1, true, 1, 'Via del Corso 486 Roma', '22:00', '23:00', '2020-8-21', 'Questa Ã¨ una lezione di KickBoxing');
+values (1,'Mario Rossi',1, true, 1, 'Via del Corso 486 Roma', '22:00', '23:00', '2020-8-21', 'Questa è una lezione di KickBoxing');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (2,'Giacomo Leopardi',2, false, 2, 'Viale kennedy 4 Ciampino', '22:10', '23:10', '2020-8-21', 'Questa Ã¨ una lezione di Pugilato');
+values (2,'Giacomo Leopardi',2, false, 2, 'Viale kennedy 4 Ciampino', '22:10', '23:10', '2020-8-21', 'Questa è una lezione di Pugilato');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (3,'Dante Alighieri',3, true, 3, 'Via Roma 4 Ciampino', '22:20', '23:20', '2020-8-21', 'Questa Ã¨ una lezione di Zumba');
+values (3,'Dante Alighieri',3, true, 3, 'Via Roma 4 Ciampino', '22:20', '23:20', '2020-8-21', 'Questa è una lezione di Zumba');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (4,'Frank Zappa',4, false, 4, 'Viale Roma 101 Ciampino', '22:30', '23:30', '2020-8-21', 'Questa Ã¨ una lezione di Salsa');
+values (4,'Frank Zappa',4, false, 4, 'Viale Roma 101 Ciampino', '22:30', '23:30', '2020-8-21', 'Questa è una lezione di Salsa');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (5,'Tony Manero',5, true, 5, 'Via Mura dei Francesi 179B Ciampino', '22:00', '23:00', '2020-8-21', 'Questa Ã¨ una lezione di Funzionale');
+values (5,'Tony Manero',5, true, 5, 'Via Mura dei Francesi 179B Ciampino', '22:00', '23:00', '2020-8-21', 'Questa è una lezione di Funzionale');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (6,'Ugo Fantozzi',6, false, 6, 'Via Palermo 15 Ciampino', '22:40', '23:40', '2020-8-21', 'Questa Ã¨ una lezione di Walking');
+values (6,'Ugo Fantozzi',6, false, 6, 'Via Palermo 15 Ciampino', '22:40', '23:40', '2020-8-21', 'Questa è una lezione di Walking');
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description)
-values (7,'Biagio Antonacci',7, true, 7, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-21', 'Questa Ã¨ una lezione di Pump');
+values (7,'Biagio Antonacci',7, true, 7, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-21', 'Questa è una lezione di Pump');
 
 insert into booked_session(session_id, user_id) VALUES (2,3);
 insert into booked_session(session_id, user_id) VALUES (1,3);
