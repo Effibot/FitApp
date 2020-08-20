@@ -25,12 +25,13 @@ public class UserDAO extends ConnectionManager {
 		try {
 			ResultSet rs = Query.getUser(this.st, userId);
 			rs.first();
-			if (checkResultValidity(1, 4, rs)) {
+			if (checkResultValidity(1, 5, rs)) {
 				String username = rs.getString("username");
 				String email = rs.getString("email");
 				String pwd = rs.getString("password");
 				String street = rs.getString("street");
-				return new User(userId, username, pwd, email, street);
+				boolean manager = rs.getBoolean("manager");
+				return new User(userId, username, pwd, email, street,manager);
 			}
 		} catch (SQLException e) {
 			AlertFactory.getInstance().createAlert(e);

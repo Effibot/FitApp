@@ -1,5 +1,6 @@
 package logic.entity.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -30,18 +31,19 @@ public class SessionDAO extends ConnectionManager {
         try {
             ResultSet rs = Query.getEventList(this.st, data, timeStart);
             while (rs.next()) {
-            	Time[] duration = {Time.valueOf(rs.getString("time_start")), Time.valueOf(rs.getString( "time_end"))};
-            	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            	java.util.Date date = df.parse(data);
-            	// if you really need java.sql.Date
-            	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            	int courseId = Integer.parseInt(rs.getString("course_id"));
-            	String gymId = rs.getString("gym_id");
-            	String description =  rs.getString("description");
-            	String street = rs.getString("street");
 
-            	
-            	Session s = new Session(courseId,  gymId  ,duration,sqlDate, description,none,street);
+            	int courseId = rs.getInt("course_id");
+
+            	Time timeEnd = Time.valueOf(rs.getString( "time_end"));
+				Time[] duration = {Time.valueOf(timeStart), timeEnd };
+				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				java.util.Date date = df.parse(data);
+				java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            	String description = rs.getString("description");
+            	String street = rs.getString("street");
+            	boolean individual = rs.getBoolean("individual");
+            	String trainerName = rs.getString("trainer_name");
+            	Session s = new Session(trainerName, rs.getString("gym_id"),duration,sqlDate,description,courseId,street,individual,null);
 
                 list.add(s);
             }
@@ -58,12 +60,19 @@ public class SessionDAO extends ConnectionManager {
 		try {
             ResultSet rs = Query.getEventListByEvent(this.st, data, timeStart,String.valueOf(event));
             while (rs.next()) {
-            	Time[] duration = {Time.valueOf(rs.getString("time_start")), Time.valueOf(rs.getString( "time_end"))};
-            	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            	java.util.Date date = df.parse(data);
-            	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            	Session s = new Session(Integer.parseInt(rs.getString("course_id")),  rs.getString("gym_id")  ,duration,sqlDate, rs.getString("description"),none,rs.getString("street"));
-                
+
+				Time timeEnd = Time.valueOf(rs.getString( "time_end"));
+				Time[] duration = {Time.valueOf(timeStart), timeEnd };
+				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				java.util.Date date = df.parse(data);
+				java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            	String description = rs.getString("description");
+            	int courseId = rs.getInt("course_id");
+            	String street = rs.getString("street");
+            	boolean individual = rs.getBoolean("individual");
+            	String trainerName = rs.getString("trainer_name");
+            	Session s = new Session(trainerName, rs.getString("gym_id"),duration,sqlDate,description,courseId,street,individual,null);
+
                 list.add(s);
             }
         } catch (SQLException | ParseException e) {
@@ -74,7 +83,7 @@ public class SessionDAO extends ConnectionManager {
 	
 	public String getCourseById(int id) {
 		try {
-			ResultSet rs = Query.getCourseName(this.st, id);
+			ResultSet rs = Query.getCourseName(this.st, new Integer(id));
 			String courseName;
 			while(rs.next()) {
 				courseName = rs.getString("course_name");
@@ -85,6 +94,33 @@ public class SessionDAO extends ConnectionManager {
 		}
 		return null;
 	}
+	public List<Session> getCourseGym(int id) {
+		List<Session> list = new ArrayList<>();
+
+		try {
+			ResultSet rs = Query.getAllCourse(this.st, id);
+			while(rs.next()) {
+				Time timeStart = Time.valueOf(rs.getString("time_start"));
+				Time timeEnd = Time.valueOf(rs.getString( "time_end"));
+				Time[] duration = {timeStart, timeEnd };
+            	Date data = rs.getDate("day");
+            	String description = rs.getString("description");
+            	int courseId = rs.getInt("course_id");
+            	String street = rs.getString("street");
+            	boolean individual = rs.getBoolean("individual");
+            	String trainerName = rs.getString("trainer_name");
+            	String recurrence = rs.getString("recurrence");
+            	
+            	Session s = new Session(trainerName, String.valueOf(id),duration,data,description,courseId,street,individual,recurrence);
+            	
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return list;
+	}
+	
 
 
     

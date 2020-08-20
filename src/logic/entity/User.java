@@ -10,8 +10,8 @@ public class User extends AbstractUser {
 		super();
 	}
 
-	public User(int userId, String username, String pwd, String email, String position) {
-    	super(userId, username, pwd, email);
+	public User(int userId, String username, String pwd, String email, String position, boolean manager) {
+    	super(userId, username, pwd, email,manager);
     	setMyPosition(position);
     }
 

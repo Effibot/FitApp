@@ -10,11 +10,12 @@ public abstract class AbstractUser {
 
 	protected AbstractUser() {}
 	
-	protected AbstractUser(int id, String name, String pwd, String email) {
+	protected AbstractUser(int id, String name, String pwd, String email, boolean manager) {
 		setId(id);
 		setName(name);
 		setPwd(pwd);
 		setEmail(email);
+		setManager(manager);
 	}
 
 	public int getId() {

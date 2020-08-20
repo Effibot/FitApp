@@ -168,10 +168,6 @@ public class BookingFormViewController {
 				if  (sltTime.isBefore(localTime) || sltDate.isBefore(localDate)) {
 					throw new InputNotComplianException();
 				} else {
-					if (mapBtn.isSelected()) {
-
-						
-
 							BookingFormController bookFormController = BookingFormController.getSingletoneInstance();
 							bookingOnMapBean = bookFormController.getBookingOnMapBean();
 
@@ -183,9 +179,11 @@ public class BookingFormViewController {
 							bookingOnMapBean.setEvent(courseId);
 
 							bookingOnMapBean.setRadius(slideBtn.getValue());
-							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));
-
-					
+					if (mapBtn.isSelected()) {
+							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));					
+					}
+					else {
+							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONCALENDAR));
 					}
 				}
 			}

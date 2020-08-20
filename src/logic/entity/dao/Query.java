@@ -17,7 +17,7 @@ public class Query {
 	}
 
 	public static ResultSet getUser(Statement st, Integer id) throws SQLException {
-		String sql = "select username, email, password, street from users where user_id = '" + id + "';";
+		String sql = "select username, email, password, street,manager from users where user_id = '" + id + "';";
 		return st.executeQuery(sql);
 	}
 
@@ -32,7 +32,7 @@ public class Query {
 	}
 
 	public static ResultSet getEventList(Statement st, String data, String timeStart) throws SQLException {
-		String sql = "select gym_id, course_id, description,street,time_start,time_end from training_session where day ='"
+		String sql = "select trainer_name,gym_id, course_id, description,street,time_start,time_end,individual from training_session where day ='"
 				+ data + "' and time_start between '" + timeStart + "' and '23:59:59';";
 		return st.executeQuery(sql);
 
@@ -40,7 +40,7 @@ public class Query {
 
 	public static ResultSet getEventListByEvent(Statement st, String data, String timeStart, String event)
 			throws SQLException {
-		String sql = "select gym_id,course_id, description,street,time_start,time_end from training_session where day ='"
+		String sql = "select trainer_name,gym_id,course_id, description,street,time_start,time_end,individual from training_session where day ='"
 				+ data + "' and time_start between '" + timeStart + "' and '23:59:59' and course_id ='" + event + "';";
 		return st.executeQuery(sql);
 
@@ -62,7 +62,7 @@ public class Query {
 	}
 
 	public static ResultSet getGymUser(Statement st, Integer managerId) throws SQLException {
-		String sql = "select username, email, password from users where user_id = '" + managerId + "';";
+		String sql = "select username, email, password,manager from users where user_id = '" + managerId + "';";
 		return st.executeQuery(sql);
 	}
 
@@ -89,5 +89,12 @@ public class Query {
 		String sql = "insert into gym(gym_name, street, manager_id, manager_name) values ('" + gymName + "','"
 				+ gymStreet + "','" + managerId + "','" + managerName + "')";
 		return st.executeUpdate(sql);
+	}
+
+	public static ResultSet getAllCourse(Statement st, int id) throws SQLException{
+		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence from training_session where gym_id = '" + id + "';";
+
+		return st.executeQuery(sql);
+		
 	}
 }

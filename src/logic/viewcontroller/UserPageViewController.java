@@ -76,7 +76,7 @@ public class UserPageViewController {
 			if(!mPage.isVisible()) {
 				new ZoomIn(mPage).play();
 				mPage.setVisible(true);
-				mPage.setDisable(false);
+				//mPage.setManaged(false);
 				mPage.toFront();
 				openCalendar.setText("Close Calendar");
 			} else {
@@ -84,7 +84,9 @@ public class UserPageViewController {
 				mPage.toBack();
 				openCalendar.setText("Open Calendar");
 				mPage.setVisible(false);
-				mPage.setDisable(true);
+				mPage.setManaged(true);
+
+
 			}
 		}
 	}
@@ -96,7 +98,8 @@ public class UserPageViewController {
 		mPage.setMinSize(680, 502);
 		calendarBox.getChildren().add(mPage);
 		mPage.setVisible(false);
-		mPage.setDisable(true);
+		mPage.setManaged(true);
+
 	}
 
 	@FXML

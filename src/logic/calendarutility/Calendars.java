@@ -8,12 +8,10 @@ import com.calendarfx.model.Calendar;
 
 public class Calendars extends Calendar {
 	private static Calendars instance = null;
+	private List<Calendar> availableCalendar;
 
-    public List<Calendar> getAvailableCalendar() {
-        return availableCalendar;
-    }
 
-    private List<Calendar> availableCalendar;
+    
     protected Calendars(){
         availableCalendar = new ArrayList<>();
         //Calendar adding a new label
@@ -41,7 +39,6 @@ public class Calendars extends Calendar {
         Calendar cal7 = new Calendar("Pump");
         cal7.setStyle(Calendar.Style.STYLE7);
         availableCalendar.add(cal7);
-        System.out.println("STYLE 6"+cal6.getStyle()+"STYLE5"+cal5.getStyle());
     }
 
     public Calendar getCalendar(int i){
@@ -72,6 +69,11 @@ public class Calendars extends Calendar {
         }
         return null;
     }
+    
+    public List<Calendar> getAvaiableCalendar() {
+    	
+        return availableCalendar;
+    }
 
     public static synchronized Calendars getSingletonInstance() {
         if (Calendars.instance == null)
@@ -79,4 +81,6 @@ public class Calendars extends Calendar {
         return instance;
     }
 
+
+	
 }

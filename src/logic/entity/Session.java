@@ -18,16 +18,24 @@ public class Session {
 	
 
 	private Time[] duration;
+	private boolean individual;
+	private String recurrence;
 	
-	public Session(int sessionId, String gym, Time[] duration, Date date, String description, String courseName,String street) {
+	
+	
+	public Session(String trainerName, String gym, Time[] duration, Date date, String description, int courseI,String street,boolean individual, String recurrence) {
 
-		this.courseId =sessionId;
+		this.trainername = trainerName;
 		this.gym = gym;
 		this.duration = duration;
+		this.timeEnd = duration[1];
+		this.timeStart = duration[0];
 		this.date = date;
 		this.description = description;
-		this.courseName = courseName;
+		this.courseId = courseI;
 		this.street = street;
+		this.individual = individual;
+		this.recurrence = recurrence;
 	}
 	public String getGym() {
 		return gym;
@@ -108,5 +116,16 @@ public class Session {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	
+	public boolean isIndividual() {
+		return individual;
+	}
+	public void setIndividual(boolean individual) {
+		this.individual = individual;
+	}
+	public String getRecurrence() {
+		return recurrence;
+	}
+	public void setRecurrence(String recurrence) {
+		this.recurrence = recurrence;
+	}
 }

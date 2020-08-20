@@ -106,6 +106,7 @@ public class MapController {
 	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet());
 	                listMarker.add(newMarker);
 	                tempList.setGym(gymEntity.getGymName());
+	                System.out.println("TEMPP"+ tempList.getCourseName()+"TEMPLIST:"+tempList.getCourseId());
 	                tempList.setCourseName(dao.getCourseById(tempList.getCourseId()));
 					
 	            } 

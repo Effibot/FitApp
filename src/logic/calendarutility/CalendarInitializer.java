@@ -2,12 +2,8 @@ package logic.calendarutility;
 
 import java.io.IOException;
 
-import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
-import org.dmfs.rfc5545.recur.RecurrenceRule;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceSet;
-import org.dmfs.rfc5545.recurrenceset.RecurrenceSetIterator;
+
 
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
@@ -26,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.controller.CalendarController;
 import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
@@ -42,22 +39,21 @@ public class CalendarInitializer {
 	private Entries entries;
 	private static final String gym = "gym";
 	private CalendarSource calendarSource;
-	private Calendars cal;
+	private CalendarController cal;
 	private CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
 	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
-
+	
 	protected CalendarInitializer() {
 
 		MainController ctrl = MainController.getInstance();
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
+		
+		cal = CalendarController.getSingletoneInstance();
+		calendarSource = cal.getCalendarSource(ctrl.getId());
+		
 
-		cal = Calendars.getSingletonInstance();
-		calendarSource = new CalendarSource(gym + ctrl.getId());
-		calendarSource.getCalendars().addAll(cal.getAvailableCalendar());
-
-		// Entry en = entries.setEntry(2020,8,21,18,15);
-		// cal.getCalendar(4).addEntry(en);
+		
 		monthPage.getCalendarSources().addAll(calendarSource);
 		this.multiplesEntries();
 
@@ -76,15 +72,15 @@ public class CalendarInitializer {
 		MenuItem item3 = new MenuItem("Delete All");
 		MenuItem item4 = new MenuItem("Open gym's event in map");
 		MenuItem item5 = new MenuItem("Send e-mail");
-		Entry contextEntry = param.getEntry();
-		System.out.println(param.getEntry());
+		Entry<?> contextEntry = param.getEntry();
+		Stage reviewStage = new Stage();
+		reviewStage.initStyle(StageStyle.TRANSPARENT);
+		reviewStage.initModality(Modality.APPLICATION_MODAL);
+		reviewStage.setMinWidth(335);
+		reviewStage.setMinHeight(150);
 		item1.setOnAction(event -> {
 			try {
-				Stage reviewStage = new Stage();
-				reviewStage.initStyle(StageStyle.TRANSPARENT);
-				reviewStage.initModality(Modality.APPLICATION_MODAL);
-				reviewStage.setMinWidth(335);
-				reviewStage.setMinHeight(150);
+				
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.REWIES);
 				/*
 				 * FXMLLoader rootFXML = new
@@ -94,6 +90,9 @@ public class CalendarInitializer {
 				 */
 //					ReviewViewController reviewViewController = (ReviewViewController) calendarView.getController();
 //					reviewViewController.setView(contextEntry);
+//				Scene scene = new Scene(calendarView.getRoot());
+//				reviewStage.setScene(scene);
+//				reviewStage.showAndWait();
 				Scene scene = new Scene(calendarView.getRoot());
 				reviewStage.setScene(scene);
 				reviewStage.showAndWait();
@@ -102,87 +101,17 @@ public class CalendarInitializer {
 			}
 		});
 		item2.setOnAction(event -> {
-			if (contextEntry.isRecurrence() && !contextEntry.getTitle().contains("New Entry")) {
+			if ( !contextEntry.getTitle().contains("New Entry")) {
 
-				if (contextEntry.getRecurrenceRule() == null) {
-					contextEntry.removeFromCalendar();
-				} else {
+				if (contextEntry.getRecurrenceRule() == null) contextEntry.removeFromCalendar();
+				else {
 					try {
-						int currentDayOfMonth = 0;
-						int currentMonth = 0;
-
-						String oldRule;
-						if (contextEntry.getRecurrenceSourceEntry() != null || contextEntry.getStartDate()
-								.getDayOfMonth() != contextEntry.getEndDate().getDayOfMonth()) {
-							currentDayOfMonth = contextEntry.getRecurrenceSourceEntry().getStartDate().getDayOfMonth();
-							oldRule = contextEntry.getRecurrenceSourceEntry().getRecurrenceRule();
-							if (contextEntry.getRecurrenceSourceEntry().getStartDate().getMonth() != contextEntry
-									.getStartDate().getMonth()) {
-								currentMonth = contextEntry.getRecurrenceSourceEntry().getStartDate().getMonthValue();
-							} else {
-								currentMonth = contextEntry.getStartDate().getMonthValue();
-							}
-
-						} else {
-							currentDayOfMonth = contextEntry.getStartDate().getDayOfMonth();
-							oldRule = contextEntry.getRecurrenceRule();
-
-						}
-						System.out.println("THIS IS OLD RULE" + oldRule);
-						RecurrenceRule oldRRule = new RecurrenceRule(oldRule.replace("RRULE:", ""));
-						Entries correctEntry = Entries.getSingletonInstance();
-
-						RecurrenceRule exRRule = new RecurrenceRule(
-								"FREQ=YEARLY;INTERVAL=1;BYMONTHDAY=" + contextEntry.getStartDate().getDayOfMonth()
-										+ ";BYMONTH=" + contextEntry.getStartDate().getMonthValue() + ";COUNT=1");
-						RecurrenceSet recurrenceSet = new RecurrenceSet();
-						recurrenceSet.addInstances(new RecurrenceRuleAdapter(oldRRule));
-						recurrenceSet.addExceptions(new RecurrenceRuleAdapter(exRRule));
-						int currentYear = contextEntry.getStartDate().getYear();
-						DateTime start = new DateTime(currentYear, currentMonth - 1, currentDayOfMonth);
-						RecurrenceSetIterator recurrenceSetIterator = recurrenceSet.iterator(start.getTimeZone(),
-								start.getTimestamp());
-						int maxInstances = 30;
-						int dayToRemove = contextEntry.getStartDate().getDayOfMonth();
-						int monthToRemove = contextEntry.getStartDate().getMonthValue();
-						System.out.println("DAYTOREMOVE=" + dayToRemove);
-
-						String tempCalendar = contextEntry.getCalendar().getName();
-						System.out.println("ONLY CURR CALENDAR:" + tempCalendar);
-						int tempHour = contextEntry.getStartTime().getHour();
-						int tempMin = contextEntry.getStartTime().getMinute();
-						contextEntry.removeFromCalendar();
-
-						while (recurrenceSetIterator.hasNext() && (!oldRRule.isInfinite() || maxInstances-- > 0)) {
-							// get the next instance of the recurrence set
-							DateTime nextInstance = new DateTime(start.getTimeZone(), recurrenceSetIterator.next());
-							// do something with nextInstance
-							System.out.println("NEXTINSTANCE DAY" + nextInstance.getDayOfMonth() + "\t\tDAYTOREMOVE"
-									+ dayToRemove + "\t\t MONTH TO REMOVE:" + (monthToRemove - 1)
-									+ "\t\tNEXTINSTANCE MONTH" + nextInstance.getMonth());
-							if (nextInstance.getDayOfMonth() != dayToRemove
-									&& nextInstance.getMonth() == monthToRemove - 1) {
-
-								System.out.println("SETTO NUVOA ENTRY");
-								correctEntry.setEntryCalendar(nextInstance.getYear(), nextInstance.getMonth() + 1,
-										nextInstance.getDayOfMonth(), tempHour, tempMin,
-										cal.getCalendarById(tempCalendar));
-
-							} else if (nextInstance.getDayOfMonth() != dayToRemove
-									&& nextInstance.getMonth() != monthToRemove - 1) {
-								correctEntry.setEntryCalendar(nextInstance.getYear(), nextInstance.getMonth() + 1,
-										nextInstance.getDayOfMonth(), tempHour, tempMin,
-										cal.getCalendarById(tempCalendar));
-
-							}
-						}
+						entries.deleteCalendarEntry(contextEntry);
 					} catch (InvalidRecurrenceRuleException e) {
 						AlertFactory.getInstance().createAlert(e);
 					}
 				}
 
-			} else if (!contextEntry.isRecurrence() && !contextEntry.getTitle().contains("New Entry")) {
-				param.getEntry().removeFromCalendar();
 			} else {
 				contextEntry.removeFromCalendar();
 			}
@@ -194,11 +123,11 @@ public class CalendarInitializer {
 		item5.setOnAction(event -> {
 			try {
 
-				Stage emlStage = new Stage();
-				emlStage.initStyle(StageStyle.TRANSPARENT);
-				emlStage.initModality(Modality.APPLICATION_MODAL);
-				emlStage.setMinWidth(335);
-				emlStage.setMinHeight(150);
+//				Stage emlStage = new Stage();
+//				emlStage.initStyle(StageStyle.TRANSPARENT);
+//				emlStage.initModality(Modality.APPLICATION_MODAL);
+//				emlStage.setMinWidth(335);
+//				emlStage.setMinHeight(150);
 
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
 				// EmailViewController emailViewController = rootFXML.getController();
@@ -208,19 +137,22 @@ public class CalendarInitializer {
 				// calendarView.getController();
 
 				Scene scene = new Scene(calendarView.getRoot());
-				emlStage.setScene(scene);
-				emlStage.showAndWait();
+				reviewStage.setScene(scene);
+				reviewStage.showAndWait();
 
 			} catch (IOException e) {
 				AlertFactory.getInstance().createAlert(e);
 			}
 		});
-
+		
 		ContextMenu rBox = new ContextMenu();
 		rBox.getItems().addAll(item1, item2, item3, item4, item5);
 
 		return rBox;
 	}
+	
+
+	
 
 	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
 		try {

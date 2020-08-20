@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.calendarutility.Calendars;
 import logic.calendarutility.Entries;
+import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
@@ -73,7 +74,6 @@ public class PopupViewController {
 	    private Entry selectedEntry;
 	    private Calendars calendars;
 	    private Entries entries;
-	    Logger logger = Logger.getLogger("IOException");
 	    private DateControl.EntryDetailsPopOverContentParameter param;
 	    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -159,7 +159,7 @@ public class PopupViewController {
 	                window.setScene(scene);
 	                window.showAndWait();
 	            } catch (IOException ex) {
-	                logger.log(Level.SEVERE,ex.toString());
+	            	AlertFactory.getInstance().createAlert(ex);
 	            }
 
 	    }
@@ -273,14 +273,15 @@ public class PopupViewController {
 				 
                 CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
                 EmailViewController emailViewController = (EmailViewController) calendarView.getCurrentController();
-               
-                ///Da mettere
+                                ///Da mettere
+
+                //emailViewController.setEvent(selectedEntry.getCalendar().getName(), selectedEntry.getStartTime().toString(), null );
 	            Scene scene = new Scene(calendarView.getRoot());
 	            emlStage.setScene(scene);
 	            emlStage.showAndWait();
 
 	        } catch (IOException ex) {
-	            logger.log(Level.SEVERE,ex.toString());
+            	AlertFactory.getInstance().createAlert(ex);
 	        }
 	    }
 

@@ -7,8 +7,8 @@ public class Manager extends AbstractUser {
 	public Manager() {
 	}
 
-	public Manager(int managerId, String managerName, String pwd, String email) {
-		super(managerId, managerName, pwd, email);
+	public Manager(int managerId, String managerName, String pwd, String email,boolean manager) {
+		super(managerId, managerName, pwd, email,manager);
 		setManager(true);
 		setMyPosition("");
 	}

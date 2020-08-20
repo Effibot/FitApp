@@ -32,18 +32,7 @@ public class FullDayViewController {
 	}	
 
 
-	@FXML
-	void initialize() {
-		dayPage = new DayPage();
-		dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
-		dayPage.setMinWidth(340);
-		dayPage.bind(CalendarInitializer.getSingletonInstance().getMonthPage().getBoundDateControls().get(0), true);
-		
-		
-		dayPageBox.getChildren().add(dayPage);
-		dayPage.setEntryDetailsPopOverContentCallback(param-> calendar.doubleClickEntry(param));
-		dayPage.setEntryContextMenuCallback(param-> calendar.rightClickEntry(param));
-	}
+
 
 
 
@@ -54,5 +43,16 @@ public class FullDayViewController {
 
 
 	}
+	@FXML
+	void initialize() {
+		dayPage = new DayPage();
+		dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
+		dayPage.setMinWidth(340);
+		dayPage.bind(CalendarInitializer.getSingletonInstance().getMonthPage().getBoundDateControls().get(0), true);
 
+
+		dayPageBox.getChildren().add(dayPage);
+		dayPage.setEntryDetailsPopOverContentCallback(param-> calendar.doubleClickEntry(param));
+		dayPage.setEntryContextMenuCallback(param-> calendar.rightClickEntry(param));
+	}
 }

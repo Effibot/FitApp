@@ -3,6 +3,7 @@ package logic.factory.viewfactory;
 import java.io.IOException;
 
 import logic.view.BookingFormView;
+import logic.view.BookingOnCalendarView;
 import logic.view.BookingOnMapView;
 import logic.view.GymPageView;
 import logic.view.LoginView;
@@ -35,10 +36,12 @@ public class ViewFactory {
 			return new BookingFormView(view);
 		case 5:	//return Booking Form
 			return new TrainingConfView(view);
-		case 7: //return TraningCOnf
+		case 7: //return BookingOnMap
 			return new BookingOnMapView(view);
 		case 8: //return SignUp view
 			return new SignUpView(view);
+		case 9: //return BookingOnCalendar
+			return new BookingOnCalendarView(view);
 		default:	//return booking on Map
 			throw new IOException("Factory exception: view not found");
 		}
