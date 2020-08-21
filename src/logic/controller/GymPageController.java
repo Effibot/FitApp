@@ -4,6 +4,7 @@ import logic.entity.Gym;
 import logic.entity.Manager;
 import logic.entity.dao.GymDAO;
 import logic.entity.dao.ManagerDAO;
+import logic.entity.dao.TrainerDAO;
 
 public class GymPageController {
 	
@@ -14,7 +15,7 @@ public class GymPageController {
 		System.out.println(id);
 		this.gym = GymDAO.getInstance().getGymEntity(id);
 		this.manager = ManagerDAO.getInstance().getManagerEntity(gym.getManagerId());
-		
+		this.gym.setTrainerList(TrainerDAO.getInstance().getTrainerList(gym.getGymId()));
 	}
 
 	public Manager getManager() {
@@ -32,6 +33,5 @@ public class GymPageController {
 	public void setGym(Gym gym) {
 		this.gym = gym;
 	}
-	
 	
 }

@@ -34,6 +34,13 @@ create table if not exists trainer(
     trainer_id serial not null primary key,
     trainer_name varchar not null,
     gym_id int not null,
+    kickboxing boolean,
+    pugilato boolean,
+    zumba boolean,
+    salsa boolean,
+    funzionale boolean,
+    walking boolean,
+    pump boolean,
     foreign key (gym_id) references gym(gym_id),
     unique (trainer_name, gym_id));
 
@@ -118,20 +125,21 @@ insert into gym(gym_name, street, manager_id, manager_name) values ('A.S.D. Euro
 insert into gym(gym_name, street, manager_id, manager_name) values ('Axel Vertical Dolls', 'Via Umberto Maddalena 21 Ciampino', 16, 'lanarhoades');
 
 
-insert into trainer(trainer_name, gym_id) values('Mario Rossi', 1);
-insert into trainer(trainer_name, gym_id) values('Giacomo Leopardi', 2);
-insert into trainer(trainer_name, gym_id) values('Dante Alighieri', 3);
-insert into trainer(trainer_name, gym_id) values('Frank Zappa', 4);
-insert into trainer(trainer_name, gym_id) values('Tony Manero', 5);
-insert into trainer(trainer_name, gym_id) values('Ugo Fantozzi', 6);
-insert into trainer(trainer_name, gym_id) values('Biagio Antonacci', 7);
-insert into trainer(trainer_name, gym_id) values('Francesco Totti', 8);
-insert into trainer(trainer_name, gym_id) values('Young Signorino', 9);
-insert into trainer(trainer_name, gym_id) values('Lionel Messi', 10);
-insert into trainer(trainer_name, gym_id) values('Checco lione', 11);
-insert into trainer(trainer_name, gym_id) values('Giuseppina Agata', 12);
-insert into trainer(trainer_name, gym_id) values('Marco Carta', 13);
-insert into trainer(trainer_name, gym_id) values('Paolo Bonolis', 14);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Mario Rossi', 1, false, true, true, false, false, true, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Giacomo Leopardi', 2, true, false, true, false, true, false, true);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Dante Alighieri', 3, false, true, false, true, false, true, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Frank Zappa', 4,true, true, true, true, true, true, true);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Tony Manero', 5, true, false, false, false, false, false, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Ugo Fantozzi', 6, false, true, false, false, false, false, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Biagio Antonacci', 7, false, false, true, false, false, false, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Francesco Totti', 8, false, false, false, true, false, false, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Young Signorino', 9, false, false, false, false, true, false, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Lionel Messi', 10, false, false, false, false, false, true, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Checco lione', 11, false, false, false, false, false, false, true);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Giuseppina Agata', 12, false, false, false, false, false, true, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Marco Carta', 13, false, false, false, false, false, true, false);
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Paolo Bonolis', 14, false, false, false, false, true, false, false);;
+insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('Gianluca Coccia', 1, false, false, false, false, true, false, false);;
 
 
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)

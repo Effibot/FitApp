@@ -1,5 +1,6 @@
 package logic.entity;
 
+import java.util.List;
 import java.util.Map;
 
 public class Gym {
@@ -12,10 +13,12 @@ public class Gym {
 	private Map<Integer, String> trainers;
 	private Map<Integer, String> courses;
 
+	private List<Trainer> trainerList;
+
 	public Gym() {
 	}
 
-	public Gym(int gymId, String gymName, String street,int managerId, String managerName) {
+	public Gym(int gymId, String gymName, String street, int managerId, String managerName) {
 		setGymId(gymId);
 		setGymName(gymName);
 		setManagerId(managerId);
@@ -38,8 +41,6 @@ public class Gym {
 	public void setGymName(String gymName) {
 		this.gymName = gymName;
 	}
-
-
 
 	public String getStreet() {
 		return street;
@@ -79,5 +80,13 @@ public class Gym {
 
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+
+	public List<Trainer> getTrainerList() {
+		return trainerList;
+	}
+
+	public void setTrainerList(List<Trainer> trainerList) {
+		this.trainerList = trainerList;
 	}
 }

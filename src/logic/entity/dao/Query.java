@@ -94,7 +94,10 @@ public class Query {
 	public static ResultSet getAllCourse(Statement st, int id) throws SQLException{
 		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence from training_session where gym_id = '" + id + "';";
 
+		return st.executeQuery(sql);	
+	}
+	public static ResultSet getGymTrainers(Statement st, int gymId) throws SQLException{
+		String sql = "select trainer_id, trainer_name, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump from trainer where gym_id =" + gymId;
 		return st.executeQuery(sql);
-		
 	}
 }

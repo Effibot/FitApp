@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import logic.calendarutility.CalendarInitializer;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
+import logic.entity.Trainer;
 
 public class GymPageViewController {
 
@@ -67,6 +68,9 @@ public class GymPageViewController {
 		monthPage.setMinSize(680, 502);
 		calendarBox.getChildren().add(monthPage);
 		fillGraphics();
+		for(Trainer t : gymCtrl.getGym().getTrainerList()) {
+			System.out.println(t.getName());
+		}
 	}
 	
 }
