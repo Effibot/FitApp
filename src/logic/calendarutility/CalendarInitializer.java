@@ -1,10 +1,13 @@
 package logic.calendarutility;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.List;
 
 import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
 
-
+import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
@@ -14,6 +17,7 @@ import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
 
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
@@ -39,22 +43,17 @@ public class CalendarInitializer {
 	private Entries entries;
 	private static final String gym = "gym";
 	private CalendarSource calendarSource;
-	private CalendarController cal;
+	private CalendarController cal = CalendarController.getSingletoneInstance();
 	private CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
+
 	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
-	
+	MainController ctrl = MainController.getInstance();
 	protected CalendarInitializer() {
 
-		MainController ctrl = MainController.getInstance();
+		
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
-		
-		cal = CalendarController.getSingletoneInstance();
-		calendarSource = cal.getCalendarSource(ctrl.getId());
-		
-
-		
-		monthPage.getCalendarSources().addAll(calendarSource);
+		monthPage.setShowToday(true);
 		this.multiplesEntries();
 
 		this.monthPage.fireEvent(update);
@@ -82,17 +81,7 @@ public class CalendarInitializer {
 			try {
 				
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.REWIES);
-				/*
-				 * FXMLLoader rootFXML = new
-				 * FXMLLoader(getClass().getResource("/logic/fxml/reviewGym.fxml")); Parent root
-				 * = rootFXML.load(); ReviewViewController reviewViewController =
-				 * rootFXML.getController(); reviewViewController.setView(contextEntry);
-				 */
-//					ReviewViewController reviewViewController = (ReviewViewController) calendarView.getController();
-//					reviewViewController.setView(contextEntry);
-//				Scene scene = new Scene(calendarView.getRoot());
-//				reviewStage.setScene(scene);
-//				reviewStage.showAndWait();
+
 				Scene scene = new Scene(calendarView.getRoot());
 				reviewStage.setScene(scene);
 				reviewStage.showAndWait();
@@ -123,18 +112,10 @@ public class CalendarInitializer {
 		item5.setOnAction(event -> {
 			try {
 
-//				Stage emlStage = new Stage();
-//				emlStage.initStyle(StageStyle.TRANSPARENT);
-//				emlStage.initModality(Modality.APPLICATION_MODAL);
-//				emlStage.setMinWidth(335);
-//				emlStage.setMinHeight(150);
+
 
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
-				// EmailViewController emailViewController = rootFXML.getController();
-				// emailViewController.setEvent(contextEntry.getCalendar().getName(),
-				// contextEntry.getStartTime(), ctrl.getId());
-				// EmailViewController emailViewController = (EmailViewController)
-				// calendarView.getController();
+
 
 				Scene scene = new Scene(calendarView.getRoot());
 				reviewStage.setScene(scene);
@@ -226,4 +207,17 @@ public class CalendarInitializer {
 		return instance;
 	}
 
+	
+	public void refresh(int id) {
+		if(this.calendarSource != null) {
+			for(int i = 0; i<7; i++) {
+				 Calendar tmpCalendar = this.calendarSource.getCalendars().get(i);
+				 tmpCalendar.clear();
+				 
+			}
+			this.monthPage.fireEvent(update);
+		}
+		calendarSource = cal.getCalendarSource( id);
+		monthPage.getCalendarSources().addAll(calendarSource);
+	}
 }

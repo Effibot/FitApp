@@ -27,7 +27,7 @@ public class Query {
 	}
 
 	public static ResultSet getGym(Statement st, Integer id) throws SQLException {
-		String sql = "select  gym_name, street,manager_id, manager_name from gym where gym_id = '" + id + "';";
+		String sql = "select  gym_id,gym_name, street,manager_id, manager_name from gym where manager_id = '" + id + "';";
 		return st.executeQuery(sql);
 	}
 

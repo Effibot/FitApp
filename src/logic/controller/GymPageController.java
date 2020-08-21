@@ -11,7 +11,7 @@ public class GymPageController {
 	private Gym gym;
 	
 	public GymPageController(int id) {
-		
+		System.out.println(id);
 		this.gym = GymDAO.getInstance().getGymEntity(id);
 		this.manager = ManagerDAO.getInstance().getManagerEntity(gym.getManagerId());
 		

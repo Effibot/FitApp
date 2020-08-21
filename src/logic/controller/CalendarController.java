@@ -9,7 +9,9 @@ import com.calendarfx.model.Entry;
 
 import logic.calendarutility.Calendars;
 import logic.calendarutility.Entries;
+import logic.entity.Gym;
 import logic.entity.Session;
+import logic.entity.User;
 import logic.entity.dao.GymDAO;
 import logic.entity.dao.SessionDAO;
 import logic.entity.dao.UserDAO;
@@ -52,8 +54,11 @@ public class CalendarController {
 	}
 
 	public void populateCalendar( int userId) {
-		if(userDAO.getUserEntity(userId).isManager()) {
-			List<Session> managerSession = sessionDAO.getCourseGym(userId);
+		User user = userDAO.getUserEntity(userId);
+		if(user.isManager()) {
+			Gym gym = gymDAO.getGymEntity(user.getId());
+			List<Session> managerSession = sessionDAO.getCourseGym(gym.getGymId());
+
 			for(Session s:managerSession) {
 				
 				String gymName = gymDAO.getGymEntityById(Integer.parseInt(s.getGym())).getGymName();
@@ -77,4 +82,10 @@ public class CalendarController {
 			
 		}
 	}
+	
+	public void wipe() {
+		this.calendarSource.getCalendars().clear();
+		
+	}
+	
 }
