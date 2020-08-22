@@ -6,7 +6,8 @@ public class EmailBean {
 	private String msg;
 	private String event;
 	private String gym;
-	
+	private String email;
+	private Integer pwd;
 	
 
 	public String getSubject() {
@@ -39,6 +40,24 @@ public class EmailBean {
 	public String getGym() {
 		return gym;
 	}
+	public void setEmail(String email) {
+		this.email = email;
+		System.out.println(this.email);
+
+	}
 	
+	public String getEmail() {
+		System.out.println(email);
+
+		return email;
+	}
+
+	public void setPwd(Integer pwd) {
+		this.pwd = pwd;
+	}
+	
+	public Integer getPwd() {
+		return pwd;
+	}
 
 }

@@ -1,7 +1,6 @@
 package logic.emailutil;
 
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -11,25 +10,18 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import logic.factory.alertfactory.AlertFactory;
+
 public class EmailSender {
-    private static EmailSender instance = null;
     private static final String SENDER = "fitappispw@gmail.com";
     private static final String PASSWORD ="ispw20192020";
     private static final String HOST = "mail.smtp.host";
     private static final String PORT = "mail.smtp.port";
     private static final String AUTH = "mail.smtp.auth";
-    private String userNm;
-    private String event;
-    //Receiver Email
-    private String receiver;
-    //Host name
-    //Message
-    private String object;
-    //Subject
-    private String subjectTo;
+
+
     private Properties props;
-    private String senderEmail;
-    protected EmailSender(String sub, String msg, String emailSender, String userName, String event, String managerEmail){
+    public EmailSender(){
         this.props = new Properties();
         props.put(HOST, "smtp.gmail.com");
         props.put(PORT, "465");
@@ -37,15 +29,12 @@ public class EmailSender {
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
-        this.subjectTo = sub;
-        this.object = msg;
-        this.receiver = managerEmail;
-        this.userNm = userName;
-        this.event = event;
-        this.senderEmail = emailSender;
+       
+        
+        
     }
 
-    public void sendEmails() throws MessagingException {
+    public void sendEmails(String subject,String  object,String email) throws MessagingException {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
@@ -66,32 +55,33 @@ public class EmailSender {
             // Set To: header field of the header.
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(receiver)
+                    InternetAddress.parse(email)
             );
             // Set Subject: header field
-            message.setSubject(subjectTo);
+            message.setSubject(subject);
 
             // Now set the actual message
-            message.setText("Message from fitApp from user:"+userNm+"to reply write to:"+ senderEmail+" for event: "+event+".\nObject:\n'"+object+"'");
+            message.setText(object);
 
             // Send message
             Transport.send(message);
             
+
+            
+            
+         
             
 
         } catch (MessagingException mex) {
-            Logger.getLogger("Msg Exception"+mex);
+        	AlertFactory.getInstance().createAlert(mex);
         }
 
 
 
     }
+    
 
 
-    public static synchronized EmailSender getSingletonInstance(String subject, String msg, String receiver, String userName, String event, String managerEmail) {
-        if (EmailSender.instance == null)
-            EmailSender.instance = new EmailSender(subject,msg, receiver,userName,event,managerEmail);
-        return instance;
-    }
+
 
 }

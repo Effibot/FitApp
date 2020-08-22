@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.mail.MessagingException;
 
 import javafx.scene.control.Alert.AlertType;
+import logic.exception.EmailException;
 import logic.exception.InputNotComplianException;
 import logic.exception.UserNotFoundException;
 
@@ -28,7 +29,7 @@ public class AlertFactory {
 			return new CustomAlertBox(AlertType.ERROR, e);
 		} else if(e instanceof InputNotComplianException){
 			return new CustomAlertBox(AlertType.INFORMATION, e);
-		} else if(e instanceof MessagingException){
+		} else if(e instanceof EmailException){
 			return new CustomAlertBox(AlertType.ERROR,e);
 		} else if(e instanceof NullPointerException) {
 			return new CustomAlertBox(AlertType.ERROR, e);

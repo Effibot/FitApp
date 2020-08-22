@@ -76,7 +76,6 @@ public class UserPageViewController {
 			if(!mPage.isVisible()) {
 				new ZoomIn(mPage).play();
 				mPage.setVisible(true);
-				//mPage.setManaged(false);
 				mPage.toFront();
 				openCalendar.setText("Close Calendar");
 			} else {

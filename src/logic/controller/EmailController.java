@@ -1,6 +1,7 @@
 package logic.controller;
 
-	
+
+
 import javax.mail.MessagingException;
 
 import logic.bean.EmailBean;
@@ -19,13 +20,15 @@ public class EmailController {
 	private GymDAO gymDao = GymDAO.getInstance();
 	private static UserDAO userDao = UserDAO.getInstance();
 	private  MainController ctrl = MainController.getInstance(); 
-
-
-	protected EmailController() {
+	private static final String EMAILVIEWCONTROLLER = "logic.viewcontroller.EmailViewController";
+	private static final String LOGINVIEWCONTROLLER = "logic.viewcontroller.LoginViewController";
+	private static final String FROMFITAPP = "From FitApp:";
 	
+	protected EmailController() {
+
 		this.emailBean = new EmailBean();
 	}
-	
+
 	public EmailBean getEmailBean() {
 		return emailBean;
 	}
@@ -37,25 +40,35 @@ public class EmailController {
 		return EmailController.instance;
 	}
 
-	public void sendEmail() {
-		String txtToSend = emailBean.getMsg();
-		String sbjToSend = emailBean.getSubject();
-		String event = emailBean.getEvent();
-		String gym = emailBean.getGym();
-		String manager = gymDao.getManagerNameGymIdByName(gym);
-		Manager managerUser = gymManager.getManagerEntity(Integer.parseInt(manager));
-		String managerEmail = managerUser.getEmail();
-		int userId = ctrl.getId();
-		User user = userDao.getUserEntity(userId);
-		String userName = user.getName();
-		String emailUser = user.getEmail();
-		EmailSender emailSender = EmailSender.getSingletonInstance(sbjToSend, txtToSend, emailUser,userName,event,managerEmail);
+	public void sendEmail(){
 		try {
-			emailSender.sendEmails();
-		} catch (MessagingException e) {
+			 String object;
+			 String subject;
+			EmailSender emailSender = new EmailSender();
+			String className = new Exception().getStackTrace()[1].getClassName();
+
+			if(className.equals(EMAILVIEWCONTROLLER)) {
+				String gym = emailBean.getGym();
+				String manager = gymDao.getManagerNameGymIdByName(gym);
+				Manager managerUser = gymManager.getManagerEntity(Integer.parseInt(manager));
+				String managerEmail = managerUser.getEmail();
+				int userId = ctrl.getId();
+				User user = userDao.getUserEntity(userId);
+				String userEmail = user.getEmail();
+				subject = FROMFITAPP+emailBean.getSubject();
+				object = "Email sent from: "+ user.getName() +" for event: "+emailBean.getEvent()+" object:\n"+ emailBean.getMsg()+"\nTo reply write to:"+userEmail;
+				emailSender.sendEmails(subject, object, managerEmail);
+			}else if(className.equals(LOGINVIEWCONTROLLER)) {
+				System.out.println(emailBean.getEmail());
+				subject = FROMFITAPP+"REGISTRATION";
+				object = "Hi, guest! In order to enjoy FitApp experience log in with:\nUser: guest \nPassword: "+emailBean.getPwd();
+				emailSender.sendEmails(subject, object, emailBean.getEmail());
+			}
+
+		}catch(MessagingException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
-		
-		
+
+
 	}
 }

@@ -33,7 +33,7 @@ public class EmailViewController {
 	private JFXButton sendEmail;
 	@FXML
 	private JFXTextArea txtArea;
-
+	private String evt;
 
 	private String gymName;
 
@@ -60,6 +60,7 @@ public class EmailViewController {
 			emailBean.setGym(gymName);
 			emailBean.setSubject(subject);
 			emailBean.setMsg(msg);
+			emailBean.setEvent(evt);
 			emailController.sendEmail();
 		}
 
@@ -73,6 +74,7 @@ public class EmailViewController {
 		evtLbl.setText(course);
 		timeLbl.setText(time);
 		gymName =gym;
+		evt = course;
 	}
 
 

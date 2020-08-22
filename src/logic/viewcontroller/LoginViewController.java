@@ -1,8 +1,7 @@
 package logic.viewcontroller;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
@@ -19,7 +18,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import logic.bean.EmailBean;
 import logic.bean.LoginBean;
+import logic.controller.EmailController;
 import logic.controller.LoginController;
 import logic.controller.MainController;
 import logic.entity.dao.UserDAO;
@@ -28,7 +29,6 @@ import logic.factory.viewfactory.ViewType;
 import logic.view.View;
 
 public class LoginViewController {
-	private final Logger logger = Logger.getLogger(getClass().getName());
 	@FXML
 	private HBox topMenu;
 	@FXML
@@ -70,8 +70,12 @@ public class LoginViewController {
 			if (!email.equals("")) {
 				Integer pwd = logCtrl.generateRandomDigits(8);
 				UserDAO.getInstance().signUp(email, pwd.toString());
-				//EmailController.getSingletoneInstance()
-				logger.log(Level.INFO, "Sending email to: {}", email);
+				EmailController emailController = EmailController.getSingletoneInstance();
+				EmailBean emailBean = emailController.getEmailBean();
+				emailBean.setEmail(email);
+				emailBean.setPwd(pwd);
+				EmailController.getSingletoneInstance().sendEmail();
+				this.loginAnimation(false);
 			}
 		}
 		if (event.getSource().equals(btnLogIn)) {
