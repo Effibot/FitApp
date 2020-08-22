@@ -48,9 +48,9 @@ public class CalendarInitializer {
 
 	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
 	MainController ctrl = MainController.getInstance();
+
 	protected CalendarInitializer() {
 
-		
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
 		monthPage.setShowToday(true);
@@ -58,9 +58,7 @@ public class CalendarInitializer {
 
 		this.monthPage.fireEvent(update);
 
-		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param)
-
-		);
+		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param));
 		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param));
 
 	}
@@ -79,7 +77,7 @@ public class CalendarInitializer {
 		reviewStage.setMinHeight(150);
 		item1.setOnAction(event -> {
 			try {
-				
+
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.REWIES);
 
 				Scene scene = new Scene(calendarView.getRoot());
@@ -90,9 +88,10 @@ public class CalendarInitializer {
 			}
 		});
 		item2.setOnAction(event -> {
-			if ( !contextEntry.getTitle().contains("New Entry")) {
+			if (!contextEntry.getTitle().contains("New Entry")) {
 
-				if (contextEntry.getRecurrenceRule() == null) contextEntry.removeFromCalendar();
+				if (contextEntry.getRecurrenceRule() == null)
+					contextEntry.removeFromCalendar();
 				else {
 					try {
 						entries.deleteCalendarEntry(contextEntry);
@@ -112,10 +111,7 @@ public class CalendarInitializer {
 		item5.setOnAction(event -> {
 			try {
 
-
-
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
-
 
 				Scene scene = new Scene(calendarView.getRoot());
 				reviewStage.setScene(scene);
@@ -125,15 +121,12 @@ public class CalendarInitializer {
 				AlertFactory.getInstance().createAlert(e);
 			}
 		});
-		
+
 		ContextMenu rBox = new ContextMenu();
 		rBox.getItems().addAll(item1, item2, item3, item4, item5);
 
 		return rBox;
 	}
-	
-
-	
 
 	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
 		try {
@@ -144,13 +137,6 @@ public class CalendarInitializer {
 			popupViewController.setSelectedEvent();
 			popupViewController.setDetailsPopup();
 			popupViewController.setMonthPage(monthPage);
-			/*
-			 * PopupViewController popupViewController = (PopupViewController) calendar *
-			 * popupViewController.setSelectedEvent();
-			 * popupViewController.setDetailsPopup();View.getController();
-			 * popupViewController.setParam(param); popupViewController.setSelectedEvent();
-			 * popupViewController.setDetailsPopup();
-			 */
 
 			HBox box = new HBox();
 			box.getChildren().add(calendarView.getRoot());
@@ -207,17 +193,16 @@ public class CalendarInitializer {
 		return instance;
 	}
 
-	
 	public void refresh(int id) {
-		if(this.calendarSource != null) {
-			for(int i = 0; i<7; i++) {
-				 Calendar tmpCalendar = this.calendarSource.getCalendars().get(i);
-				 tmpCalendar.clear();
-				 
+		if (this.calendarSource != null) {
+			for (int i = 0; i < 7; i++) {
+				Calendar tmpCalendar = this.calendarSource.getCalendars().get(i);
+				tmpCalendar.clear();
+
 			}
 			this.monthPage.fireEvent(update);
 		}
-		calendarSource = cal.getCalendarSource( id);
+		calendarSource = cal.getCalendarSource(id);
 		monthPage.getCalendarSources().addAll(calendarSource);
 	}
 }

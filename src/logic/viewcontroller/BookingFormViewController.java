@@ -91,16 +91,7 @@ public class BookingFormViewController {
 	}
 
 
-	@FXML
-	public void onMap(MouseEvent event) {
-		if (mapBtn.isSelected()) {
-			slideBtn.setVisible(true);
-			radiousLbl.setVisible(true);
-		} else {
-			slideBtn.setVisible(false);
-			radiousLbl.setVisible(false);
-		}
-	}
+	
 
 	@FXML
 	public void setEvent(ActionEvent event) {
@@ -164,7 +155,7 @@ public class BookingFormViewController {
 		LocalDate sltDate = dateBtn.getValue();
 		LocalTime sltTime = timeBtn.getValue();
 		try {
-			if (sltDate != null && sltTime != null) {
+			if (sltDate != null && sltTime != null ) {
 				if  (sltTime.isBefore(localTime) || sltDate.isBefore(localDate)) {
 					throw new InputNotComplianException();
 				} else {
@@ -179,12 +170,9 @@ public class BookingFormViewController {
 							bookingOnMapBean.setEvent(courseId);
 
 							bookingOnMapBean.setRadius(slideBtn.getValue());
-					if (mapBtn.isSelected()) {
+					
 							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONMAP));					
-					}
-					else {
-							ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGONCALENDAR));
-					}
+					
 				}
 			}
 		}
@@ -201,8 +189,8 @@ public class BookingFormViewController {
 		slideBtn.setMin(MIN_DISTANCE);
 		slideBtn.setMax(MAX_DISTANCE);
 		slideBtn.setValue(DEFAULT_DISTANCE);
-		slideBtn.setVisible(false);
-		radiousLbl.setVisible(false);
+		slideBtn.setVisible(true);
+		radiousLbl.setVisible(true);
 		eventMenu.setText("Select event");
 	}
 

@@ -10,8 +10,10 @@ import com.lynden.gmapsfx.util.MarkerImageFactory;
 
 import logic.entity.Gym;
 import logic.entity.Session;
+import logic.entity.User;
 import logic.entity.dao.GymDAO;
 import logic.entity.dao.SessionDAO;
+import logic.entity.dao.UserDAO;
 import logic.maputil.Geocode;
 
 public class MapController {
@@ -23,16 +25,14 @@ public class MapController {
 	    List<String> listGymsName = new ArrayList<>();
         SessionDAO dao = SessionDAO.getInstance();
         GymDAO daoGym = GymDAO.getInstance();
-
+        UserDAO userDAO = UserDAO.getInstance();
 	    Marker marker;
 	    private String center;
 	    protected MapController() {
 
 	    }
 
-	    public void setPosit(LatLong posit) {
-	        this.posit = posit;
-	    }
+	    
 
 
 	    public List<Marker> getListMarker() {
@@ -89,7 +89,7 @@ public class MapController {
 	        Geocode pos = Geocode.getSingletonInstance();
 	        pos.getLocation(baseAddress);
 	        base = pos.getCoordinates();
-	        Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress);
+	        Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress,0);
 	        listMarker.add(baseMarker);
 
 	        for(int i = listIdGym.size()-1; i>=0;--i) {
@@ -102,11 +102,10 @@ public class MapController {
 	            endPoint = pos.getCoordinates();
 	            double relativeDistance = distanceRelative(base.getLatitude(), endPoint.getLatitude(), base.getLongitude(), endPoint.getLongitude());
 	            if (Double.compare(relativeDistance, distance)<0) {
-	                setPosit(endPoint);
-	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet());
+	               
+	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet(),tempList.getCourseId());
 	                listMarker.add(newMarker);
 	                tempList.setGym(gymEntity.getGymName());
-	                System.out.println("TEMPP"+ tempList.getCourseName()+"TEMPLIST:"+tempList.getCourseId());
 	                tempList.setCourseName(dao.getCourseById(tempList.getCourseId()));
 					
 	            } 
@@ -156,7 +155,7 @@ public class MapController {
 	    }
 
 
-	    public Marker nMarker(LatLong position, String name, String address) {
+	    public Marker nMarker(LatLong position, String name, String address, int i) {
 	        if (position == null)
 	            return null;
 
@@ -205,6 +204,11 @@ public class MapController {
 			this.listGymsName.clear();
 			this.listIdGym.clear();
 			this.listMarker.clear();
+		}
+
+		public String getUserStreet(int i) {
+			User user = userDAO.getUserEntity(i);
+			return user.getMyPosition();
 		}
 
 	

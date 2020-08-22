@@ -21,8 +21,10 @@ import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.controller.MainController;
 import logic.controller.MapController;
 import logic.entity.Session;
+import logic.entity.dao.UserDAO;
 import logic.factory.alertfactory.AlertFactory;
 import logic.viewcontroller.GymPopupViewController;
 
@@ -30,6 +32,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 	private GoogleMapView views;
 	
 	private MapController search = MapController.getSingletonInstance();
+	MainController ctrl = MainController.getInstance();
 	public GoogleMapView getView() {
 		return views;
 	}
@@ -37,9 +40,9 @@ public class MapInitializer implements MapComponentInitializedListener {
 	
 
 	private GoogleMap map;
-	ListView<Label> listCell;
+	private ListView<Label> listCell;
 
-	List<Marker> mark;
+	private List<Marker> mark;
 	private String date = null;
 	private String time = null;
 	private int event = 0;
@@ -61,8 +64,8 @@ public class MapInitializer implements MapComponentInitializedListener {
 	public void mapInitialized() {
 		views.addMapReadyListener(() -> { // This call will fail unless the map is completely ready.
 		});
-		
-		search.startGeocode(this.date, this.time, this.radius, "via principessa pignatelli 8 Ciampino", this.event);
+		String baseStreet = search.getUserStreet(ctrl.getId());
+		search.startGeocode(this.date, this.time, this.radius,baseStreet, this.event);
 		List<Session> listEvent = search.getListIdGym();		
 		mark = new ArrayList<>();
 		MapOptions mapOptions = new MapOptions();

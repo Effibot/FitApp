@@ -33,9 +33,9 @@ public class SessionDAO extends ConnectionManager {
             while (rs.next()) {
 
             	int courseId = rs.getInt("course_id");
-
-            	Time timeEnd = Time.valueOf(rs.getString( "time_end"));
-				Time[] duration = {Time.valueOf(timeStart), timeEnd };
+            	Time timeEventStart = Time.valueOf(rs.getString("time_start"));
+            	Time timeEventEnd = Time.valueOf(rs.getString( "time_end"));
+				Time[] duration = {timeEventStart, timeEventEnd };
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				java.util.Date date = df.parse(data);
 				java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -60,9 +60,10 @@ public class SessionDAO extends ConnectionManager {
 		try {
             ResultSet rs = Query.getEventListByEvent(this.st, data, timeStart,String.valueOf(event));
             while (rs.next()) {
-
-				Time timeEnd = Time.valueOf(rs.getString( "time_end"));
-				Time[] duration = {Time.valueOf(timeStart), timeEnd };
+            	
+            	Time timeEventStart = Time.valueOf(rs.getString("time_start"));
+            	Time timeEventEnd = Time.valueOf(rs.getString( "time_end"));
+				Time[] duration = {timeEventStart, timeEventEnd };
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				java.util.Date date = df.parse(data);
 				java.sql.Date sqlDate = new java.sql.Date(date.getTime());

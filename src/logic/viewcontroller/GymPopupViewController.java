@@ -45,10 +45,16 @@ public class GymPopupViewController {
 
     @FXML
     private JFXButton bookBtn;
+    @FXML
+    private Label trainerLbl;
+    @FXML
+    private Label individualLbl;
+    
     private String course;
     private String gym;
     private String time;
-	    
+	private static final String SOLOCOURSE = "INDIVIDUAL COURSE";
+	private static final String GROUPCOURSE = "GROUP COURSE";
 
 	    @FXML
 	    void bookingEvent(MouseEvent event) {
@@ -93,12 +99,18 @@ public class GymPopupViewController {
 
 	    	for(Session s: list) {
 	    		if(s.getGym().equals(gymName) && !gymName.contentEquals("You are Here!")) {
+	    		
 	    			course=s.getCourseName();
 	    			gym=gymName;
 	    			time=s.printDuration(s.getDuration());
 	    			addressGym=s.getStreet();
 	    			timeLbl.setText(time);
-	    			
+	    			trainerLbl.setText(s.getTrainername());
+	    			if(s.isIndividual()) {
+	    				individualLbl.setText(SOLOCOURSE);
+	    			}else {
+	    				individualLbl.setText(GROUPCOURSE);
+	    			}
 	    			gymPopupTitleLbl.setText(gym +"-"+course);
 	    			gymAddressLbl.setText(addressGym);
 	    	        evtLbl.setText(course);
