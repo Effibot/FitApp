@@ -83,17 +83,26 @@ public class UserPageViewController {
 				calendarBox.toBack();
 				openCalendar.setText("Open Calendar");
 				calendarBox.setVisible(false);
-				calendarBox.setManaged(true);
+				// calendarBox.setManaged(true);
 			}
 		}
 	}
 	
 	private void calendarSetUp() {
 		calendar = CalendarInitializer.getSingletonInstance();
+
+		mPage = calendar.setView(false);
+
 		mPage = calendar.getMonthPage();
+		mPage.setMaxSize(680,502);
+		mPage.setMinSize(680, 502);
+
+		mPage = calendar.getMonthPage();
+
 		calendarBox.getChildren().add(mPage);
 		calendarBox.setVisible(false);
-		//calendarBox.setManaged(true);
+		calendar.refresh(ctrl.getId());
+		// calendarBox.setManaged(true);
 	}
 
 	@FXML
@@ -107,6 +116,6 @@ public class UserPageViewController {
 		sideUsername.setText(user.getName());
 		sideStreet.setText(user.getMyPosition());
 		calendarSetUp();
-		
+
 	}
 }

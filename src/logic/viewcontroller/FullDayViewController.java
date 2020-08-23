@@ -1,10 +1,13 @@
 package logic.viewcontroller;
 
 
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
+import com.calendarfx.model.LoadEvent;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +25,9 @@ public class FullDayViewController {
 	private HBox dayPageBox;
 	private DayPage dayPage;
 	private CalendarSource calendarSource;
-	CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
+	private CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
+	private static final Event EVENTLOAD = new Event(LoadEvent.LOAD);
+	private boolean userProperty;
 
 
 	@FXML
@@ -36,10 +41,10 @@ public class FullDayViewController {
 
 
 
-	public void setDaySources(CalendarSource calendarSource, RequestEvent event ) {
+	public void setDaySources(CalendarSource calendarSource, RequestEvent event, boolean userProperty) {
 		dayPage.getCalendarSources().add(calendarSource);
 		dayPage.setDate(event.getDate());
-
+		this.userProperty = userProperty;
 
 
 	}
@@ -49,10 +54,9 @@ public class FullDayViewController {
 		dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
 		dayPage.setMinWidth(340);
 		dayPage.bind(CalendarInitializer.getSingletonInstance().getMonthPage().getBoundDateControls().get(0), true);
-
-
+		dayPage.addEventFilter(CalendarEvent.ENTRY_INTERVAL_CHANGED, event -> event.fireEvent(dayPage, EVENTLOAD));
 		dayPageBox.getChildren().add(dayPage);
-		dayPage.setEntryDetailsPopOverContentCallback(param-> calendar.doubleClickEntry(param));
-		dayPage.setEntryContextMenuCallback(param-> calendar.rightClickEntry(param));
+		dayPage.setEntryDetailsPopOverContentCallback(param -> calendar.doubleClickEntry(param, this.userProperty));
+		dayPage.setEntryContextMenuCallback(param -> calendar.rightClickEntry(param, this.userProperty));
 	}
 }

@@ -2,8 +2,6 @@ package logic.calendarutility;
 
 import java.io.IOException;
 
-import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
-
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
@@ -30,6 +28,7 @@ import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
 import logic.viewcontroller.FullDayViewController;
 import logic.viewcontroller.PopupViewController;
+import logic.viewcontroller.ReviewViewController;
 
 public class CalendarInitializer {
 	private static CalendarInitializer instance = null;
@@ -45,23 +44,20 @@ public class CalendarInitializer {
 	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
 	MainController ctrl = MainController.getInstance();
 
+	private boolean userProperty;
+
 	protected CalendarInitializer() {
 
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
-		monthPage.setShowToday(true);
-		monthPage.setMaxSize(680, 502);
-		monthPage.setMinSize(680, 502);
-		this.multiplesEntries();
 
-		this.monthPage.fireEvent(update);
 
-		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param));
-		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param));
+
+
 
 	}
 
-	public ContextMenu rightClickEntry(EntryContextMenuParameter param) {
+	public ContextMenu rightClickEntry(EntryContextMenuParameter param, boolean userProperty) {
 		MenuItem item1 = new MenuItem("Information");
 		MenuItem item2 = new MenuItem("Delete this");
 		MenuItem item3 = new MenuItem("Delete All");
@@ -76,7 +72,8 @@ public class CalendarInitializer {
 			try {
 
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.REWIES);
-
+				ReviewViewController reviewViewController = (ReviewViewController) calendarView.getCurrentController();
+				reviewViewController.setTypeView(this.userProperty);
 				Scene scene = new Scene(calendarView.getRoot());
 				reviewStage.setScene(scene);
 				reviewStage.showAndWait();
@@ -90,11 +87,7 @@ public class CalendarInitializer {
 				if (contextEntry.getRecurrenceRule() == null)
 					contextEntry.removeFromCalendar();
 				else {
-					try {
-						entries.deleteCalendarEntry(contextEntry);
-					} catch (InvalidRecurrenceRuleException e) {
-						AlertFactory.getInstance().createAlert(e);
-					}
+					entries.deleteCalendarEntry(contextEntry);
 				}
 
 			} else {
@@ -120,17 +113,23 @@ public class CalendarInitializer {
 		});
 
 		ContextMenu rBox = new ContextMenu();
+
+		if (userProperty) {
+			rBox.getItems().addAll(item1, item2, item3);
+		} else {
+
+
 		rBox.getItems().addAll(item1, item2, item3, item4);
 
+	}
 		return rBox;
 	}
 
-	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
+	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param, boolean userProperty) {
 		try {
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.MAINPOPUP);
-
 			PopupViewController popupViewController = (PopupViewController) calendarView.getCurrentController();
-			popupViewController.setParam(param);
+			popupViewController.setParam(param, userProperty);
 			popupViewController.setSelectedEvent();
 			popupViewController.setDetailsPopup();
 			popupViewController.setMonthPage(monthPage);
@@ -147,24 +146,18 @@ public class CalendarInitializer {
 
 	}
 
-	public void multiplesEntries() {
+	public void multiplesEntries(boolean userProperty) {
 		monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
 			try {
 				Stage stage = new Stage();
 				stage.initStyle(StageStyle.TRANSPARENT);
 				stage.initModality(Modality.APPLICATION_MODAL);
-				/*
-				 * FXMLLoader rootFXML = new
-				 * FXMLLoader(getClass().getResource("/logic/fxml/fullDay.fxml")); Parent root =
-				 * rootFXML.load(); FullDayViewController fullDayViewController =
-				 * rootFXML.getController();
-				 * fullDayViewController.setCalendarSource(calendarSource);
-				 */
+
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.FULLDAY);
 
 				FullDayViewController fullDayViewController = (FullDayViewController) calendarView
 						.getCurrentController();
-				fullDayViewController.setDaySources(calendarSource, event);
+				fullDayViewController.setDaySources(calendarSource, event, userProperty);
 
 				Scene scene = new Scene(calendarView.getRoot());
 				stage.setScene(scene);
@@ -201,5 +194,18 @@ public class CalendarInitializer {
 		}
 		calendarSource = cal.getCalendarSource(id);
 		monthPage.getCalendarSources().addAll(calendarSource);
+	}
+
+	public MonthPage setView(boolean userProperty) {
+		this.userProperty = userProperty;
+		monthPage.setShowToday(true);
+		monthPage.setMaxSize(680, 502);
+		monthPage.setMinSize(680, 502);
+		this.multiplesEntries(userProperty);
+		this.monthPage.fireEvent(update);
+		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param, userProperty));
+		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param, userProperty));
+
+		return this.monthPage;
 	}
 }

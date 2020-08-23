@@ -106,4 +106,12 @@ public class ReviewViewController {
         listView.getItems().addAll("CIAO","CIAO","CIAO","CIAO","CIAO");
 
     }
+
+	public void setTypeView(boolean userProperty) {
+		if (userProperty)
+			writeBtn.setVisible(false);
+		else
+			writeBtn.setVisible(true);
+
+	}
 }

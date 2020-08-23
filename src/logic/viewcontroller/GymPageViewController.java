@@ -291,6 +291,14 @@ public class GymPageViewController {
 
 		CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
 		calendar.refresh(ctrl.getId());
+
+		monthPage = calendar.setView(true);
+
+
+		monthPage = calendar.getMonthPage();
+		monthPage.setMaxSize(680, 502);
+		monthPage.setMinSize(680, 502);
+
 		monthPage = calendar.getMonthPage();
 
 		calendarBox.getChildren().add(monthPage);

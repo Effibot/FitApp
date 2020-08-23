@@ -27,7 +27,7 @@
                         <Insets left="16.0" right="30.0" top="20.0" />
                      </HBox.margin>
                   </JFXTextField>
-                  <MenuButton fx:id="ColorMenu" mnemonicParsing="false" prefHeight="23.0" prefWidth="28.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; fx-background-radius: 15; -fx-border-color: #178B7E;">
+                  <MenuButton fx:id="colorMenu" mnemonicParsing="false" prefHeight="23.0" prefWidth="28.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; fx-background-radius: 15; -fx-border-color: #178B7E;">
                     <items>
                         <MenuItem fx:id="style1" mnemonicParsing="false" onAction="#setStyleEntry" text="Kick Boxing" />
                         <MenuItem fx:id="style2" mnemonicParsing="false" onAction="#setStyleEntry" text="Pugilato" />
@@ -170,6 +170,11 @@
                            </StackPane.margin>
                         </JFXButton>
                         <JFXButton fx:id="saveBtn" onMouseClicked="#save" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #178B7E;" text="Book Event" textFill="WHITE">
+                           <StackPane.margin>
+                              <Insets left="273.0" top="21.0" />
+                           </StackPane.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="setCourse" onMouseClicked="#saveCourse" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #178B7E;" text="Set Course" textFill="WHITE">
                            <StackPane.margin>
                               <Insets left="273.0" top="21.0" />
                            </StackPane.margin>

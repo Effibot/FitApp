@@ -1,17 +1,15 @@
 package logic.viewcontroller;
 import java.time.format.DateTimeFormatter;
 
-import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
-
 import com.calendarfx.model.Entry;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import logic.calendarutility.Entries;
-import logic.factory.alertfactory.AlertFactory;
 
 public class PopupDeleteController {
 	 private static PopupDeleteController instance = null;
@@ -34,7 +32,7 @@ public class PopupDeleteController {
 	    @FXML
 	    public void allDelete(ActionEvent event) {
 			Entry<?> onlyCurr = this.getEntryToDelete();
-			onlyCurr.getCalendar().clear();
+	        onlyCurr.removeFromCalendar();
 	        Stage window = (Stage) allBtn.getScene().getWindow();
 	        window.close();
 	    }
@@ -47,17 +45,13 @@ public class PopupDeleteController {
 	    }
 
 	    @FXML
-	    public void deleteOnlyCurrent(ActionEvent event) {
+		public void deleteOnlyCurrent(MouseEvent event) {
 	        Entry<?> onlyCurr = this.getEntryToDelete();
+			System.out.println("ONLY CURR:" + onlyCurr.getId());
 	        if (onlyCurr.getRecurrenceRule() == null) {
 	            onlyCurr.removeFromCalendar();
 	        } else {
-	            try {
-	               entries.deleteCalendarEntry(onlyCurr);
-	                
-	            } catch (InvalidRecurrenceRuleException e) {
-	            	AlertFactory.getInstance().createAlert(e);
-	            }
+				entries.deleteCalendarEntry(onlyCurr);
 	        }
 	        Stage window = (Stage) currBtn.getScene().getWindow();
 	        window.close();
@@ -67,7 +61,7 @@ public class PopupDeleteController {
 	        return this.entry;
 	    }
 
-		public void setEntryToDelete(Entry<?> evnt) {
+	    public void setEntryToDelete(Entry evnt) {
 	        this.entry = evnt;
 
 	    }

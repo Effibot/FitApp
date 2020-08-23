@@ -14,8 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.calendarutility.CalendarInitializer;
-import logic.calendarutility.Calendars;
-import logic.controller.CalendarController;
 import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
@@ -61,6 +59,7 @@ public class MainViewController implements Initializable {
 		}
 		if (event.getSource() == logOutIcon) {
 			try {
+				CalendarInitializer.getSingletonInstance().refresh(ctrl.getId());
 				topBox.getChildren().remove(topBar);
 				ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.LOGIN));
 			} catch (IOException e) {
