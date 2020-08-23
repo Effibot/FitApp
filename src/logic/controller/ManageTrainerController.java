@@ -2,6 +2,7 @@ package logic.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TextField;
 import logic.bean.GymPageBean;
 import logic.entity.Trainer;
 import logic.entity.dao.TrainerDAO;
@@ -45,6 +46,8 @@ public class ManageTrainerController {
 		this.trainerList = trainerList;
 	}
 	
-
+	public static boolean isAlpha(String s) {
+		return s!= null && s.chars().allMatch(Character::isLetter);
+	}
 	
 }

@@ -15,6 +15,10 @@ public class Trainer {
 	private Boolean walk;
 	private Boolean pump;
 	
+	public Trainer() {
+		
+	}
+	
 	public Trainer(String name, int trainerId, int gymId, Map<Course, Boolean> course) {
 		setName(name);
 		setTrainerId(trainerId);

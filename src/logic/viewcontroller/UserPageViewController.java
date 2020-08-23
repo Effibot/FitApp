@@ -73,17 +73,17 @@ public class UserPageViewController {
 	@FXML
 	private void showCalendar(ActionEvent event){
 		if(event.getSource().equals(openCalendar)) {
-			if(!mPage.isVisible()) {
-				new ZoomIn(mPage).play();
-				mPage.setVisible(true);
-				mPage.toFront();
+			if(!calendarBox.isVisible()) {
+				new ZoomIn(calendarBox).play();
+				calendarBox.setVisible(true);
+				calendarBox.toFront();
 				openCalendar.setText("Close Calendar");
 			} else {
-				new ZoomOut(mPage).play();
-				mPage.toBack();
+				new ZoomOut(calendarBox).play();
+				calendarBox.toBack();
 				openCalendar.setText("Open Calendar");
-				mPage.setVisible(false);
-				mPage.setManaged(true);
+				calendarBox.setVisible(false);
+				calendarBox.setManaged(true);
 			}
 		}
 	}
@@ -94,8 +94,8 @@ public class UserPageViewController {
 		mPage.setMaxSize(680,502);
 		mPage.setMinSize(680, 502);
 		calendarBox.getChildren().add(mPage);
-		mPage.setVisible(false);
-		mPage.setManaged(true);
+		calendarBox.setVisible(false);
+		//calendarBox.setManaged(true);
 	}
 
 	@FXML
