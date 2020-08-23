@@ -62,8 +62,8 @@ public class EmailViewController {
 			emailBean.setMsg(msg);
 			emailBean.setEvent(evt);
 			emailController.sendEmail();
-		}
 
+		}
 
 		Stage stage = (Stage) sendEmail.getScene().getWindow(); 
 		stage.close(); }

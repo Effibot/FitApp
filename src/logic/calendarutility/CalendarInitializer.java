@@ -1,9 +1,6 @@
 package logic.calendarutility;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
 
 import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
 
@@ -17,7 +14,6 @@ import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
 
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
@@ -54,6 +50,8 @@ public class CalendarInitializer {
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
 		monthPage.setShowToday(true);
+		monthPage.setMaxSize(680, 502);
+		monthPage.setMinSize(680, 502);
 		this.multiplesEntries();
 
 		this.monthPage.fireEvent(update);
@@ -67,8 +65,7 @@ public class CalendarInitializer {
 		MenuItem item1 = new MenuItem("Information");
 		MenuItem item2 = new MenuItem("Delete this");
 		MenuItem item3 = new MenuItem("Delete All");
-		MenuItem item4 = new MenuItem("Open gym's event in map");
-		MenuItem item5 = new MenuItem("Send e-mail");
+		MenuItem item4 = new MenuItem("Send e-mail");
 		Entry<?> contextEntry = param.getEntry();
 		Stage reviewStage = new Stage();
 		reviewStage.initStyle(StageStyle.TRANSPARENT);
@@ -108,7 +105,7 @@ public class CalendarInitializer {
 		item3.setOnAction(event -> contextEntry.getCalendar().clear());
 
 		// Email sender
-		item5.setOnAction(event -> {
+		item4.setOnAction(event -> {
 			try {
 
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.EMAIL);
@@ -123,7 +120,7 @@ public class CalendarInitializer {
 		});
 
 		ContextMenu rBox = new ContextMenu();
-		rBox.getItems().addAll(item1, item2, item3, item4, item5);
+		rBox.getItems().addAll(item1, item2, item3, item4);
 
 		return rBox;
 	}

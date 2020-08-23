@@ -91,8 +91,6 @@ public class UserPageViewController {
 	private void calendarSetUp() {
 		calendar = CalendarInitializer.getSingletonInstance();
 		mPage = calendar.getMonthPage();
-		mPage.setMaxSize(680,502);
-		mPage.setMinSize(680, 502);
 		calendarBox.getChildren().add(mPage);
 		calendarBox.setVisible(false);
 		//calendarBox.setManaged(true);

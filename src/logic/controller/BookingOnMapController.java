@@ -11,6 +11,7 @@ public class BookingOnMapController {
 	}
 	
 	public BookingOnMapBean getBookingOnMapBean() {
+
 		return bookingOnMapBean;
 	}
 	

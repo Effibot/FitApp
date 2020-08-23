@@ -46,7 +46,7 @@ public class BookingOnMapViewController {
     @FXML
     void goBack(MouseEvent event) {
     	try {
-    	
+
     		listCell.getItems().clear();
     		mapController.wipeAll();
 			ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGFORM));
