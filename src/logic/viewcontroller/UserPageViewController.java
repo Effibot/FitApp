@@ -84,8 +84,6 @@ public class UserPageViewController {
 				openCalendar.setText("Open Calendar");
 				mPage.setVisible(false);
 				mPage.setManaged(true);
-
-
 			}
 		}
 	}
@@ -98,7 +96,6 @@ public class UserPageViewController {
 		calendarBox.getChildren().add(mPage);
 		mPage.setVisible(false);
 		mPage.setManaged(true);
-
 	}
 
 	@FXML

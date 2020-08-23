@@ -39,7 +39,7 @@
 }
 .whitelable{
 	-fx-border-radius: 5.0;
-	-fx-border: 1.0px;
+	-fx-border-width: 1.0px;
 	-fx-border-color: BLACK;
 	-fx-background-color: WHITE;
 	-fx-background-radius:5.0;	
@@ -92,21 +92,20 @@
 }
 .containerBorder{
 	-fx-border-color: BLACK;
-	-fx-border-width: 1.0px;
+	-fx-border-width: 1.5px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.8), 10.0, 0.0, 0.0, 0.0);
 }
 .bottomPaneBorder{
  	-fx-border-width: 1.0px;
-	-fx-border-style: solid solid none solid; 
-	/*-fx-border-color: BLACK;*/
-	
+	-fx-border-style: hidden solid hidden solid; 	
 }
 .roundBorder{
-	-fx-background-color: #2969c0;
-    -fx-background-radius: 50.0px;
-
-    -fx-border-radius: 50.0px;
-    -fx-border-width: 5.0px;
-    -fx-border-color: black;
-    -fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.8), 10.0, 0.0, 0.0, 0.0);
+	-fx-background-color: transparent;
+    -fx-background-radius: 5.0px;
+    -fx-border-radius: 5.0px;
+    -fx-border-width: 2.5px;
+    -fx-border-color: gray;
+}
+.dropShadow{
+	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.8), 10.0, 0.0, 0.0, 0.0);
 }

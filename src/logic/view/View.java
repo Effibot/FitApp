@@ -16,6 +16,7 @@ public class View {
 			setRoot(loader.load());
 		} catch (IOException e) {
 			AlertFactory.getInstance().createAlert(e);
+			e.printStackTrace();
 		}
 	}
 

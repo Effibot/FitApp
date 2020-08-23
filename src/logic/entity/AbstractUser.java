@@ -1,6 +1,6 @@
 package logic.entity;
 
-public abstract class AbstractUser {
+public class AbstractUser {
 	private int id;
 	private String name;
 	private String pwd;
