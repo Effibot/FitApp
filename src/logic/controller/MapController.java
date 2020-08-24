@@ -89,7 +89,7 @@ public class MapController {
 	        Geocode pos = Geocode.getSingletonInstance();
 	        pos.getLocation(baseAddress);
 	        base = pos.getCoordinates();
-	        Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress,0);
+			Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress, null);
 	        listMarker.add(baseMarker);
 
 	        for(int i = listIdGym.size()-1; i>=0;--i) {
@@ -102,8 +102,9 @@ public class MapController {
 	            endPoint = pos.getCoordinates();
 	            double relativeDistance = distanceRelative(base.getLatitude(), endPoint.getLatitude(), base.getLongitude(), endPoint.getLongitude());
 	            if (Double.compare(relativeDistance, distance)<0) {
-	               
-	                newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet(),tempList.getCourseId());
+					tempList.setCourseName(dao.getCourseById(tempList.getCourseId()));
+					newMarker = nMarker(endPoint, gymEntity.getGymName(), gymEntity.getStreet(),
+							tempList.getCourseName());
 	                listMarker.add(newMarker);
 	                tempList.setGym(gymEntity.getGymName());
 	                tempList.setCourseName(dao.getCourseById(tempList.getCourseId()));
@@ -155,7 +156,7 @@ public class MapController {
 	    }
 
 
-	    public Marker nMarker(LatLong position, String name, String address, int i) {
+		public Marker nMarker(LatLong position, String name, String address, String courseName) {
 	        if (position == null)
 	            return null;
 
@@ -182,7 +183,7 @@ public class MapController {
 	        }else{
 	            markerOptions.position(position)
 	                    .visible(Boolean.TRUE)
-	                    .title(name)
+						.title(name + "\t" + courseName)
 	                    .icon(pathGym);
 
 

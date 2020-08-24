@@ -38,7 +38,7 @@
                         <Insets left="24.0" top="2.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label fx:id="gymPopupTitleLbl" prefHeight="23.0" prefWidth="156.0" textAlignment="JUSTIFY">
+                  <Label fx:id="gymPopupTitleLbl" prefHeight="23.0" prefWidth="282.0" textAlignment="JUSTIFY">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -24,7 +24,6 @@ import javafx.stage.StageStyle;
 import logic.controller.MainController;
 import logic.controller.MapController;
 import logic.entity.Session;
-import logic.entity.dao.UserDAO;
 import logic.factory.alertfactory.AlertFactory;
 import logic.viewcontroller.GymPopupViewController;
 
@@ -62,9 +61,11 @@ public class MapInitializer implements MapComponentInitializedListener {
 
 	@Override
 	public void mapInitialized() {
+
 		views.addMapReadyListener(() -> { // This call will fail unless the map is completely ready.
 		});
 		String baseStreet = search.getUserStreet(ctrl.getId());
+
 		search.startGeocode(this.date, this.time, this.radius,baseStreet, this.event);
 		List<Session> listEvent = search.getListIdGym();		
 		mark = new ArrayList<>();
@@ -87,7 +88,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 		int numberElement = 1;
 		for(Session s: listEvent ) {
 
-			Label lbl = new Label(s.getGym());
+			Label lbl = new Label(s.getGym() + "\t" + s.getCourseName());
 			listCell.getItems().add(lbl);
 			
 			listCell.prefHeight(lbl.getHeight()*numberElement);
@@ -96,13 +97,16 @@ public class MapInitializer implements MapComponentInitializedListener {
 		}
 		for (Marker i : mark) {
 			map.addUIEventHandler(i, UIEventType.click, e -> this.startUpPopup(i,listEvent));
+
 			}
+
 			int numberElements = numberElement;
 			listCell.setOnMouseClicked(e->{
 				Label selectedItem = listCell.getSelectionModel().getSelectedItem();
 				if(selectedItem!=null) {
 					for(int i = 0; i<numberElements; i++) {
-						if(selectedItem.getText().contentEquals(mark.get(i).getTitle())) {
+
+						if (selectedItem.getText().contentEquals(mark.get(i).getTitle())) {
 							this.startUpPopup(mark.get(i), listEvent);
 							break;
 						} 

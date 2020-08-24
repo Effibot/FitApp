@@ -94,14 +94,15 @@ public class GymPopupViewController {
 
 
 	    public void setPopupView(Marker i, List<Session> list) {
-	    	String gymName = i.getTitle();
+			String titlePopup = i.getTitle();
 	    	String addressGym;
 
 	    	for(Session s: list) {
-	    		if(s.getGym().equals(gymName) && !gymName.contentEquals("You are Here!")) {
+				if ((s.getGym() + "\t" + s.getCourseName()).equals(titlePopup)
+						&& !titlePopup.contentEquals("You are Here!")) {
 	    		
 	    			course=s.getCourseName();
-	    			gym=gymName;
+					gym = titlePopup;
 	    			time=s.printDuration(s.getDuration());
 	    			addressGym=s.getStreet();
 	    			timeLbl.setText(time);
@@ -111,7 +112,7 @@ public class GymPopupViewController {
 	    			}else {
 	    				individualLbl.setText(GROUPCOURSE);
 	    			}
-	    			gymPopupTitleLbl.setText(gym +"-"+course);
+					gymPopupTitleLbl.setText(gym);
 	    			gymAddressLbl.setText(addressGym);
 	    	        evtLbl.setText(course);
 	    	        txtArea.setText(s.getDescription());

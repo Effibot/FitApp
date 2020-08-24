@@ -43,7 +43,8 @@ public class SessionDAO extends ConnectionManager {
             	String street = rs.getString("street");
             	boolean individual = rs.getBoolean("individual");
             	String trainerName = rs.getString("trainer_name");
-            	Session s = new Session(trainerName, rs.getString("gym_id"),duration,sqlDate,description,courseId,street,individual,null);
+				Session s = new Session(trainerName, rs.getString("gym_id"), duration, sqlDate, description, courseId,
+						street, individual, null);
 
                 list.add(s);
             }

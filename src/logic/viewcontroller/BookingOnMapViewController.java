@@ -72,7 +72,6 @@ public class BookingOnMapViewController {
     		String time = bookingOnMapBean.getTime();
 
     		int event = bookingOnMapBean.getEvent();
-
     		double radius = bookingOnMapBean.getRadius();
     		MapInitializer map = new MapInitializer(date, time, event, radius);
   
