@@ -38,6 +38,8 @@ public class FullDayViewController {
 
 
 	public void setDaySources(CalendarSource calendarSource, RequestEvent event, boolean userProperty) {
+		String className = new Exception().getStackTrace()[1].getClassName();
+		System.out.println(className);
 		dayPage.getCalendarSources().add(calendarSource);
 		dayPage.setDate(event.getDate());
 		this.userProperty = userProperty;

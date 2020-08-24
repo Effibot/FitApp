@@ -47,6 +47,9 @@ public class CalendarInitializer {
 
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
+		System.out.println(userProperty);
+		this.multiplesEntries();
+
 
 	}
 
@@ -139,9 +142,10 @@ public class CalendarInitializer {
 
 	}
 
-	public void multiplesEntries(boolean userProperty) {
+	public void multiplesEntries() {
 		monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
 			try {
+
 				Stage stage = new Stage();
 				stage.initStyle(StageStyle.TRANSPARENT);
 				stage.initModality(Modality.APPLICATION_MODAL);
@@ -150,7 +154,7 @@ public class CalendarInitializer {
 
 				fullDayViewController = (FullDayViewController) calendarView
 						.getCurrentController();
-				fullDayViewController.setDaySources(calendarSource, event, userProperty);
+				fullDayViewController.setDaySources(calendarSource, event, this.userProperty);
 
 				Scene scene = new Scene(calendarView.getRoot());
 				stage.setScene(scene);
@@ -183,22 +187,35 @@ public class CalendarInitializer {
 				tmpCalendar.clear();
 
 			}
-			this.monthPage.fireEvent(update);
+//			this.monthPage.fireEvent(update);
 		}
 
 		calendarSource = cal.getCalendarSource(id);
 		monthPage.getCalendarSources().addAll(calendarSource);
 	}
 
+//	EventHandler<CalendarEvent, boolean> event = new EventHandler<CalendarEvent, boolean>() 
+//	{
+//		@Override
+//		public void handle(CalendarEvent event, boolean us) {
+//	if(event.getEventType().equals(CalendarEvent.ENTRY_CALENDAR_CHANGED)&& userProperty){
+//				
+//			}
+//	    }
+//	};
 	public MonthPage setView(boolean userProperty) {
 		this.userProperty = userProperty;
 		monthPage.setShowToday(true);
 		monthPage.setMaxSize(680, 502);
 		monthPage.setMinSize(680, 502);
-		this.multiplesEntries(userProperty);
-		this.monthPage.fireEvent(update);
+		monthPage.getMonthView().setShowWeekNumbers(false);
+
 		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param, userProperty));
 		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param, userProperty));
+		// this.monthPage.getCalendars().get(0).addEventHandler(event);
 		return this.monthPage;
+	
 	}
+
+
 }

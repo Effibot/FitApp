@@ -3,10 +3,12 @@ package logic.viewcontroller;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import com.calendarfx.model.Calendar;
 import com.calendarfx.view.page.MonthPage;
 
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,22 +42,21 @@ public class UserPageViewController {
 
 	@FXML
 	private Label sideUsername;
-	
+
 	@FXML
 	private Label sideStreet;
-	
 
-    @FXML
-    private Pane calendarBox;
 
-    @FXML
-    private Button openCalendar;
-    
-    private CalendarInitializer calendar;
-    
-    private MonthPage mPage;
-   
-    
+	@FXML
+	private Pane calendarBox;
+
+	@FXML
+	private Button openCalendar;
+
+	private CalendarInitializer calendar;
+
+	private MonthPage mPage;
+
 	private MainController ctrl = MainController.getInstance();
 	private ViewFactory factory = ViewFactory.getInstance();
 
@@ -69,6 +70,8 @@ public class UserPageViewController {
 			}
 		}
 	}
+
+
 
 	@FXML
 	private void showCalendar(ActionEvent event){
@@ -87,7 +90,7 @@ public class UserPageViewController {
 			}
 		}
 	}
-	
+
 	private void calendarSetUp() {
 		calendar = CalendarInitializer.getSingletonInstance();
 
@@ -97,10 +100,9 @@ public class UserPageViewController {
 		mPage.setMaxSize(680,502);
 		mPage.setMinSize(680, 502);
 
-		mPage = calendar.getMonthPage();
-
 		calendarBox.getChildren().add(mPage);
 		calendarBox.setVisible(false);
+
 		calendar.refresh(ctrl.getId());
 		// calendarBox.setManaged(true);
 	}
@@ -116,6 +118,12 @@ public class UserPageViewController {
 		sideUsername.setText(user.getName());
 		sideStreet.setText(user.getMyPosition());
 		calendarSetUp();
+		ObservableList<Calendar> nd = this.mPage.getCalendars();
+		for (Calendar t : nd) {
+			System.out.println(t.getName());
+		}
+
+
 
 	}
 }
