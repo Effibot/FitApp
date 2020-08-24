@@ -1,6 +1,4 @@
 package logic.viewcontroller;
-import java.time.format.DateTimeFormatter;
-
 import com.calendarfx.model.Entry;
 import com.jfoenix.controls.JFXButton;
 
@@ -13,7 +11,6 @@ import logic.calendarutility.Entries;
 public class PopupDeleteController {
 	 private static PopupDeleteController instance = null;
 	 private Entries entries = Entries.getSingletonInstance();
-	    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	    @FXML
 	    private Button closeBtn;
@@ -44,9 +41,9 @@ public class PopupDeleteController {
 	    }
 
 	    @FXML
+
 		public void deleteOnlyCurrent(ActionEvent event) {
 	        Entry<?> onlyCurr = this.getEntryToDelete();
-			System.out.println("ONLY CURR:" + onlyCurr.getId());
 	        if (onlyCurr.getRecurrenceRule() == null) {
 	            onlyCurr.removeFromCalendar();
 	        } else {
@@ -60,7 +57,7 @@ public class PopupDeleteController {
 	        return this.entry;
 	    }
 
-	    public void setEntryToDelete(Entry evnt) {
+		public void setEntryToDelete(Entry<?> evnt) {
 	        this.entry = evnt;
 
 	    }

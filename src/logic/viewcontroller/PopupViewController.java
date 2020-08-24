@@ -160,6 +160,7 @@ public class PopupViewController {
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.DELETEPOPUP);
 			PopupDeleteController popupDeleteController = (PopupDeleteController) calendarView.getCurrentController();
 			popupDeleteController.setEntryToDelete(selectedEntry);
+			System.out.println(selectedEntry.getId());
 			Scene scene = new Scene(calendarView.getRoot());
 			window.setScene(scene);
 			window.showAndWait();
