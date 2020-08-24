@@ -47,7 +47,7 @@ public class ManageTrainerController {
 	}
 	
 	public static boolean isAlpha(String s) {
-		return s!= null && s.chars().allMatch(Character::isLetter);
+		return (!s.trim().equals("")) && s.chars().allMatch(Character::isLetter);
 	}
 	
 }

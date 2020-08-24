@@ -8,6 +8,8 @@ import com.calendarfx.view.page.MonthPage;
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -198,6 +200,7 @@ public class GymPageViewController {
 	private GymPageController gymCtrl;
 	private MonthPage monthPage;
 	private ManageTrainerController mtCtrl;
+	private BooleanProperty bp;
 
 	private void fillGraphics() {
 		sideGymName.setText(gymCtrl.getGym().getGymName());
@@ -229,48 +232,33 @@ public class GymPageViewController {
 		tableAnchor.setVisible(false);
 		tableAnchor.setDisable(true);
 		bindAdd();
-//		 textListener();
 	}
-
-//	private void textListener() {
-//		StringProperty sp = new SimpleStringProperty(this, "sp", "");
-//		nameField.textProperty().bindBidirectional(sp);
-//		System.out.println("hello");
-//		sp.addListener((v, oldV, newV) -> {
-//			System.out.println(newV);
-//			if(ManageTrainerController.isAlpha(newV)) {
-//				nameField.setText(oldV+newV);
-//			} else {
-//				nameField.setText(oldV);
-//			}
-//			System.out.println(nameField.getText());
-//		});
-//	}
 
 	@FXML
 	public void manage(ActionEvent event) {
 		if (event.getSource().equals(addButton)) {
 			add();
 		} else if (event.getSource().equals(editButton)) {
-
+			edit();
 		} else if (event.getSource().equals(deleteButton)) {
 			ObservableList<Trainer> trainerSelected;
 			ObservableList<Trainer> allTrainer;
 			allTrainer = trainerTable.getItems();
 			trainerSelected = trainerTable.getSelectionModel().getSelectedItems();
 			// linee commentate per evitare di cancellare cose su db durante testing
-				//trainerSelected.forEach(allTrainer::remove);
-				//TrainerDAO.getInstance().deleteTrainer(trainerSelected.get(0));
+			trainerSelected.forEach(allTrainer::remove);
+			// TrainerDAO.getInstance().deleteTrainer(trainerSelected.get(0));
 			System.out.println(trainerSelected.get(0));
 		}
 	}
 
 	private void add() {
-		if (!ManageTrainerController.isAlpha(nameField.getText())) {
+		if (!ManageTrainerController.isAlpha(nameField.getText()) && nameField.getText().trim().isEmpty()) {
 			AlertFactory.getInstance()
 					.createAlert(AlertType.INFORMATION, "Trainer Name Input Error",
 							"Be carefoul, only characters are allowed for trainer name",
-							"Your input is: " + nameField.getText())
+							"Your input is: "
+									+ (nameField.getText().trim().isEmpty() ? "empty string" : nameField.getText()))
 					.display();
 		} else {
 			// add to table and save to db
@@ -286,22 +274,54 @@ public class GymPageViewController {
 			t.setName(nameField.getText());
 			t.setGymId(ctrl.getId());
 			t.setCourse(course);
-			TrainerDAO.getInstance().addTrainer(t);
-			t.setTrainerId(TrainerDAO.getInstance().getTrainerId(t));
+			// commented line to prevent saving on db
+//			TrainerDAO.getInstance().addTrainer(t);
+//			t.setTrainerId(TrainerDAO.getInstance().getTrainerId(t));
 			trainerTable.getItems().add(t);
+			nameField.clear();
+			kickCheck.selectedProperty().set(false);
+			boxeCheck.selectedProperty().set(false);
+			zumbaCheck.selectedProperty().set(false);
+			salsaCheck.selectedProperty().set(false);
+			functCheck.selectedProperty().set(false);
+			walkCheck.selectedProperty().set(false);
+			pumpCheck.selectedProperty().set(false);
+
 		}
 
 	}
 
 	private void bindAdd() {
+		addButton.setDisable(true);
 		BooleanBinding checkBinding = kickCheck.selectedProperty()
 				.or(boxeCheck.selectedProperty().or(
 						zumbaCheck.selectedProperty().or(salsaCheck.selectedProperty().or(functCheck.selectedProperty()
 								.or(walkCheck.selectedProperty().or(pumpCheck.selectedProperty()))))));
-		addButton.disableProperty().bind(checkBinding);
+		bp = new SimpleBooleanProperty();
+		bp.bind(checkBinding);
+		bp.addListener((obsV, oldV, newV) -> {
+			addButton.setDisable(oldV);
+		});
 	}
-	private void addButtonListener() {
-		
+
+	private void edit() {
+		ObservableList<Trainer> trainerSelected;
+		ObservableList<Trainer> allTrainer;
+		allTrainer = trainerTable.getItems();
+		trainerSelected = trainerTable.getSelectionModel().getSelectedItems();
+		Map<Course, Boolean> course = new EnumMap<>(Course.class);
+		course.put(Course.KICKBOXING, kickCheck.isSelected());
+		course.put(Course.PUGILATO, boxeCheck.isSelected());
+		course.put(Course.SALSA, salsaCheck.isSelected());
+		course.put(Course.ZUMBA, zumbaCheck.isSelected());
+		course.put(Course.FUNCTIONAL, functCheck.isSelected());
+		course.put(Course.WALKING, walkCheck.isSelected());
+		course.put(Course.PUMP, pumpCheck.isSelected());
+		Trainer t = trainerSelected.get(0);
+		t.setCourse(course);
+		trainerSelected.forEach(allTrainer::remove);
+		trainerTable.getItems().add(t);
+
 	}
 
 	@FXML

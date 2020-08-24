@@ -44,7 +44,6 @@
                                              </HBox.margin>
                                              <children>
                                                 <TextField fx:id="nameField" promptText="Trainer Name" />
-                                                <Label styleClass="signUpLabel" stylesheets="@../styles.css" text="only characters are allowed" wrapText="true" />
                                              </children>
                                           </VBox>
                                           <VBox spacing="1.0">
