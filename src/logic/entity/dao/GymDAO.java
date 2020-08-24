@@ -22,36 +22,19 @@ public class GymDAO extends ConnectionManager {
 		return GymDAO.instance;
 	}
 
-	public Gym getGymEntity(int id) {
-		try {
-			ResultSet rs = Query.getGym(this.st, id);
-			while (rs.next()) {
-				if (checkResultValidity(1, 5, rs)) {
-					Gym g = new Gym();
-					g.setGymId(rs.getInt("gym_id"));
-					g.setGymName(rs.getString("gym_name"));
-					g.setStreet(rs.getString("street"));
-					g.setManagerId(Integer.parseInt(rs.getString("manager_id")));
-					g.setManagerName(rs.getString("manager_name"));
-					return g;
-				}
-			}
-		} catch (SQLException e) {
-			AlertFactory.getInstance().createAlert(e);
-		}
-		return null;
-	}
 
 	public Gym getGymEntityById(int id) {
 		try {
 			ResultSet rs = Query.getGymById(this.st, id);
 			while (rs.next()) {
 				Gym g = new Gym();
-				String gymName = rs.getString("gym_name");
-				String street = rs.getString("street");
+
 				g.setGymId(id);
-				g.setGymName(gymName);
-				g.setStreet(street);
+				g.setGymId(rs.getInt("gym_id"));
+				g.setGymName(rs.getString("gym_name"));
+				g.setStreet(rs.getString("street"));
+				g.setManagerId(Integer.parseInt(rs.getString("manager_id")));
+				g.setManagerName(rs.getString("manager_name"));
 				return g;
 			}
 		} catch (SQLException e) {

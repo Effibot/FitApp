@@ -49,7 +49,7 @@ public class Query {
 	}
 
 	public static ResultSet getGymById(Statement st, Integer id) throws SQLException {
-		String sql = "select gym_name, street from gym where gym_id = '" + id + "';";
+		String sql = "select gym_name, street,manager_id,manager_name,gym_id from gym where gym_id = '" + id + "';";
 		return st.executeQuery(sql);
 	}
 
@@ -111,6 +111,18 @@ public class Query {
 
 	public static ResultSet getTrainerId(Statement st, Trainer t) throws SQLException {
 		String sql = "select trainer_id from trainer where trainer_name = '" + t.getName() +"' and gym_id = " + t.getGymId() + ";";
+		return st.executeQuery(sql);
+	}
+
+	public static ResultSet getBookedSession(Statement st, int id) throws SQLException {
+		String sql = "select session_id from booked_session where user_id = '" + id + "';";
+		return st.executeQuery(sql);
+	}
+
+	public static ResultSet getSession(Statement st, int sessionId) throws SQLException {
+		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence,gym_id from training_session where session_id = '"
+				+ sessionId + "';";
+
 		return st.executeQuery(sql);
 	}
 }

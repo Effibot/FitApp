@@ -3,13 +3,12 @@ package logic.calendarutility;
 import java.io.IOException;
 
 import com.calendarfx.model.Calendar;
-import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
+import com.calendarfx.model.LoadEvent;
 import com.calendarfx.view.DateControl.EntryContextMenuParameter;
 import com.calendarfx.view.DateControl.EntryDetailsPopOverContentParameter;
 import com.calendarfx.view.RequestEvent;
-import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.Event;
@@ -34,14 +33,12 @@ public class CalendarInitializer {
 	private static CalendarInitializer instance = null;
 
 	private MonthPage monthPage;
-	private DayPage dayPage;
 	private Entries entries;
-	private static final String gym = "gym";
 	private CalendarSource calendarSource;
 	private CalendarController cal = CalendarController.getSingletoneInstance();
 	private CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
-
-	Event update = new Event(CalendarEvent.CALENDAR_CHANGED);
+	private FullDayViewController fullDayViewController;
+	private Event update = new Event(LoadEvent.LOAD);
 	MainController ctrl = MainController.getInstance();
 
 	private boolean userProperty;
@@ -50,10 +47,6 @@ public class CalendarInitializer {
 
 		this.entries = Entries.getSingletonInstance();
 		this.monthPage = new MonthPage();
-
-
-
-
 
 	}
 
@@ -127,6 +120,7 @@ public class CalendarInitializer {
 
 	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param, boolean userProperty) {
 		try {
+
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.MAINPOPUP);
 			PopupViewController popupViewController = (PopupViewController) calendarView.getCurrentController();
 			popupViewController.setParam(param, userProperty);
@@ -136,7 +130,6 @@ public class CalendarInitializer {
 
 			HBox box = new HBox();
 			box.getChildren().add(calendarView.getRoot());
-			calendarView.getRoot().setOnMouseExited(event -> monthPage.fireEvent(update));
 
 			return box;
 		} catch (IOException e) {
@@ -155,7 +148,7 @@ public class CalendarInitializer {
 
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.FULLDAY);
 
-				FullDayViewController fullDayViewController = (FullDayViewController) calendarView
+				fullDayViewController = (FullDayViewController) calendarView
 						.getCurrentController();
 				fullDayViewController.setDaySources(calendarSource, event, userProperty);
 
@@ -192,6 +185,7 @@ public class CalendarInitializer {
 			}
 			this.monthPage.fireEvent(update);
 		}
+
 		calendarSource = cal.getCalendarSource(id);
 		monthPage.getCalendarSources().addAll(calendarSource);
 	}
@@ -205,7 +199,6 @@ public class CalendarInitializer {
 		this.monthPage.fireEvent(update);
 		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param, userProperty));
 		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param, userProperty));
-
 		return this.monthPage;
 	}
 }

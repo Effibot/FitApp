@@ -122,6 +122,45 @@ public class SessionDAO extends ConnectionManager {
 		}
 		return list;
 	}
+
+	public List<Integer> getBookedSessionById(int id) {
+		List<Integer> list = new ArrayList<>();
+		try {
+			ResultSet rs = Query.getBookedSession(this.st,id);
+			while (rs.next()) {
+				list.add(rs.getInt(("session_id")));
+				
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return list;
+	}
+
+	public Session getBookedSessionEntity(Integer sessionId) {
+		try {
+			ResultSet rs = Query.getSession(this.st, Integer.parseInt(sessionId.toString()));
+			while (rs.next()) {
+				String trainerName = rs.getString("trainer_name");
+				String gymId = rs.getString("gym_id");
+				Time timeStart = Time.valueOf(rs.getString("time_start"));
+				Time timeEnd = Time.valueOf(rs.getString("time_end"));
+				Time[] duration = { timeStart, timeEnd };
+				Date data = rs.getDate("day");
+				String description = rs.getString("description");
+				int courseId = rs.getInt("course_id");
+				String street = rs.getString("street");
+				boolean individual = rs.getBoolean("individual");
+				String recurrence = rs.getString("recurrence");
+				return new Session(trainerName, gymId, duration, data, description, courseId, street, individual,
+						recurrence);
+
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return null;
+	}
 	
 
 
