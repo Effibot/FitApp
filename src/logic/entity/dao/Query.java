@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import logic.entity.Trainer;
+
 public class Query {
 
 	private Query() {
@@ -98,6 +100,17 @@ public class Query {
 	}
 	public static ResultSet getGymTrainers(Statement st, int gymId) throws SQLException{
 		String sql = "select trainer_id, trainer_name, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump from trainer where gym_id =" + gymId;
+		return st.executeQuery(sql);
+	}
+
+	public static int addTrainer(Statement st, Trainer t) throws SQLException {
+		String sql = "insert into trainer(trainer_name, gym_id, kickboxing, pugilato, zumba, salsa, funzionale, walking, pump) values('" + t.getName()+ "',"
+				+  t.getGymId() + ","+ t.getKick() +","+ t.getBoxe()+","+ t.getZumba() +","+ t.getSalsa() +","+ t.getFunct() +","+ t.getWalk() +","+ t.getPump() +")";
+		return st.executeUpdate(sql);
+	}
+
+	public static ResultSet getTrainerId(Statement st, Trainer t) throws SQLException {
+		String sql = "select trainer_id from trainer where trainer_name = '" + t.getName() +"' and gym_id = " + t.getGymId() + ";";
 		return st.executeQuery(sql);
 	}
 }

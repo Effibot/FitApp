@@ -3,8 +3,6 @@ package logic.factory.alertfactory;
 
 import java.io.IOException;
 
-import javax.mail.MessagingException;
-
 import javafx.scene.control.Alert.AlertType;
 import logic.exception.EmailException;
 import logic.exception.InputNotComplianException;

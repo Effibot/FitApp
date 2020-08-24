@@ -18,8 +18,6 @@ import javafx.scene.layout.HBox;
 import logic.bean.SignUpBean;
 import logic.controller.MainController;
 import logic.controller.SignUpController;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.UserDAO;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.alertfactory.CustomAlertBox;
 import logic.factory.viewfactory.ViewFactory;

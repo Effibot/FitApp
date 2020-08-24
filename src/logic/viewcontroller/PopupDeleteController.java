@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import logic.calendarutility.Entries;
 
@@ -45,7 +44,7 @@ public class PopupDeleteController {
 	    }
 
 	    @FXML
-		public void deleteOnlyCurrent(MouseEvent event) {
+		public void deleteOnlyCurrent(ActionEvent event) {
 	        Entry<?> onlyCurr = this.getEntryToDelete();
 			System.out.println("ONLY CURR:" + onlyCurr.getId());
 	        if (onlyCurr.getRecurrenceRule() == null) {

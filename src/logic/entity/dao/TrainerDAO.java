@@ -10,6 +10,7 @@ import java.util.Map;
 
 import logic.entity.Course;
 import logic.entity.Trainer;
+import logic.exception.InsertException;
 import logic.factory.alertfactory.AlertFactory;
 
 public class TrainerDAO extends ConnectionManager {
@@ -49,5 +50,28 @@ public class TrainerDAO extends ConnectionManager {
 			AlertFactory.getInstance().createAlert(e);
 		}
 		return Collections.emptyList();
+	}
+
+	public void addTrainer(Trainer t) {
+		try {
+			int count = Query.addTrainer(this.st, t);
+			if(count < 1) {
+				throw new InsertException();
+			}
+		} catch (SQLException | InsertException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+	}
+
+	public int getTrainerId(Trainer t) {
+		try {
+			ResultSet rs = Query.getTrainerId(this.st, t);
+			if(checkResultValidity(1, 1, rs)) {
+				return rs.getInt("trainer_id");
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return 0;
 	}
 }

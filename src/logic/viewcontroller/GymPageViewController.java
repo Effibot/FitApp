@@ -1,9 +1,14 @@
 package logic.viewcontroller;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import com.calendarfx.view.page.MonthPage;
 
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
+import javafx.beans.binding.BooleanBinding;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,7 +28,9 @@ import logic.calendarutility.CalendarInitializer;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
 import logic.controller.ManageTrainerController;
+import logic.entity.Course;
 import logic.entity.Trainer;
+import logic.entity.dao.TrainerDAO;
 import logic.factory.alertfactory.AlertFactory;
 
 public class GymPageViewController {
@@ -221,6 +228,7 @@ public class GymPageViewController {
 		trainerTable.setItems(mtCtrl.getTrainerList());
 		tableAnchor.setVisible(false);
 		tableAnchor.setDisable(true);
+		bindAdd();
 //		 textListener();
 	}
 
@@ -246,23 +254,56 @@ public class GymPageViewController {
 		} else if (event.getSource().equals(editButton)) {
 
 		} else if (event.getSource().equals(deleteButton)) {
-
+			ObservableList<Trainer> trainerSelected;
+			ObservableList<Trainer> allTrainer;
+			allTrainer = trainerTable.getItems();
+			trainerSelected = trainerTable.getSelectionModel().getSelectedItems();
+			// linee commentate per evitare di cancellare cose su db durante testing
+				//trainerSelected.forEach(allTrainer::remove);
+				//TrainerDAO.getInstance().deleteTrainer(trainerSelected.get(0));
+			System.out.println(trainerSelected.get(0));
 		}
 	}
 
 	private void add() {
-		if(!ManageTrainerController.isAlpha(nameField.getText())) {
-			AlertFactory.getInstance().createAlert(AlertType.INFORMATION, "Trainer Name Input Error", 
-					"Be carefoul, only characters are allowed for trainer name", "Your input is: "+ nameField.getText()).display();
+		if (!ManageTrainerController.isAlpha(nameField.getText())) {
+			AlertFactory.getInstance()
+					.createAlert(AlertType.INFORMATION, "Trainer Name Input Error",
+							"Be carefoul, only characters are allowed for trainer name",
+							"Your input is: " + nameField.getText())
+					.display();
 		} else {
 			// add to table and save to db
-//			Trainer t = new Trainer();
-//			t.setName(nameField.getText());
-//			t.setGymId(ctrl.getId());
-//			t.set
+			Trainer t = new Trainer();
+			Map<Course, Boolean> course = new EnumMap<>(Course.class);
+			course.put(Course.KICKBOXING, kickCheck.isSelected());
+			course.put(Course.PUGILATO, boxeCheck.isSelected());
+			course.put(Course.SALSA, salsaCheck.isSelected());
+			course.put(Course.ZUMBA, zumbaCheck.isSelected());
+			course.put(Course.FUNCTIONAL, functCheck.isSelected());
+			course.put(Course.WALKING, walkCheck.isSelected());
+			course.put(Course.PUMP, pumpCheck.isSelected());
+			t.setName(nameField.getText());
+			t.setGymId(ctrl.getId());
+			t.setCourse(course);
+			TrainerDAO.getInstance().addTrainer(t);
+			t.setTrainerId(TrainerDAO.getInstance().getTrainerId(t));
+			trainerTable.getItems().add(t);
 		}
+
+	}
+
+	private void bindAdd() {
+		BooleanBinding checkBinding = kickCheck.selectedProperty()
+				.or(boxeCheck.selectedProperty().or(
+						zumbaCheck.selectedProperty().or(salsaCheck.selectedProperty().or(functCheck.selectedProperty()
+								.or(walkCheck.selectedProperty().or(pumpCheck.selectedProperty()))))));
+		addButton.disableProperty().bind(checkBinding);
+	}
+	private void addButtonListener() {
 		
 	}
+
 	@FXML
 	void initialize() {
 
@@ -293,7 +334,6 @@ public class GymPageViewController {
 		calendar.refresh(ctrl.getId());
 
 		monthPage = calendar.setView(true);
-
 
 		monthPage = calendar.getMonthPage();
 		monthPage.setMaxSize(680, 502);
