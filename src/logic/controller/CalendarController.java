@@ -7,22 +7,21 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 
-import logic.calendarutility.Calendars;
-import logic.calendarutility.Entries;
 import logic.entity.Gym;
 import logic.entity.Session;
 import logic.entity.User;
 import logic.entity.dao.GymDAO;
 import logic.entity.dao.SessionDAO;
 import logic.entity.dao.UserDAO;
+import logic.facade.calendar.CalendarsEvent;
+import logic.facade.calendar.EntryCalendar;
 
 public class CalendarController {
 
 
-	private static CalendarController instance = null;
 	private CalendarSource calendarSource;
-	private Entries entries;
-	private Calendars calendars;
+	private EntryCalendar entries;
+	private CalendarsEvent calendars;
 	private GymDAO gymDAO;
 	private SessionDAO sessionDAO;
 	private UserDAO userDAO;
@@ -30,24 +29,19 @@ public class CalendarController {
 
 
 
-	protected CalendarController() {
-		this.calendars = Calendars.getSingletonInstance();
-		this.entries = Entries.getSingletonInstance();
+	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar) {
+		this.calendars = calendarsEvent;
+		this.entries = entryCalendar;
 		this.gymDAO = GymDAO.getInstance();
 		this.sessionDAO = SessionDAO.getInstance();
 		this.userDAO = UserDAO.getInstance();
 
 	}
 
-	public static synchronized CalendarController getSingletoneInstance() {
-		if(CalendarController.instance == null)
-			CalendarController.instance = new CalendarController();
-		return CalendarController.instance;
-	}
+
 
 	public CalendarSource getCalendarSource(int id) {
 		calendarSource = new CalendarSource(String.valueOf(id));
-
 		this.populateCalendar(id);
 		calendarSource.getCalendars().addAll(calendars.getAvaiableCalendar());
 		return calendarSource;		
@@ -56,14 +50,15 @@ public class CalendarController {
 	public void populateCalendar( int userId) {
 		User user = userDAO.getUserEntity(userId);
 		Calendar calendar;
-		Entry<?> entry;
+		Entry<?> entry;	
 		if(user.isManager()) {
 			Gym gym = gymDAO.getGymEntityById(user.getId());
 			List<Session> managerSession = sessionDAO.getCourseGym(gym.getGymId());
 
 			for(Session s:managerSession) {
 
-				String gymName = gymDAO.getGymEntityById(Integer.parseInt(s.getGym())).getGymName();
+
+				String gymName = gym.getGymName();
 				String courseName = sessionDAO.getCourseById(s.getCourseId());
 				s.setGym(gymName);
 				s.setCourseName(courseName);
@@ -76,7 +71,6 @@ public class CalendarController {
 				int hours = newCalendar.get(java.util.Calendar.HOUR);
 				int min = newCalendar.get(java.util.Calendar.MINUTE);
 				entry = entries.setEntryCalendar(year, month, day, hours, min, calendar);
-
 				calendar.addEntries(entry);
 
 			}

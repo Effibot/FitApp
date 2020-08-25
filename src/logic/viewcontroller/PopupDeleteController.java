@@ -6,11 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import logic.calendarutility.Entries;
+import logic.facade.calendar.EntryCalendar;
 
 public class PopupDeleteController {
 	 private static PopupDeleteController instance = null;
-	 private Entries entries = Entries.getSingletonInstance();
 
 	    @FXML
 	    private Button closeBtn;
@@ -24,6 +23,8 @@ public class PopupDeleteController {
 	    @FXML
 
 		private Entry<?> entry;
+
+		private EntryCalendar entries;
 
 	    @FXML
 	    public void allDelete(ActionEvent event) {
@@ -57,8 +58,9 @@ public class PopupDeleteController {
 	        return this.entry;
 	    }
 
-		public void setEntryToDelete(Entry<?> evnt) {
+		public void setEntryToDelete(Entry<?> evnt, EntryCalendar entries) {
 	        this.entry = evnt;
+			this.entries = entries;
 
 	    }
 

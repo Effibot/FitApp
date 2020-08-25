@@ -20,8 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import logic.calendarutility.Calendars;
-import logic.calendarutility.Entries;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
@@ -51,8 +49,7 @@ public class ReviewViewController {
     }
 
     public  ReviewViewController(Entry entry) {
-        Calendars calendars = Calendars.getSingletonInstance();
-        Entries entries = Entries.getSingletonInstance();
+
 
     }
 

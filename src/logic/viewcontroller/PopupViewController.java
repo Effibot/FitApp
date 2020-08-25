@@ -25,8 +25,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.calendarutility.Calendars;
-import logic.calendarutility.Entries;
+import logic.facade.calendar.CalendarBehaviour;
+import logic.facade.calendar.CalendarsEvent;
+import logic.facade.calendar.EntryCalendar;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
@@ -78,8 +79,8 @@ public class PopupViewController {
 	private JFXTextArea textArea;
 
 	private Entry<?> selectedEntry;
-	private Calendars calendars;
-	private Entries entries;
+	private CalendarsEvent calendars;
+	private EntryCalendar entries;
 	private DateControl.EntryDetailsPopOverContentParameter param;
 	private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -104,8 +105,9 @@ public class PopupViewController {
 
 
 	public PopupViewController() {
-		calendars = Calendars.getSingletonInstance();
-		entries = Entries.getSingletonInstance();
+		CalendarBehaviour calendarBehaviour = CalendarBehaviour.getSingletoneInstance();
+		this.entries = calendarBehaviour.getEntryCalendar();
+		this.calendars = calendarBehaviour.getCalendarsEvent();
 	}
 
 	public void setSelectedEvent() {
@@ -159,7 +161,7 @@ public class PopupViewController {
 
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.DELETEPOPUP);
 			PopupDeleteController popupDeleteController = (PopupDeleteController) calendarView.getCurrentController();
-			popupDeleteController.setEntryToDelete(selectedEntry);
+			popupDeleteController.setEntryToDelete(selectedEntry, entries);
 			System.out.println(selectedEntry.getId());
 			Scene scene = new Scene(calendarView.getRoot());
 			window.setScene(scene);

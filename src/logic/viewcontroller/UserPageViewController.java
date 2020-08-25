@@ -14,10 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import logic.calendarutility.CalendarInitializer;
 import logic.controller.MainController;
 import logic.entity.User;
 import logic.entity.dao.UserDAO;
+import logic.facade.calendar.CalendarFacade;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
@@ -51,7 +51,6 @@ public class UserPageViewController {
 	@FXML
 	private Button openCalendar;
 
-	private CalendarInitializer calendar;
 
 	private MonthPage mPage;
 
@@ -90,21 +89,13 @@ public class UserPageViewController {
 	}
 
 	private void calendarSetUp() {
-		calendar = CalendarInitializer.getSingletonInstance();
-		calendar.refresh(ctrl.getId());
-
-		mPage = calendar.setView(false);
-
-		mPage = calendar.getMonthPage();
-		mPage.setMaxSize(680,502);
-		mPage.setMinSize(680, 502);
-
+		int userId = ctrl.getId();
+		CalendarFacade calendarFacade = new CalendarFacade(false);
+		mPage = calendarFacade.initializeCalendar(userId);
 		calendarBox.getChildren().add(mPage);
 		calendarBox.setVisible(false);
+		mPage.getCalendars().get(0).addEventHandler(calendarFacade.getEventHandler());
 
-		// calendarBox.setManaged(true);
-
-		this.mPage.getCalendars().get(0).addEventHandler(calendar.setEventHandler());
 
 	}
 
@@ -119,7 +110,6 @@ public class UserPageViewController {
 		sideUsername.setText(user.getName());
 		sideStreet.setText(user.getMyPosition());
 		calendarSetUp();
-
 
 
 	}

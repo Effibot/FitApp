@@ -112,7 +112,7 @@ public class SessionDAO extends ConnectionManager {
             	boolean individual = rs.getBoolean("individual");
             	String trainerName = rs.getString("trainer_name");
             	String recurrence = rs.getString("recurrence");
-            	
+				System.out.println(courseId);
             	Session s = new Session(trainerName, String.valueOf(id),duration,data,description,courseId,street,individual,recurrence);
             	
 				list.add(s);

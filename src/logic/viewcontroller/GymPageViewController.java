@@ -26,12 +26,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import logic.bean.GymPageBean;
-import logic.calendarutility.CalendarInitializer;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
 import logic.controller.ManageTrainerController;
 import logic.entity.Course;
 import logic.entity.Trainer;
+import logic.facade.calendar.CalendarFacade;
 import logic.factory.alertfactory.AlertFactory;
 
 public class GymPageViewController {
@@ -366,18 +366,12 @@ public class GymPageViewController {
 
 	private void calendarSetup() {
 		// TODO Auto-generated method stub
-		CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
-		calendar.refresh(ctrl.getId());
-		monthPage = calendar.setView(true);
+		int gymId = ctrl.getId();
+		CalendarFacade calendarFacade = new CalendarFacade(true);
 
-		monthPage.setMaxSize(680, 502);
-		monthPage.setMinSize(680, 502);
+		monthPage = calendarFacade.initializeCalendar(gymId);
 
-
-		calendar.refresh(ctrl.getId());
-
-		monthPage.getCalendars().get(0).removeEventHandler(calendar.getEventHandler());
-		calendar.refresh(ctrl.getId());
+		monthPage.getCalendars().get(0).removeEventHandler(calendarFacade.getEventHandler());
 
 	}
 
