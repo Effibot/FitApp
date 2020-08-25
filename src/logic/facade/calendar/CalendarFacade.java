@@ -44,10 +44,8 @@ public class CalendarFacade {
 		calendarBehaviour.multiplesEntries(monthPage);
 		if (!userProperty) {
 			eventHandler = calendarBehaviour.setEventHandler();
-			eventHandler = calendarBehaviour.setEventHandler1();
 		} else {
 			eventHandler = calendarBehaviour.getEventHandler();
-			eventHandler = calendarBehaviour.getEventHandler1();
 		}
 		return monthPage;
 

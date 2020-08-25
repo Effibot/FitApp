@@ -69,16 +69,22 @@ public class EmailViewController {
 		stage.close(); }
 
 
-	public void setEvent(String course,String time, String gym) {
+	public void setEvent(String course, String time, String gym) {
 		gymEmailTitle.setText("Email to: "+gym+" course: "+course);
 		evtLbl.setText(course);
 		timeLbl.setText(time);
-		gymName =gym;
+		gymName = gym;
 		evt = course;
 	}
 
 
 
+	public void setEvent(String course, String time) {
+		gymEmailTitle.setText("Email tocourse: " + course);
+		evtLbl.setText(course);
+		timeLbl.setText(time);
+		evt = course;
+	}
 
 
 

@@ -41,7 +41,6 @@ public class CalendarBehaviour {
 	private CalendarsEvent calendarsEvent;
 	private DayPage dayPage;
 
-	private EventHandler<CalendarEvent> evtHandler1;
 
 
 	public void setSources(CalendarViewFactory calendarViewFactory, MonthPage monthPage,
@@ -170,16 +169,18 @@ public class CalendarBehaviour {
 				fullDayViewController.setDaySources(calendarSource, event, this.userProperty, monthPage);
 				dayPage = fullDayViewController.getDayPage();
 				if (!userProperty) {
-					dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
-					for (int i = 0; i < 7; i++) {
-						dayPage.getCalendars().get(i).addEventHandler(getEventHandler1());
+					for (int i = 0; i < 8; i++) {
+						dayPage.getCalendars().get(i).setReadOnly(true);
 					}
+					dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
+
 				}
 				else {
-					dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
 					for (int i = 0; i < 7; i++) {
-						dayPage.getCalendars().get(i).removeEventHandler(getEventHandler1());
+						dayPage.getCalendars().get(i).setReadOnly(false);
 					}
+					dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
+
 				}
 				Scene scene = new Scene(calendarView.getRoot());
 				stage.setScene(scene);
@@ -205,28 +206,12 @@ public class CalendarBehaviour {
 		return this.evtHandler;
 	}
 
-	public EventHandler<CalendarEvent> setEventHandler1() {
-		this.evtHandler1 = new EventHandler<CalendarEvent>() {
 
-			@Override
-			public void handle(CalendarEvent event) {
-				EventType<CalendarEvent> calendarEvent2 = CalendarEvent.ENTRY_INTERVAL_CHANGED;
-
-				if (event.getEventType().equals(calendarEvent2)) {
-					event.getEntry().getCalendar().setReadOnly(true);
-				}
-			}
-		};
-		return this.evtHandler1;
-		}
 
 	public EventHandler<CalendarEvent> getEventHandler() {
 		return evtHandler;
 	}
 
-	public EventHandler<CalendarEvent> getEventHandler1() {
-		return evtHandler1;
-	}
 
 
 	public static synchronized CalendarBehaviour getSingletoneInstance() {

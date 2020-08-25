@@ -280,8 +280,8 @@ public class PopupViewController {
 			EmailViewController emailViewController = (EmailViewController) calendarView.getCurrentController();
 			/// Da mettere
 
-			// emailViewController.setEvent(selectedEntry.getCalendar().getName(),
-			// selectedEntry.getStartTime().toString(), null );
+			emailViewController.setEvent(selectedEntry.getCalendar().getName(),
+					selectedEntry.getStartTime().toString());
 			Scene scene = new Scene(calendarView.getRoot());
 			emlStage.setScene(scene);
 			emlStage.showAndWait();
@@ -334,4 +334,5 @@ public class PopupViewController {
 
 		}
 	}
+
 }
