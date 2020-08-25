@@ -3,6 +3,7 @@ package logic.calendarutility;
 import java.io.IOException;
 
 import com.calendarfx.model.Calendar;
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.model.LoadEvent;
@@ -12,6 +13,7 @@ import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -39,7 +41,8 @@ public class CalendarInitializer {
 	private CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
 	private FullDayViewController fullDayViewController;
 	private Event update = new Event(LoadEvent.LOAD);
-	MainController ctrl = MainController.getInstance();
+	private MainController ctrl = MainController.getInstance();
+	private EventHandler<CalendarEvent> eventHandler;
 
 	private boolean userProperty;
 
@@ -187,22 +190,29 @@ public class CalendarInitializer {
 				tmpCalendar.clear();
 
 			}
-//			this.monthPage.fireEvent(update);
 		}
-
 		calendarSource = cal.getCalendarSource(id);
 		monthPage.getCalendarSources().addAll(calendarSource);
 	}
 
-//	EventHandler<CalendarEvent, boolean> event = new EventHandler<CalendarEvent, boolean>() 
-//	{
-//		@Override
-//		public void handle(CalendarEvent event, boolean us) {
-//	if(event.getEventType().equals(CalendarEvent.ENTRY_CALENDAR_CHANGED)&& userProperty){
-//				
-//			}
-//	    }
-//	};
+
+	public EventHandler<CalendarEvent> setEventHandler() {
+		this.eventHandler = new EventHandler<CalendarEvent>() {
+			@Override
+			public void handle(CalendarEvent event) {
+				
+					event.getEntry().removeFromCalendar();
+
+			}
+		};
+		return this.eventHandler;
+	}
+
+	public EventHandler<CalendarEvent> getEventHandler() {
+		return this.eventHandler;
+	}
+
+
 	public MonthPage setView(boolean userProperty) {
 		this.userProperty = userProperty;
 		monthPage.setShowToday(true);
@@ -212,7 +222,6 @@ public class CalendarInitializer {
 
 		monthPage.setEntryDetailsPopOverContentCallback(param -> doubleClickEntry(param, userProperty));
 		monthPage.setEntryContextMenuCallback(param -> rightClickEntry(param, userProperty));
-		// this.monthPage.getCalendars().get(0).addEventHandler(event);
 		return this.monthPage;
 	
 	}

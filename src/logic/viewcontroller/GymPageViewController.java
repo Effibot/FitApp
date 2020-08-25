@@ -32,7 +32,6 @@ import logic.controller.MainController;
 import logic.controller.ManageTrainerController;
 import logic.entity.Course;
 import logic.entity.Trainer;
-import logic.entity.dao.TrainerDAO;
 import logic.factory.alertfactory.AlertFactory;
 
 public class GymPageViewController {
@@ -349,19 +348,10 @@ public class GymPageViewController {
 		assert manageTrainer != null : "fx:id=\"manageTrainer\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert openCalendar != null : "fx:id=\"openCalendar\" was not injected: check your FXML file 'GymPage.fxml'.";
 		assert viewReview != null : "fx:id=\"viewReview\" was not injected: check your FXML file 'GymPage.fxml'.";
-
-		CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
-		calendar.refresh(ctrl.getId());
-
-		monthPage = calendar.setView(true);
-
-		monthPage = calendar.getMonthPage();
-		monthPage.setMaxSize(680, 502);
-		monthPage.setMinSize(680, 502);
-
-		monthPage = calendar.getMonthPage();
+		calendarSetup();
 
 		calendarBox.getChildren().add(monthPage);
+
 		fillGraphics();
 		calendarBox.setVisible(false);
 		// monthPage.setManaged(true);
@@ -371,6 +361,23 @@ public class GymPageViewController {
 		// mtvc = new ManageTrainerViewController(bean);
 //		mtv = new ManageTrainerView(ViewType.MANAGETRAINER);
 //		calendarBox.getChildren().add(mtv.getRoot());
+
+	}
+
+	private void calendarSetup() {
+		// TODO Auto-generated method stub
+		CalendarInitializer calendar = CalendarInitializer.getSingletonInstance();
+		calendar.refresh(ctrl.getId());
+		monthPage = calendar.setView(true);
+
+		monthPage.setMaxSize(680, 502);
+		monthPage.setMinSize(680, 502);
+
+
+		calendar.refresh(ctrl.getId());
+
+		monthPage.getCalendars().get(0).removeEventHandler(calendar.getEventHandler());
+		calendar.refresh(ctrl.getId());
 
 	}
 

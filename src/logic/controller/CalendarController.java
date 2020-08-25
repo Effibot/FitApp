@@ -106,9 +106,5 @@ public class CalendarController {
 		}
 	}
 
-	public void wipe() {
-		this.calendarSource.getCalendars().clear();
-
-	}
 
 }
