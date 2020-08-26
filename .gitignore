@@ -5,6 +5,7 @@
 !.travis.yml
 
 ### Eclipse
-.settings/
-.classpath
+trunk/.settings/
+trunk/.classpath
 .project
+trunk/bin/
