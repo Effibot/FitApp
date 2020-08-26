@@ -4,6 +4,8 @@ package logic.factory.alertfactory;
 import java.io.IOException;
 
 import javafx.scene.control.Alert.AlertType;
+import logic.exception.ControllerLoadingException;
+import logic.exception.DeleteException;
 import logic.exception.EmailException;
 import logic.exception.InputNotComplianException;
 import logic.exception.UserNotFoundException;
@@ -30,6 +32,10 @@ public class AlertFactory {
 		} else if(e instanceof EmailException){
 			return new CustomAlertBox(AlertType.ERROR,e);
 		} else if(e instanceof NullPointerException) {
+			return new CustomAlertBox(AlertType.ERROR, e);
+		} else if(e instanceof DeleteException) {
+			return new CustomAlertBox(AlertType.ERROR, e);
+		} else if(e instanceof ControllerLoadingException) {
 			return new CustomAlertBox(AlertType.ERROR, e);
 		}else {
 			return new CustomAlertBox(e);

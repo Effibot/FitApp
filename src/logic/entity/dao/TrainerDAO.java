@@ -10,6 +10,7 @@ import java.util.Map;
 
 import logic.entity.Course;
 import logic.entity.Trainer;
+import logic.exception.DeleteException;
 import logic.exception.InsertException;
 import logic.factory.alertfactory.AlertFactory;
 
@@ -73,5 +74,16 @@ public class TrainerDAO extends ConnectionManager {
 			AlertFactory.getInstance().createAlert(e);
 		}
 		return 0;
+	}
+
+	public void deleteTrainer(int trainerId) {
+		try {
+			int count = Query.deleteTrainer(this.st, trainerId);
+			if(count < 1) {
+				throw new DeleteException();
+			}
+		} catch (SQLException | DeleteException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
 	}
 }

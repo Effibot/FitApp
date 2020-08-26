@@ -62,11 +62,11 @@ public class ConnectionManager {
 	}
 
 	public boolean checkMinRow(int minRow, ResultSet rs) throws SQLException {
-		rs.first();
+		rs.beforeFirst();
 		int i = 0;
-		do {
+		while(rs.next()) {
 			i++;
-		} while (rs.next());
+		}
 		rs.first();
 		return minRow <= i; 
 	}

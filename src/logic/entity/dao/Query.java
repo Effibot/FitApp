@@ -1,5 +1,6 @@
 package logic.entity.dao;
 
+import java.lang.Thread.State;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -123,6 +124,15 @@ public class Query {
 		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence,gym_id from training_session where session_id = '"
 				+ sessionId + "';";
 
+		return st.executeQuery(sql);
+	}
+	public static int deleteTrainer(Statement st, int trainerId) throws SQLException {
+		String sql = "delete from trainer where trainer_id = " + trainerId;
+		return st.executeUpdate(sql);
+	}
+
+	public static ResultSet getTrainerSession(Statement st, int trainerId) throws SQLException {
+		String sql = "select * from training_session where trainer_id = " + trainerId;
 		return st.executeQuery(sql);
 	}
 }

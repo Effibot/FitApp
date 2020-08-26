@@ -162,7 +162,17 @@ public class SessionDAO extends ConnectionManager {
 		return null;
 	}
 	
-
+	public boolean hasSession(int trainerId) {
+		try {
+			ResultSet rs = Query.getTrainerSession(this.st, trainerId);
+			if(checkMinRow(1, rs)) {
+				return true;
+			}
+		} catch (SQLException e) {
+			AlertFactory.getInstance().createAlert(e);
+		}
+		return false;
+	}
 
     
 }
