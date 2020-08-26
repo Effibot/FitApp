@@ -6,10 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import logic.facade.calendar.CalendarBehaviour;
 import logic.facade.calendar.EntryCalendar;
 
 public class PopupDeleteController {
-	 private static PopupDeleteController instance = null;
 
 	    @FXML
 	    private Button closeBtn;
@@ -26,10 +26,10 @@ public class PopupDeleteController {
 
 		private EntryCalendar entries;
 
+
 	    @FXML
 	    public void allDelete(ActionEvent event) {
-			Entry<?> onlyCurr = this.getEntryToDelete();
-	        onlyCurr.removeFromCalendar();
+			entry.getCalendar().clear();
 	        Stage window = (Stage) allBtn.getScene().getWindow();
 	        window.close();
 	    }
@@ -44,18 +44,14 @@ public class PopupDeleteController {
 	    @FXML
 
 		public void deleteOnlyCurrent(ActionEvent event) {
-	        Entry<?> onlyCurr = this.getEntryToDelete();
-	        if (onlyCurr.getRecurrenceRule() == null) {
-	            onlyCurr.removeFromCalendar();
+			System.out.println(entry.getRecurrenceRule());
+			if (entry.getRecurrenceRule() == null) {
+				entry.removeFromCalendar();
 	        } else {
-				entries.deleteCalendarEntry(onlyCurr);
+				entries.deleteCalendarEntry(entry);
 	        }
 	        Stage window = (Stage) currBtn.getScene().getWindow();
 	        window.close();
-	    }
-
-		public Entry<?> getEntryToDelete() {
-	        return this.entry;
 	    }
 
 		public void setEntryToDelete(Entry<?> evnt, EntryCalendar entries) {
@@ -64,10 +60,11 @@ public class PopupDeleteController {
 
 	    }
 
-	    public static synchronized PopupDeleteController getSingletonInstance() {
-	        if (PopupDeleteController.instance == null)
-	            PopupDeleteController.instance = new PopupDeleteController();
-	        return instance;
-	    }
+		@FXML
+		void initialize() {
+			entries = CalendarBehaviour.getSingletoneInstance().getEntryCalendar();
+		}
+
+
 
 }

@@ -32,8 +32,7 @@ public class FullDayViewController {
 	}	
 
 
-	public void setDaySources(CalendarSource calendarSource, RequestEvent event, boolean userProperty,
-			MonthPage monthPage) {
+	public void setDaySources(CalendarSource calendarSource, RequestEvent event, MonthPage monthPage) {
 		String className = new Exception().getStackTrace()[1].getClassName();
 		System.out.println(className);
 		dayPage.getCalendarSources().add(calendarSource);
@@ -41,7 +40,7 @@ public class FullDayViewController {
 
 
 		dayPage.setEntryDetailsPopOverContentCallback(
-				param -> CalendarBehaviour.getSingletoneInstance().doubleClickEntry(param));
+				param -> calendarBehaviour.doubleClickEntry(param));
 		dayPage.setEntryContextMenuCallback(param -> calendarBehaviour.rightClickEntry(param));
 
 	}

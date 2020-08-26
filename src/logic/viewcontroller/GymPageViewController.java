@@ -370,8 +370,9 @@ public class GymPageViewController {
 		CalendarFacade calendarFacade = new CalendarFacade(true);
 
 		monthPage = calendarFacade.initializeCalendar(gymId);
+		monthPage.getCalendars().get(0).addEventHandler(calendarFacade.getEventHandler());
 
-		monthPage.getCalendars().get(0).removeEventHandler(calendarFacade.getEventHandler());
+		// monthPage.getCalendars().get(0).removeEventHandler(calendarFacade.getEventHandler());
 
 	}
 

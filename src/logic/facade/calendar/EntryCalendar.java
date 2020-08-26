@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Entry;
@@ -48,22 +46,13 @@ public class EntryCalendar {
 		entry.setCalendar(calendar);
 		entry.setTitle(calendar.getName());
 		entry.setId(calendar.getName().toLowerCase());
-		entry.setLocation("Palestra Evolution");
 		// Interval
 		Duration fromHours = Duration.ofHours((long) 1.30);
 		entry.setMinimumDuration(fromHours);
 		return entry;
 	}
 
-	public void searchEntry(int year, int month, int dayMonth, String calendar) {
-		///////// Search in Calendar /////////
-		List<Entry<?>> entries = calendarsEvent.findEntries(calendar);
-		for (Entry<?> s : entries) {
-			Logger logger = Logger.getLogger("bof");
-			logger.log(Level.INFO, s.getId());
-		}
 
-	}
 
 
 
@@ -72,8 +61,6 @@ public class EntryCalendar {
 	}
 
 	private void dateIterator(Entry<?> contextEntry) {
-
-		EntryCalendar correctEntry = this;
 
 		int dayToRemove = contextEntry.getStartDate().getDayOfMonth();
 		int monthToRemove = contextEntry.getStartDate().getMonthValue();
@@ -90,18 +77,26 @@ public class EntryCalendar {
 
 			Entry<?> iesEntry = iterator.next();
 			LocalDate nextInstance = iesEntry.getStartDate();
+			if (nextInstance != null) {
 
-			if (nextInstance.getDayOfMonth() == dayToRemove && nextInstance.getMonthValue() == monthToRemove) {
-				calendar.removeEntries(iesEntry);
-			} else if (nextInstance.getDayOfMonth() != dayToRemove && nextInstance.getMonthValue() == monthToRemove) {
 
-				correctEntry.setEntryCalendar(nextInstance.getYear(), nextInstance.getMonthValue(),
-						nextInstance.getDayOfMonth(), tempHour, tempMin, calendarsEvent.getCalendarById(tempCalendar));
+				if (nextInstance.getDayOfMonth() == dayToRemove && nextInstance.getMonthValue() == monthToRemove) {
+					calendar.removeEntries(iesEntry);
+				} else if (nextInstance.getDayOfMonth() != dayToRemove
+						&& nextInstance.getMonthValue() == monthToRemove) {
+					this.setEntryCalendar(nextInstance.getYear(), nextInstance
+							.getMonthValue(),
+							nextInstance.getDayOfMonth(), tempHour, tempMin,
+							calendarsEvent.getCalendarById(tempCalendar));
 
-			} else if (nextInstance.getDayOfMonth() != dayToRemove && nextInstance.getMonthValue() != monthToRemove) {
-				correctEntry.setEntryCalendar(nextInstance.getYear(), nextInstance.getMonthValue(),
-						nextInstance.getDayOfMonth(), tempHour, tempMin, calendarsEvent.getCalendarById(tempCalendar));
+				} else if (nextInstance.getDayOfMonth() != dayToRemove
+						&& nextInstance.getMonthValue() != monthToRemove) {
+					this.setEntryCalendar(nextInstance.getYear(), nextInstance
+							.getMonthValue(),
+							nextInstance.getDayOfMonth(), tempHour, tempMin,
+							calendarsEvent.getCalendarById(tempCalendar));
 
+				}
 			}
 		}
 

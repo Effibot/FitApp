@@ -41,11 +41,13 @@ public class CalendarBehaviour {
 	private CalendarsEvent calendarsEvent;
 	private DayPage dayPage;
 
+	private EntryDetailsPopOverContentParameter entryPopOver;
 
 
 	public void setSources(CalendarViewFactory calendarViewFactory, MonthPage monthPage,
 			boolean userProperty,
-			EntryCalendar entryCalendar, CalendarSource calendarSource, CalendarsEvent calendarsEvent) {
+			EntryCalendar entryCalendar, CalendarSource calendarSource, CalendarsEvent calendarsEvent,
+			EntryDetailsPopOverContentParameter entryPopover2) {
 		this.calendarViewFactory = calendarViewFactory;
 		this.entryCalendar = entryCalendar;
 		this.monthPage = monthPage;
@@ -53,6 +55,7 @@ public class CalendarBehaviour {
 		this.calendarSource = calendarSource;
 		this.userProperty = userProperty;
 		this.calendarsEvent = calendarsEvent;
+		this.entryPopOver = entryPopover2;
 	}
 
 	public CalendarsEvent getCalendarsEvent() {
@@ -73,7 +76,6 @@ public class CalendarBehaviour {
 			CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.MAINPOPUP);
 			PopupViewController popupViewController = (PopupViewController) calendarView.getCurrentController();
 			popupViewController.setParam(param, userProperty);
-			popupViewController.setSelectedEvent();
 			popupViewController.setDetailsPopup();
 			popupViewController.setMonthPage(monthPage);
 
@@ -166,7 +168,7 @@ public class CalendarBehaviour {
 				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.FULLDAY);
 
 				fullDayViewController = (FullDayViewController) calendarView.getCurrentController();
-				fullDayViewController.setDaySources(calendarSource, event, this.userProperty, monthPage);
+				fullDayViewController.setDaySources(calendarSource, event, monthPage);
 				dayPage = fullDayViewController.getDayPage();
 				if (!userProperty) {
 					for (int i = 0; i < 8; i++) {
@@ -198,9 +200,17 @@ public class CalendarBehaviour {
 			@Override
 			public void handle(CalendarEvent event) {
 				EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
+				System.out.println(userProperty);
+				if (event.getEventType().equals(calendarEvent1) && !userProperty) {
+					System.out.println("NOT CLICK");
 
-				if (event.getEventType().equals(calendarEvent1))
 					event.getEntry().removeFromCalendar();
+				}
+				else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+					System.out.println("HANDLING DOUBLE CLICK");
+					System.out.println(CalendarBehaviour.instance.entryPopOver.getEntry().getId());
+
+				}
 			}
 		};
 		return this.evtHandler;

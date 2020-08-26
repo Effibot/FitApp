@@ -42,6 +42,8 @@ public class CalendarController {
 
 	public CalendarSource getCalendarSource(int id) {
 		calendarSource = new CalendarSource(String.valueOf(id));
+		String className = new Exception().getStackTrace()[1].getClassName();
+		System.out.println(className);
 		this.populateCalendar(id);
 		calendarSource.getCalendars().addAll(calendars.getAvaiableCalendar());
 		return calendarSource;		

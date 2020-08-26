@@ -61,6 +61,7 @@ public class CalendarsEvent extends Calendar {
 		int i = 0;
 		while (calendarIterator.hasNext()) {
 			if (calendarIterator.next().getName().equals(name)) {
+				System.out.println("TROVATO");
 				return getCalendar(i);
 			}
 			i++;

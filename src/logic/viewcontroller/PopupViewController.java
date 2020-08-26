@@ -97,6 +97,7 @@ public class PopupViewController {
 	public void setParam(DateControl.EntryDetailsPopOverContentParameter param, boolean userProperty) {
 		this.param = param;
 		this.userProperty = userProperty;
+		selectedEntry = param.getEntry();
 		this.setParamView();
 
 	}
@@ -110,10 +111,6 @@ public class PopupViewController {
 		this.calendars = calendarBehaviour.getCalendarsEvent();
 	}
 
-	public void setSelectedEvent() {
-
-		selectedEntry = this.getParam().getEntry();
-	}
 
 
 
@@ -175,6 +172,7 @@ public class PopupViewController {
 	@FXML
 	void saveCourse(MouseEvent event) {
 		// Gym sets event
+		System.out.println("LOL");
 	}
 
 	@FXML
