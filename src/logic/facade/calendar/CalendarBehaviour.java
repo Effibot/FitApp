@@ -2,6 +2,8 @@ package logic.facade.calendar;
 
 import java.io.IOException;
 
+import org.controlsfx.control.PopOver;
+
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
@@ -13,6 +15,7 @@ import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -24,7 +27,6 @@ import logic.factory.alertfactory.AlertFactory;
 import logic.factory.calendarviewfactory.CalendarViewFactory;
 import logic.factory.calendarviewfactory.CalendarViewType;
 import logic.view.calendarview.CalendarView;
-import logic.viewcontroller.FullDayViewController;
 import logic.viewcontroller.PopupViewController;
 import logic.viewcontroller.ReviewViewController;
 
@@ -35,19 +37,17 @@ public class CalendarBehaviour {
 	private MonthPage monthPage;
 	private boolean userProperty;
 	private EntryCalendar entryCalendar;
-	private FullDayViewController fullDayViewController;
 	private CalendarSource calendarSource;
 	private EventHandler<CalendarEvent> evtHandler;
 	private CalendarsEvent calendarsEvent;
 	private DayPage dayPage;
 
-	private EntryDetailsPopOverContentParameter entryPopOver;
 
 
 	public void setSources(CalendarViewFactory calendarViewFactory, MonthPage monthPage,
 			boolean userProperty,
 			EntryCalendar entryCalendar, CalendarSource calendarSource, CalendarsEvent calendarsEvent,
-			EntryDetailsPopOverContentParameter entryPopover2) {
+			DayPage dayPage) {
 		this.calendarViewFactory = calendarViewFactory;
 		this.entryCalendar = entryCalendar;
 		this.monthPage = monthPage;
@@ -55,7 +55,7 @@ public class CalendarBehaviour {
 		this.calendarSource = calendarSource;
 		this.userProperty = userProperty;
 		this.calendarsEvent = calendarsEvent;
-		this.entryPopOver = entryPopover2;
+		this.dayPage = dayPage;
 	}
 
 	public CalendarsEvent getCalendarsEvent() {
@@ -157,60 +157,52 @@ public class CalendarBehaviour {
 		return rBox;
 	}
 
-	public void multiplesEntries(MonthPage monthPage) {
+	public void multiplesEntries() {
+
 		monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
-			try {
 
-				Stage stage = new Stage();
-				stage.initStyle(StageStyle.TRANSPARENT);
-				stage.initModality(Modality.APPLICATION_MODAL);
 
-				CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.FULLDAY);
+			dayPage.setDate(event.getDate());
+			PopOver popOver = this.fullDayOver();
 
-				fullDayViewController = (FullDayViewController) calendarView.getCurrentController();
-				fullDayViewController.setDaySources(calendarSource, event, monthPage);
-				dayPage = fullDayViewController.getDayPage();
-				if (!userProperty) {
-					for (int i = 0; i < 8; i++) {
-						dayPage.getCalendars().get(i).setReadOnly(true);
-					}
-					dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
+			popOver.setAutoHide(true);
+			popOver.show((Node) event.getTarget());
 
-				}
-				else {
-					for (int i = 0; i < 7; i++) {
-						dayPage.getCalendars().get(i).setReadOnly(false);
-					}
-					dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
-
-				}
-				Scene scene = new Scene(calendarView.getRoot());
-				stage.setScene(scene);
-				stage.showAndWait();
-			} catch (IOException e) {
-				AlertFactory.getInstance().createAlert(e);
-			}
 
 		});
+
 	}
 
 	public EventHandler<CalendarEvent> setEventHandler() {
+
+		monthPage.setEntryDetailsPopOverContentCallback(param -> {
+
+			return instance.doubleClickEntry(param);
+		});
+		monthPage.setEntryContextMenuCallback(param -> instance.rightClickEntry(param));
+
+
+
 		this.evtHandler = new EventHandler<CalendarEvent>() {
 
 			@Override
 			public void handle(CalendarEvent event) {
 				EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
-				System.out.println(userProperty);
 				if (event.getEventType().equals(calendarEvent1) && !userProperty) {
 					System.out.println("NOT CLICK");
-
 					event.getEntry().removeFromCalendar();
-				}
-				else if (event.getEventType().equals(calendarEvent1) && userProperty) {
-					System.out.println("HANDLING DOUBLE CLICK");
-					System.out.println(CalendarBehaviour.instance.entryPopOver.getEntry().getId());
+
 
 				}
+//
+//				else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+//
+////					PopOver popOver = new PopOver(doubleClickEntry2(event.getEntry()));
+//
+////					popOver.show(node);
+//
+//
+//				}
 			}
 		};
 		return this.evtHandler;
@@ -220,6 +212,28 @@ public class CalendarBehaviour {
 
 	public EventHandler<CalendarEvent> getEventHandler() {
 		return evtHandler;
+	}
+
+	public PopOver fullDayOver() {
+		dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
+		dayPage.getCalendarSources().add(calendarSource);
+		dayPage.setMinWidth(340);
+		dayPage.setMaxHeight(300);
+		if (!userProperty) {
+			for (int i = 0; i < 8; i++) {
+				dayPage.getCalendars().get(i).setReadOnly(true);
+			}
+			dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
+
+		} else {
+			for (int i = 0; i < 7; i++) {
+				dayPage.getCalendars().get(i).setReadOnly(false);
+			}
+			dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
+
+		}
+		return new PopOver(this.dayPage);
+
 	}
 
 

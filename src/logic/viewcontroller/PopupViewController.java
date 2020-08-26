@@ -95,9 +95,17 @@ public class PopupViewController {
 	}
 
 	public void setParam(DateControl.EntryDetailsPopOverContentParameter param, boolean userProperty) {
-		this.param = param;
+
 		this.userProperty = userProperty;
-		selectedEntry = param.getEntry();
+		this.selectedEntry = param.getEntry();
+		this.setParamView();
+
+	}
+
+	public void setParam(Entry<?> selectedEntry, boolean userProperty) {
+
+		this.userProperty = userProperty;
+		this.selectedEntry = selectedEntry;
 		this.setParamView();
 
 	}
@@ -186,7 +194,7 @@ public class PopupViewController {
 
 	}
 
-	public void setDateEvent() {
+	public void setDetailsPopup() {
 		dateId.setText(selectedEntry.getStartDate().format(dateFormatter));
 		timeId.set24HourView(true);
 		timeId.setValue(selectedEntry.getStartTime());
@@ -197,11 +205,9 @@ public class PopupViewController {
 		dateId.setEditable(false);
 		timeId.setEditable(false);
 		timeId1.setEditable(false);
-	}
+		courseNameId.setText(selectedEntry.getCalendar().getName());
+		courseNameId.setEditable(false);
 
-	public void setDetailsPopup() {
-		this.setNameEvent();
-		this.setDateEvent();
 	}
 
 
