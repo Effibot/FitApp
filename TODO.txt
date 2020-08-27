@@ -1,5 +1,4 @@
 + le azioni che si devono fare quando si clicca su "Book" di corso specifico;
-    - creare oggetto custom con label e pallino per ricorrenza.
     - inserimento in db della sessione booked.
     - se privato, settare a true. 
 
