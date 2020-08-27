@@ -1,0 +1,62 @@
++ le azioni che si devono fare quando si clicca su "Book" di corso specifico;
+    - creare oggetto custom con label e pallino per ricorrenza.
+    - inserimento in db della sessione booked.
+    - se privato, settare a true. 
+
++ gestire corsi individuali o di gruppo;
+    - quando carico da DB le sessioni, mi salvo da un altra parte quelle che hanno il privato.
+    - cerco nel DB delle sessioni prenotate l'id delle sessioni private che abbiamo salvato.
+
++ implementare Set course
+    - salvare nel db la sessione creata.
+    - al salvataggio delle sessioni, creare duplicati in caso di ricorrenza
+
++ rimuovere la possibilità di creare più eventi di default. 
+    - al doppio click su calendario, controllo se ci sono eventi default, se si, 'Alert con stringhe' che segnala la cosa
+    e suggerisce di terminare la creazione dell'evento precedente
+
+
++ creare infiniti bean per il passaggio dati tra viewController e logicController e Entity
+
++ nome trainer e palestra in calendarUser;
+
++ nome trainer dentro calendarGym;
+
++ levare  tutti gli smell;
+
+// creare container per gli alert 
+
+// Gestione Profilo Utente 
+    - eliminazione account fitapp
+    - modifica via 
+    - modifica username & password
+    - modifica email
+
+//Creare classi per la gestione di recensione e valutazione;
+//recensioni nella ricerca
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

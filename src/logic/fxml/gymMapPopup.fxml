@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="400.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-border-color: #B1B3B6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logic.viewcontroller.GymPopupViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="400.0" style="-fx-background-color: #FFFFFF; -fx-border-radius: 15; -fx-border-color: #B1B3B6;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logic.viewcontroller.GymPopupViewController">
    <children>
       <VBox prefHeight="280.0" prefWidth="400.0" style="-fx-border-radius: 15;">
          <children>
