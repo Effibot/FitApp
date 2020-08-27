@@ -63,8 +63,8 @@ public class PopupViewController {
 	private MenuItem weekly;
 	@FXML
 	private MenuItem monthly;
-	@FXML
-	private JFXButton saveBtn;
+//	@FXML
+//	private JFXButton saveBtn;
 	@FXML
 	private JFXButton deleteBtn;
 	@FXML
@@ -72,7 +72,7 @@ public class PopupViewController {
 	@FXML
 	private JFXButton eMailBtn;
 	@FXML
-	private JFXButton setCourse;
+	private JFXButton setButton;
 	@FXML
 	private MenuButton colorMenu;
 	@FXML
@@ -178,7 +178,7 @@ public class PopupViewController {
 	}
 
 	@FXML
-	void saveCourse(MouseEvent event) {
+	void setCourse(ActionEvent event) {
 		// Gym sets event
 		System.out.println("LOL");
 	}
@@ -308,8 +308,8 @@ public class PopupViewController {
 	private void setParamView() {
 		if (userProperty) {
 			eMailBtn.setVisible(false);
-			setCourse.setVisible(true);
-			saveBtn.setVisible(false);
+			setButton.setVisible(true);
+			//saveBtn.setVisible(false);
 			courseNameId.setEditable(false);
 			dateId.setEditable(true);
 			timeId.setEditable(true);
@@ -323,8 +323,8 @@ public class PopupViewController {
 
 		} else {
 			eMailBtn.setVisible(true);
-			setCourse.setVisible(false);
-			saveBtn.setVisible(true);
+			setButton.setVisible(false);
+			//saveBtn.setVisible(true);
 			courseNameId.setEditable(false);
 			dateId.setEditable(false);
 			timeId.setEditable(false);

@@ -15,25 +15,22 @@
     - al doppio click su calendario, controllo se ci sono eventi default, se si, 'Alert con stringhe' che segnala la cosa
     e suggerisce di terminare la creazione dell'evento precedente
 
-
 + creare infiniti bean per il passaggio dati tra viewController e logicController e Entity
 
 + nome trainer e palestra in calendarUser;
 
 + nome trainer dentro calendarGym;
 
-+ levare  tutti gli smell;
++ levare  tutti gli smell e rivedere pattern;
 
 // creare container per gli alert 
 
-// Gestione Profilo Utente 
-    - eliminazione account fitapp
-    - modifica via 
-    - modifica username & password
-    - modifica email
++ creare test cases 
++ test con selenium
++ tutta parte jsp
 
-//Creare classi per la gestione di recensione e valutazione;
-//recensioni nella ricerca
+
+
 
 
 
