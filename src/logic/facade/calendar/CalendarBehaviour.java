@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.controlsfx.control.PopOver;
 
+import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
@@ -173,6 +174,7 @@ public class CalendarBehaviour {
 
 	}
 
+	int i = 1;
 	public EventHandler<CalendarEvent> setEventHandler() {
 
 		monthPage.setEntryDetailsPopOverContentCallback(param -> {
@@ -187,22 +189,46 @@ public class CalendarBehaviour {
 
 			@Override
 			public void handle(CalendarEvent event) {
+				
 				EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
 				if (event.getEventType().equals(calendarEvent1) && !userProperty) {
 					System.out.println("NOT CLICK");
 					event.getEntry().removeFromCalendar();
 
 
+				} else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+					System.out.println("STO METTENDO UN ENTRY");
+					Entry evEntry = event.getEntry();
+					System.out.println("GET ID\t" + evEntry.getId());
+					Calendar c = evEntry.getCalendar();
+					if (evEntry.getTitle().equals("New Entry " + (i + 1))) {
+
+						if (c.getName().equals("Default")) {
+							java.util.List<Entry<?>> f = c.findEntries("New Entry " + i);
+
+							System.out.println("ENTRY GEDITD" + f.get(0).getId());
+
+							System.out.println("THis is entry" + f.get(0).getTitle());
+							i++;
+							Entry currEntry = f.get(0);
+							if (Integer.parseInt(currEntry.getId()) == (i - 1)) {
+								System.out.println(currEntry.getTitle());
+								c.removeEntry(evEntry);
+							}
+
+						}
+
+					}
 				}
-//
-//				else if (event.getEventType().equals(calendarEvent1) && userProperty) {
-//
-////					PopOver popOver = new PopOver(doubleClickEntry2(event.getEntry()));
-//
-////					popOver.show(node);
-//
-//
-//				}
+				//
+				// else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+				//
+				//// PopOver popOver = new PopOver(doubleClickEntry2(event.getEntry()));
+				//
+				//// popOver.show(node);
+				//
+				//
+				// }
 			}
 		};
 		return this.evtHandler;
@@ -219,6 +245,11 @@ public class CalendarBehaviour {
 		dayPage.getCalendarSources().add(calendarSource);
 		dayPage.setMinWidth(340);
 		dayPage.setMaxHeight(300);
+		dayPage.setEntryDetailsPopOverContentCallback(param -> {
+
+			return instance.doubleClickEntry(param);
+		});
+		dayPage.setEntryContextMenuCallback(param -> instance.rightClickEntry(param));
 		if (!userProperty) {
 			for (int i = 0; i < 8; i++) {
 				dayPage.getCalendars().get(i).setReadOnly(true);
