@@ -60,8 +60,8 @@ create table if not exists training_session(
     foreign key (course_id) references course(course_id),
     foreign key (trainer_id) references trainer(trainer_id),
     foreign key (trainer_name,gym_id) references trainer(trainer_name, gym_id),
-    foreign key (street) references gym(street),
-    unique (trainer_id, course_id, time_start, time_end, day));
+    foreign key (street) references gym(street));
+    /*unique (trainer_id, course_id, time_start, time_end, day));*/
 
 create table if not exists booked_session(
   book_id serial not null primary key,
@@ -169,11 +169,13 @@ values (11,'Checco lione',4, true, 11, 'Viale Roma 101 Ciampino', '22:50', '23:5
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
 values (12,'Giuseppina Agata',5, false, 12, 'Via Mura dei Francesi 179B Ciampino', '22:50', '23:50', '2020-8-26', 'Questa è una lezione di Funzionale',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (13,'Marco Carta',6, false, 13, 'Via Palermo 15 Ciampino', '23:50', '23:50', '2020-8-24', 'Questa è una lezione di Walking',null);
+values (13,'Marco Carta',6, false, 13, 'Via Palermo 15 Ciampino', '23:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (14,'Paolo Bonolis',7, true, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Pump',null);
+values (14,'Paolo Bonolis',7, true, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Pump',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Walking',null);
+values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
+insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
+values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
 
 
 insert into booked_session(session_id, user_id) VALUES (2,3);
