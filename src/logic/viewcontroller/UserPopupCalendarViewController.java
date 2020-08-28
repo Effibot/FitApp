@@ -130,7 +130,6 @@ public class UserPopupCalendarViewController {
 		dateId.setDisable(true);
 		timeId.setDisable(true);
 		timeId1.setDisable(true);
-
 		gymLbl.setText(selectedEntry.getSession().getGym());
 		trainerLbl.setText(selectedEntry.getSession().getTrainername());
 		
