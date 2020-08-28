@@ -316,7 +316,7 @@ public class GymPageViewController {
 		monthPage = calendarFacade.initializeCalendar(gymId);
 		monthPage.getCalendars().get(0).addEventHandler(calendarFacade.getEventHandler());
 
-		monthPage.getCalendars().get(0).removeEventHandler(calendarFacade.getEventHandler());
+		//monthPage.getCalendars().get(0).removeEventHandler(calendarFacade.getEventHandler());
 	}
 
 	private Map<Course, Boolean> createCourse() {

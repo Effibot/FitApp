@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.controlsfx.control.PopOver;
 
+import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
@@ -14,6 +15,7 @@ import com.calendarfx.view.DateControl.EntryDetailsPopOverContentParameter;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
+import com.sun.corba.se.spi.ior.iiop.AlternateIIOPAddressComponent;
 
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -28,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.controller.CalendarController;
 import logic.factory.alertfactory.AlertFactory;
+import logic.factory.alertfactory.CustomAlertBox;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
 import logic.viewcontroller.GymPopUpCalendarViewController;
@@ -45,7 +48,6 @@ public class CalendarBehaviour {
 	private EventHandler<CalendarEvent> evtHandler;
 	private CalendarsEvent calendarsEvent;
 	private DayPage dayPage;
-	private CalendarController calendarController;
 	private List<EntryCustom<?>> allEvEntryCustoms;
 	private List<EntryCustom<?>> allBookedSession;
 
@@ -55,7 +57,6 @@ public class CalendarBehaviour {
 		this.entryCalendar = entryCalendar;
 		this.monthPage = monthPage;
 		this.calendarSource = calendarSource;
-		this.calendarController = calendarController;
 		this.calendarsEvent = calendarsEvent;
 		this.dayPage = dayPage;
 		this.allEvEntryCustoms = calendarController.getAllEntry();
@@ -82,7 +83,7 @@ public class CalendarBehaviour {
 		System.out.println("SONO gym");
 		Iterator<EntryCustom<?>> enIterator;
 		if(userProperty) {
-			 enIterator = allEvEntryCustoms.iterator();
+			enIterator = allEvEntryCustoms.iterator();
 		}else {
 			enIterator = allBookedSession.iterator();
 
@@ -108,7 +109,7 @@ public class CalendarBehaviour {
 			viewFactory.create(ViewType.MAINPOPUP);
 			GymPopUpCalendarViewController popupViewController = (GymPopUpCalendarViewController) viewFactory.getCurrentController();
 			// setting parameters to popupView
-			popupViewController.setParam(currEntryCustom,calendarsEvent);
+			popupViewController.setParam(currEntryCustom,calendarsEvent,entryCalendar);
 
 
 		}else {
@@ -139,10 +140,10 @@ public class CalendarBehaviour {
 		MenuItem item3 = new MenuItem("Delete All");
 		MenuItem item4 = new MenuItem("Send e-mail");
 		// getting current entry
-		
+
 		Iterator<EntryCustom<?>> enIterator;
 		if(userProperty) {
-			 enIterator = allEvEntryCustoms.iterator();
+			enIterator = allEvEntryCustoms.iterator();
 		}else {
 			enIterator = allBookedSession.iterator();
 
@@ -160,7 +161,7 @@ public class CalendarBehaviour {
 		}if(contextEntry == null) {
 			contextEntry = new EntryCustom<>(param.getEntry(), null);
 		}
-		
+
 		// initialize stage
 		Stage reviewStage = new Stage();
 		reviewStage.initStyle(StageStyle.TRANSPARENT);
@@ -177,9 +178,9 @@ public class CalendarBehaviour {
 			reviewStage.showAndWait();
 		});
 		item2.setOnAction(event -> {
-			
-				entryCalendar.deleteCalendarEntry(this.getContextEntry());
-			
+
+			entryCalendar.deleteCalendarEntry(this.getContextEntry());
+
 
 		});
 		item3.setOnAction(event -> this.getContextEntry().getEntry().getCalendar().clear());
@@ -229,24 +230,38 @@ public class CalendarBehaviour {
 		});
 
 	}
-
+	private int numberOfEntry = 0;
 	public EventHandler<CalendarEvent> setEventHandler() {
-	
-			// Intercepting Calendar Event on clicking
-			this.evtHandler = new EventHandler<CalendarEvent>() {
 
-				@Override
-				public void handle(CalendarEvent event) {
+		// Intercepting Calendar Event on clicking
+		this.evtHandler = new EventHandler<CalendarEvent>() {
 
-					EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
-					// Calendar Event new entry added on Month Page
-					if (event.getEventType().equals(calendarEvent1) && !userProperty) {
+			@Override
+			public void handle(CalendarEvent event) {
+
+				EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
+				// Calendar Event new entry added on Month Page
+				if (event.getEventType().equals(calendarEvent1) && !userProperty) {
+					event.getEntry().removeFromCalendar();
+
+				}else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+					System.out.println("NUMBER"+ numberOfEntry+ monthPage.getCalendars().get(0).findEntries(event.getEntry().getTitle()));
+					if( event.getEntry().getTitle().equals("New Entry "+(numberOfEntry+1)) && numberOfEntry!= 0) {
+						CustomAlertBox alertDialog = AlertFactory.getInstance().createAlert(AlertType.INFORMATION, "Multiple default Entry", 
+								"We recommend that you complete uncompleted events", "Thanks!");
+						alertDialog.display();
+						numberOfEntry++;
 						event.getEntry().removeFromCalendar();
-
+						numberOfEntry--;
+					}else {
+						numberOfEntry++;
 					}
+					
+
 				}
-			};
-		
+			}
+		};
+		numberOfEntry = 0;
 		return this.evtHandler;
 	}
 

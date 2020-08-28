@@ -4,8 +4,10 @@ package logic.viewcontroller;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.spi.CalendarNameProvider;
 
 import com.calendarfx.model.Calendar;
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.DateControl;
 import com.calendarfx.view.DateControl.EntryDetailsPopOverContentParameter;
@@ -24,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.facade.calendar.CalendarBehaviour;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
 import logic.facade.calendar.EntryCustom;
@@ -81,6 +84,7 @@ public class GymPopUpCalendarViewController {
 	private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	ViewFactory viewFactory = ViewFactory.getInstance();
+	private String calendarName;
 
 
 
@@ -88,8 +92,8 @@ public class GymPopUpCalendarViewController {
 		return param;
 	}
 
-	public void setParam(EntryCustom<?> currEntryCustom, CalendarsEvent calendarsEvent) {
-
+	public void setParam(EntryCustom<?> currEntryCustom, CalendarsEvent calendarsEvent, EntryCalendar entryCalendar) {
+		this.entries = entryCalendar;
 		this.calendars = calendarsEvent;
 		this.selectedEntry = currEntryCustom;
 		courseNameId.setText(selectedEntry.getEntry().getCalendar().getName());
@@ -104,6 +108,7 @@ public class GymPopUpCalendarViewController {
 		dateId.setEditable(false);
 		timeId.setEditable(false);
 		timeId1.setEditable(false);
+		System.out.println(selectedEntry.getEntry().getTitle());
 	
 
 
@@ -164,6 +169,9 @@ public class GymPopUpCalendarViewController {
 	void setCourse(ActionEvent event) {
 		// Gym sets event
 		System.out.println("LOL");
+		System.out.println(selectedEntry.getEntry().getTitle());
+		calendars.fireEvent(new CalendarEvent(CalendarEvent.CALENDAR_CHANGED, calendars.getCalendarBynName(calendarName), selectedEntry.getEntry()));
+
 	}
 
 	
@@ -205,10 +213,12 @@ public class GymPopUpCalendarViewController {
 			calMenuItem = calendars.getCalendar(6);
 
 		}
-		selectedEntry.getEntry().setCalendar(calMenuItem);
-		selectedEntry.getEntry().setTitle(calMenuItem.getName());
+		//selectedEntry.getEntry().setCalendar(calMenuItem);
+		calendarName = calMenuItem.getName();
+		(selectedEntry.getEntry()).setTitle(calMenuItem.getName());
 		courseNameId.setText(calMenuItem.getName());
-
+		calendars.getCalendarBynName(calendarName).addEntry(selectedEntry.getEntry());
+		
 
 	}
 
