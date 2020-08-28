@@ -19,6 +19,8 @@ public class Session {
 	private Time[] duration;
 	private boolean individual;
 	private String recurrence;
+	
+	public Session() {}
 
 	public Session(String trainerName, String gym, Time[] duration, Date date, String description, int courseI,
 			String street, boolean individual, String recurrence, int idSession) {

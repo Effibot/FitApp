@@ -1,6 +1,8 @@
 package logic.viewcontroller;
 
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +28,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.entity.Course;
+import logic.entity.Session;
 import logic.facade.calendar.CalendarBehaviour;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
@@ -171,7 +175,18 @@ public class GymPopUpCalendarViewController {
 		System.out.println("LOL");
 		System.out.println(selectedEntry.getEntry().getTitle());
 		calendars.fireEvent(new CalendarEvent(CalendarEvent.CALENDAR_CHANGED, calendars.getCalendarBynName(calendarName), selectedEntry.getEntry()));
-
+		
+//		EntryCustom currentEntryCustom = new EntryCustom(selectedEntry.getEntry(), new Session());
+//		currentEntryCustom.getSession().setCourseId(Course.getCourse(courseNameId.getText()).getCourseNumber());
+//		currentEntryCustom.getSession().setCourseName(courseNameId.getText());
+//		currentEntryCustom.getSession().setDate(Date.valueOf(dateId.getText()));
+//		currentEntryCustom.getSession().setDescription(textArea.getText());
+//		Time[] duration = {Time.valueOf(selectedEntry.getEntry().getStartTime()),Time.valueOf(selectedEntry.getEntry().getEndTime())};
+//		currentEntryCustom.getSession().setDuration(duration);
+//		//currentEntryCustom.getSession().setGym(gym2);
+//		currentEntryCustom.getSession().setRecurrence(intervalMenu.getText());
+//		currentEntryCustom.getSession().set
+				
 	}
 
 	
