@@ -185,7 +185,7 @@ public class GymPopUpCalendarViewController {
 //		currentEntryCustom.getSession().setDuration(duration);
 //		//currentEntryCustom.getSession().setGym(gym2);
 //		currentEntryCustom.getSession().setRecurrence(intervalMenu.getText());
-//		currentEntryCustom.getSession().set
+//		currentEntryCustom.getSession().set	
 				
 	}
 
