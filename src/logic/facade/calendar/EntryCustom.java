@@ -5,7 +5,7 @@ import com.calendarfx.model.Entry;
 import logic.entity.Session;
 
 public class EntryCustom<T> extends Entry<T>{
-	private Entry<?> entry;
+	private Entry entry;
 	
 
 	private Session session;
