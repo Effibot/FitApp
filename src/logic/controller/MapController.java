@@ -7,7 +7,6 @@ import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.util.MarkerImageFactory;
-import com.sun.xml.internal.ws.encoding.fastinfoset.FastInfosetCodec;
 
 import logic.entity.Gym;
 import logic.entity.Session;
