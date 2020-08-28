@@ -43,8 +43,9 @@ public class SessionDAO extends ConnectionManager {
             	String street = rs.getString("street");
             	boolean individual = rs.getBoolean("individual");
             	String trainerName = rs.getString("trainer_name");
+            	int sessionId = rs.getInt("session_id");
 				Session s = new Session(trainerName, rs.getString("gym_id"), duration, sqlDate, description, courseId,
-						street, individual, null);
+						street, individual, null,sessionId);
 
                 list.add(s);
             }
@@ -73,7 +74,9 @@ public class SessionDAO extends ConnectionManager {
             	String street = rs.getString("street");
             	boolean individual = rs.getBoolean("individual");
             	String trainerName = rs.getString("trainer_name");
-            	Session s = new Session(trainerName, rs.getString("gym_id"),duration,sqlDate,description,courseId,street,individual,null);
+            	int sessionId = rs.getInt("session_id");
+
+            	Session s = new Session(trainerName, rs.getString("gym_id"),duration,sqlDate,description,courseId,street,individual,null,sessionId);
 
                 list.add(s);
             }
@@ -113,7 +116,9 @@ public class SessionDAO extends ConnectionManager {
             	String trainerName = rs.getString("trainer_name");
             	String recurrence = rs.getString("recurrence");
 				System.out.println(courseId);
-            	Session s = new Session(trainerName, String.valueOf(id),duration,data,description,courseId,street,individual,recurrence);
+            	int sessionId = rs.getInt("session_id");
+
+            	Session s = new Session(trainerName, String.valueOf(id),duration,data,description,courseId,street,individual,recurrence,sessionId);
             	
 				list.add(s);
 			}
@@ -152,8 +157,9 @@ public class SessionDAO extends ConnectionManager {
 				String street = rs.getString("street");
 				boolean individual = rs.getBoolean("individual");
 				String recurrence = rs.getString("recurrence");
+
 				return new Session(trainerName, gymId, duration, data, description, courseId, street, individual,
-						recurrence);
+						recurrence,sessionId);
 
 			}
 		} catch (SQLException e) {

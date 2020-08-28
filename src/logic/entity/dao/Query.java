@@ -35,7 +35,7 @@ public class Query {
 	}
 
 	public static ResultSet getEventList(Statement st, String data, String timeStart) throws SQLException {
-		String sql = "select trainer_name,gym_id, course_id, description,street,time_start,time_end,individual from training_session where day ='"
+		String sql = "select trainer_name,gym_id, course_id, description,street,time_start,time_end,individual,session_id from training_session where day ='"
 				+ data + "' and time_start between '" + timeStart + "' and '23:59:59';";
 		return st.executeQuery(sql);
 
@@ -43,7 +43,7 @@ public class Query {
 
 	public static ResultSet getEventListByEvent(Statement st, String data, String timeStart, String event)
 			throws SQLException {
-		String sql = "select trainer_name,gym_id,course_id, description,street,time_start,time_end,individual from training_session where day ='"
+		String sql = "select trainer_name,gym_id,course_id, description,street,time_start,time_end,individual,session_id from training_session where day ='"
 				+ data + "' and time_start between '" + timeStart + "' and '23:59:59' and course_id ='" + event + "';";
 		return st.executeQuery(sql);
 
@@ -95,7 +95,7 @@ public class Query {
 	}
 
 	public static ResultSet getAllCourse(Statement st, int id) throws SQLException{
-		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence from training_session where gym_id = '" + id + "';";
+		String sql = "select trainer_name, course_id, individual,street,time_start,time_end,day,description,recurrence,session_id from training_session where gym_id = '" + id + "';";
 
 		return st.executeQuery(sql);	
 	}

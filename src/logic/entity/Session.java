@@ -21,7 +21,7 @@ public class Session {
 	private String recurrence;
 
 	public Session(String trainerName, String gym, Time[] duration, Date date, String description, int courseI,
-			String street, boolean individual, String recurrence) {
+			String street, boolean individual, String recurrence, int idSession) {
 
 		this.trainername = trainerName;
 		this.gym = gym;
@@ -34,6 +34,7 @@ public class Session {
 		this.street = street;
 		this.individual = individual;
 		this.recurrence = recurrence;
+		this.sessionId = idSession;
 	}
 
 	public String getGym() {

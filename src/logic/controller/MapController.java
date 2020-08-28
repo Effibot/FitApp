@@ -7,6 +7,7 @@ import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.util.MarkerImageFactory;
+import com.sun.xml.internal.ws.encoding.fastinfoset.FastInfosetCodec;
 
 import logic.entity.Gym;
 import logic.entity.Session;
@@ -18,15 +19,17 @@ import logic.maputil.Geocode;
 
 public class MapController {
 	 private static MapController instance = null;
-	    LatLong base;
-	    Marker newMarker;
-	    LatLong posit;
-	    List<Marker> listMarker = new ArrayList<>();
-	    List<String> listGymsName = new ArrayList<>();
-        SessionDAO dao = SessionDAO.getInstance();
-        GymDAO daoGym = GymDAO.getInstance();
-        UserDAO userDAO = UserDAO.getInstance();
-	    Marker marker;
+	    private LatLong base;
+	    private Marker newMarker;
+	    private LatLong posit;
+	    private List<Marker> listMarker = new ArrayList<>();
+	    private List<String> listGymsName = new ArrayList<>();
+	    private SessionDAO dao = SessionDAO.getInstance();
+	    private GymDAO daoGym = GymDAO.getInstance();
+	    private UserDAO userDAO = UserDAO.getInstance();
+	    private Marker marker;
+	    private List<Integer> listIdBookedSession= new ArrayList<>();
+	    private List<Session> listBookedSession = new ArrayList<>();
 	    private String center;
 	    protected MapController() {
 
@@ -49,7 +52,7 @@ public class MapController {
 	        this.listIdGym = listIdGym2;
 	    }
 
-	    private List<Session> listIdGym;
+	    private List<Session> listIdGym = new ArrayList<>();
 
 	    public void setListMarker(List<Marker> listMarker) {
 	        this.listMarker = listMarker;
@@ -67,22 +70,43 @@ public class MapController {
 	        return base;
 	    }
 
-	    public void startGeocode(String data, String timeStart, double distance,String  baseAddress, int event){
+	    public void startGeocode(String data, String timeStart, double distance,String  baseAddress, int event, int userId){
+	    	
+	    	listIdBookedSession= dao.getBookedSessionById(userId);
+	    	System.out.println("SONO QUI");
+	        for(Integer bookedId:listIdBookedSession) {
+	        	System.out.println(bookedId);
+	        	Session bookedSessionEntitySession = dao.getBookedSessionEntity(bookedId);
+	        	listBookedSession.add(bookedSessionEntitySession);
+	        }
+	        System.out.println("FUORI DAL CICLO"+ listIdBookedSession);
+	        for (Session s: listBookedSession) {
+				System.out.println(s.getGym());
+			}
 	        this.setListMarker(this.distance(data,timeStart,distance,baseAddress, event));
 	    }
-
+	    
 
 	    public List<Marker> distance(String data, String timeStart, double dist, String baseAddress, int event) {
 	        LatLong endPoint;
+	    
 	        double distance = dist;
 	        if(event == 0) {
-	        listIdGym = dao.getEventList(data, timeStart);
+	        	listIdGym = dao.getEventList(data, timeStart);
 	        }else {
 
 	        	listIdGym = dao.getGymListEvent(data, timeStart,event);
 
 	        }
+	        for(Session idGym:listIdGym) {
+	        	for(Session singleSession:listBookedSession) {
+	        		if (idGym.getSessionId()== singleSession.getSessionId()) {
 
+						listIdGym.remove(idGym);
+					}
+	        	}
+	        }
+	        
 	        this.setCenter(baseAddress);
 
 
@@ -91,7 +115,7 @@ public class MapController {
 	        base = pos.getCoordinates();
 			Marker baseMarker = this.nMarker(base, "You are Here!", baseAddress, null);
 	        listMarker.add(baseMarker);
-
+	        System.out.println(listIdGym.size());
 	        for(int i = listIdGym.size()-1; i>=0;--i) {
 	        	Session tempList;
 	        	tempList = listIdGym.get(i);

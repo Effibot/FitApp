@@ -66,7 +66,7 @@ public class MapInitializer implements MapComponentInitializedListener {
 		});
 		String baseStreet = search.getUserStreet(ctrl.getId());
 
-		search.startGeocode(this.date, this.time, this.radius,baseStreet, this.event);
+		search.startGeocode(this.date, this.time, this.radius,baseStreet, this.event,ctrl.getId());
 		List<Session> listEvent = search.getListIdGym();		
 		mark = new ArrayList<>();
 		MapOptions mapOptions = new MapOptions();

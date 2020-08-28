@@ -159,24 +159,27 @@ values (6,'Ugo Fantozzi',6, false, 6, 'Via di Passo Lombardo, 341, 00133 Roma RM
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
 values (7,'Biagio Antonacci',7, true, 7, 'Via Filomusi Guelfi, 38, 00173 Roma RM', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Pump',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (8,'Francesco Totti',1, false, 8, 'Via Polia, 44, 00175 Roma RM', '22:50', '23:50', '2020-8-24', 'Questa è una lezione di Kick Boxing',null);
+values (8,'Francesco Totti',1, false, 8, 'Via Polia, 44, 00175 Roma RM', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Kick Boxing',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (9,'Young Signorino',2, true, 9, 'Viale kennedy 4 Ciampino', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Pugilato',null);
+values (9,'Young Signorino',2, true, 9, 'Viale kennedy 4 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Pugilato',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (10,'Lionel Messi',3, false, 10, 'Via Roma 4 Ciampino', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Zumba',null);
+values (10,'Lionel Messi',3, false, 10, 'Via Roma 4 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Zumba',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (11,'Checco lione',4, true, 11, 'Viale Roma 101 Ciampino', '22:50', '23:50', '2020-8-24', 'Questa è una lezione di Salsa',null);
+values (11,'Checco lione',4, true, 11, 'Viale Roma 101 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Salsa',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (12,'Giuseppina Agata',5, false, 12, 'Via Mura dei Francesi 179B Ciampino', '22:50', '23:50', '2020-8-26', 'Questa è una lezione di Funzionale',null);
+values (12,'Giuseppina Agata',5, false, 12, 'Via Mura dei Francesi 179B Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Funzionale',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (13,'Marco Carta',6, false, 13, 'Via Palermo 15 Ciampino', '23:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
+values (13,'Marco Carta',6, false, 13, 'Via Palermo 15 Ciampino', '23:50', '23:50', '2020-8-28', 'Questa è una lezione di Walking',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (14,'Paolo Bonolis',7, true, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Pump',null);
+values (14,'Paolo Bonolis',7, true, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Pump',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
+values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Walking',null);
 insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
-values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-27', 'Questa è una lezione di Walking',null);
-
+values (15,'Marco Carta',6, false, 14, 'Via Umberto Maddalena 21 Ciampino', '22:50', '23:50', '2020-8-28', 'Questa è una lezione di Walking',null);
+insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
+values (7,'Biagio Antonacci',7, true, 7, 'Via Filomusi Guelfi, 38, 00173 Roma RM', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Pump',null);
+insert into training_session(trainer_id, trainer_name, course_id, individual, gym_id, street, time_start, time_end, day, description,recurrence)
+values (7,'Biagio Antonacci',7, true, 7, 'Via Filomusi Guelfi, 38, 00173 Roma RM', '22:50', '23:50', '2020-8-25', 'Questa è una lezione di Pump',null);
 
 insert into booked_session(session_id, user_id) VALUES (2,3);
 insert into booked_session(session_id, user_id) VALUES (1,1);
