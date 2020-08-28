@@ -1,5 +1,9 @@
 package logic.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -15,92 +19,125 @@ import logic.entity.dao.SessionDAO;
 import logic.entity.dao.UserDAO;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
+import logic.facade.calendar.EntryCustom;
 
 public class CalendarController {
 
-
-	private CalendarSource calendarSource;
 	private EntryCalendar entries;
 	private CalendarsEvent calendars;
 	private GymDAO gymDAO;
 	private SessionDAO sessionDAO;
 	private UserDAO userDAO;
-	private List<Calendar> calendarsList;
+	private List<EntryCustom<?>> allEvEntryCustoms;
+	private List<EntryCustom<?>> allUserBookedSession;
 
-
-
+	private List<Session> managerSession;
 	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar) {
 		this.calendars = calendarsEvent;
 		this.entries = entryCalendar;
 		this.gymDAO = GymDAO.getInstance();
 		this.sessionDAO = SessionDAO.getInstance();
 		this.userDAO = UserDAO.getInstance();
-
+		this.allEvEntryCustoms = new ArrayList<>();
+		this.managerSession = new ArrayList<>();
+		this.allUserBookedSession = new ArrayList<>();
 	}
-
-
 
 	public CalendarSource getCalendarSource(int id) {
-		calendarSource = new CalendarSource(String.valueOf(id));
-		String className = new Exception().getStackTrace()[1].getClassName();
-		System.out.println(className);
+		// Instance of new calendar Source
+		CalendarSource calendarSource = new CalendarSource(String.valueOf(id));
+		// Populate calendar by user or manager id
 		this.populateCalendar(id);
+		// adding all the calendar event to calendar resource of Month and Day Page
 		calendarSource.getCalendars().addAll(calendars.getAvaiableCalendar());
-		return calendarSource;		
+		return calendarSource;
 	}
 
-	public void populateCalendar( int userId) {
+	public void populateCalendar(int userId) {
+		// Getting User from userDao
 		User user = userDAO.getUserEntity(userId);
 		Calendar calendar;
-		Entry<?> entry;	
-		if(user.isManager()) {
+		EntryCustom<?> entry;
+		// Manage behavior between manager and user
+		if (user.isManager()) {
+			// Get gymEntyry from database
 			Gym gym = gymDAO.getGymEntityById(user.getId());
-			List<Session> managerSession = sessionDAO.getCourseGym(gym.getGymId());
-
-			for(Session s:managerSession) {
-
-
+			// Getting all the manager session from database
+			managerSession = sessionDAO.getCourseGym(gym.getGymId());
+			/*
+			 * Take values for all specific session of the current manager which: gymName,
+			 * courseName,calendarName, start and time of the session and putting in an
+			 * entry to populate calendar
+			 */
+			for (Session managerCourse : managerSession) {
+				
+				// Getting name gym, name course to complete the Session entity
 				String gymName = gym.getGymName();
-				String courseName = sessionDAO.getCourseById(s.getCourseId());
-				s.setGym(gymName);
-				s.setCourseName(courseName);
+				String courseName = sessionDAO.getCourseById(managerCourse.getCourseId());
+				managerCourse.setGym(gymName);
+				managerCourse.setCourseName(courseName);
+				// Get calendar name by course name
 				calendar = calendars.getCalendarBynName(courseName);
-				GregorianCalendar newCalendar = new GregorianCalendar();
-				newCalendar.setTime(s.getDate());
-				int year = newCalendar.get(java.util.Calendar.YEAR);
-				int month = newCalendar.get(java.util.Calendar.MONTH) + 1;
-				int day = newCalendar.get(java.util.Calendar.DAY_OF_MONTH);
-				int hours = newCalendar.get(java.util.Calendar.HOUR);
-				int min = newCalendar.get(java.util.Calendar.MINUTE);
-				entry = entries.setEntryCalendar(year, month, day, hours, min, calendar);
-				calendar.addEntries(entry);
+				/*
+				 * Manage conversion between type Time of Session entity and LocalDateTime of
+				 * Calendar
+				 */
 
+				LocalTime timeStart = managerCourse.getTimeStart().toLocalTime();
+				LocalTime timeEnd = managerCourse.getTimeEnd().toLocalTime();
+				LocalDate localDate = managerCourse.getDate().toLocalDate();
+				LocalDateTime dateTimeStarTime = localDate.atTime(timeStart);
+				LocalDateTime dateTimeEndTime = localDate.atTime(timeEnd);
+
+				// Setting entry to calendar
+				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar,managerCourse);
+				entry.setSession(managerCourse);
+				// Calendar adds the entry
+				allEvEntryCustoms.add(entry);
+				calendar.addEntries(entry.getEntry());
+				
 			}
-		}else {
+		} else {
+			// Getting in database the specific list of event booked by userId
 			List<Integer> userSessions = sessionDAO.getBookedSessionById(user.getId());
+			/*
+			 * Iterate in userSession Each sessionId is an id of one session which must be
+			 * sought between training_session table. Then create an entry and add to
+			 * calendar
+			 */
 			for (Integer sessionId : userSessions) {
 				Session bookedSession = sessionDAO.getBookedSessionEntity(sessionId);
 				Gym gym = gymDAO.getGymEntityById(Integer.parseInt(bookedSession.getGym()));
 
 				bookedSession.setGym(gym.getGymName());
 				bookedSession.setCourseName(sessionDAO.getCourseById(bookedSession.getCourseId()));
-
 				calendar = calendars.getCalendarBynName(bookedSession.getCourseName());
 				GregorianCalendar newCalendar = new GregorianCalendar();
 				newCalendar.setTime(bookedSession.getDate());
-				int year = newCalendar.get(java.util.Calendar.YEAR);
-				int month = newCalendar.get(java.util.Calendar.MONTH) + 1;
-				int day = newCalendar.get(java.util.Calendar.DAY_OF_MONTH);
-				int hours = newCalendar.get(java.util.Calendar.HOUR);
-				int min = newCalendar.get(java.util.Calendar.MINUTE);
-				entry = entries.setEntryCalendar(year, month, day, hours, min, calendar);
+				LocalDate localDate = bookedSession.getDate().toLocalDate();
+				LocalDateTime dateTimeStarTime = localDate.atTime(bookedSession.getTimeStart().toLocalTime());
+				LocalDateTime dateTimeEndTime = localDate.atTime(bookedSession.getTimeEnd().toLocalTime());
+
+				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar,bookedSession);
+				/*
+				 * Control the booked recurrence, if it is not null then set the recurrence
+				 * Pending: it could be necessary to iterate
+				 */
 				if (bookedSession.getRecurrence() != null) {
 					entry.setRecurrenceRule(bookedSession.getRecurrence());
 				}
-				calendar.addEntries(entry);
+				calendar.addEntries(entry.getEntry());
+				allUserBookedSession.add(entry);
 			}
 		}
 	}
 
+	public List<EntryCustom<?>> getAllEntry() {
+		return allEvEntryCustoms;
+	}
+
+	public List<EntryCustom<?>> getAllBookedSession() {
+		return allUserBookedSession;
+	}
 
 }

@@ -12,7 +12,13 @@ public enum ViewType {
 	CARD(6, "/logic/fxml/Card.fxml"),
 	BOOKINGONMAP(7, "/logic/fxml/BookingOnMap.fxml"),
 	SIGNUP(8, "/logic/fxml/SignUp.fxml"),
-	BOOKINGONCALENDAR(9, "/logic/fxml/BookingOnCalendar.fxml");
+	BOOKINGONCALENDAR(9, "/logic/fxml/BookingOnCalendar.fxml"),
+	EMAIL(10,"/logic/fxml/EmailPopup.fxml"),
+	REWIES(11,"/logic/fxml/reviewGym.fxml"),
+	WRITEREWIES(12,"/logic/fxml/submitReview.fxml"),
+	MAINPOPUP(13,"/logic/fxml/gymPopUp.fxml"),
+	DELETEPOPUP(14,"/logic/fxml/popupDelete.fxml"),
+	USERPOPUP(15,"/logic/fxml/userPopup.fxml");
 	/* MAX SUBVIEW DIM: 900 x 522
 	 * */
 

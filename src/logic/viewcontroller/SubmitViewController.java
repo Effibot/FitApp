@@ -17,9 +17,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import logic.factory.alertfactory.AlertFactory;
-import logic.factory.calendarviewfactory.CalendarViewFactory;
-import logic.factory.calendarviewfactory.CalendarViewType;
-import logic.view.calendarview.CalendarView;
+
+
+import logic.factory.viewfactory.ViewFactory;
+import logic.factory.viewfactory.ViewType;
+
 public class SubmitViewController {
 	  @FXML
 	    private Label reviewLbl;
@@ -32,24 +34,24 @@ public class SubmitViewController {
 	    private JFXButton submitBtn;
 	    Scene prevScene;
 	    Entry currEntry;
-	    CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
+	    ViewFactory viewFactory = ViewFactory.getInstance();
 	    public void backScn(MouseEvent event) throws IOException {
 			/*
 			 * FXMLLoader fxmlLoader = new
 			 * FXMLLoader(getClass().getResource("/logic/fxml/reviewGym.fxml")); Parent root
 			 * = fxmlLoader.load();
 			 */
-            CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.REWIES);
+           viewFactory.create(ViewType.REWIES);
 
 	        Scene scene = backBtn.getScene();
 
-	        calendarView.getRoot().translateYProperty().set(scene.getHeight());
+	        viewFactory.getRoot().translateYProperty().set(scene.getHeight());
 
 	        StackPane parentContainer = (StackPane) scene.getRoot();
 
-	        parentContainer.getChildren().add(calendarView.getRoot());
+	        parentContainer.getChildren().add(viewFactory.getRoot());
 	        Timeline timeLine = new Timeline();
-	        KeyValue kv = new KeyValue(calendarView.getRoot().translateYProperty(), 0, Interpolator.EASE_OUT);
+	        KeyValue kv = new KeyValue(viewFactory.getRoot().translateYProperty(), 0, Interpolator.EASE_OUT);
 	        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 	        timeLine.getKeyFrames().add(kf);
 	        timeLine.setOnFinished(event1 -> {

@@ -7,20 +7,19 @@ import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.EventHandler;
 import logic.controller.CalendarController;
-import logic.factory.calendarviewfactory.CalendarViewFactory;
 
 public class CalendarFacade {
-
 	private CalendarController calendarController;
-	private CalendarViewFactory calendarViewFactory;
 	private EntryCalendar entryCalendar;
 	private CalendarsEvent calendarsEvent;
 	private EventHandler<CalendarEvent> eventHandler;
 	private boolean userProperty;
 	private MonthPage monthPage;
 	private DayPage dayPage;
+
 	public CalendarFacade(boolean userProperty) {
-		this.calendarViewFactory = CalendarViewFactory.getInstance();
+
+		
 		this.calendarsEvent = new CalendarsEvent();
 		this.entryCalendar = new EntryCalendar(calendarsEvent);
 		this.userProperty = userProperty;
@@ -31,32 +30,36 @@ public class CalendarFacade {
 
 	public MonthPage initializeCalendar(int id) {
 		CalendarBehaviour calendarBehaviour = CalendarBehaviour.getSingletoneInstance();
+		// Take avaiable calendares and punt in a calendarSource
 		CalendarSource calendarSource = calendarController.getCalendarSource(id);
-		calendarBehaviour.setSources(calendarViewFactory, monthPage, userProperty, entryCalendar, calendarSource,
-				calendarsEvent, dayPage);
-		monthPage.getCalendarSources().addAll(calendarSource);
+		// Set al sources to manage calendar
+		calendarBehaviour.setSources( monthPage, calendarController, entryCalendar, calendarSource,
+				calendarsEvent, dayPage,userProperty);
 
+		// add all avaiable calendar ad insert into monthPage
+		monthPage.getCalendarSources().addAll(calendarSource);
+		// setting view
 		monthPage.setShowToday(true);
 		monthPage.setMaxSize(680, 502);
 		monthPage.setMinSize(680, 502);
 		monthPage.getMonthView().setShowWeekNumbers(false);
+		// Handling click on ad entry
+		monthPage.setEntryDetailsPopOverContentCallback(param-> calendarBehaviour.doubleClickEntry(param));
+		// handling rightClick on calendar entry
+		monthPage.setEntryContextMenuCallback(param -> calendarBehaviour.rightClickEntry(param));
+		// show Full day View
 		calendarBehaviour.multiplesEntries();
 
-		// entryPopover = monthPage.getEntryDetailsPopOverContentCallback();
-
+		// setting calendar beahaviour
 		eventHandler = calendarBehaviour.setEventHandler();
 
 		return monthPage;
 
 	}
 
-
-
 	public EventHandler<CalendarEvent> getEventHandler() {
+		// return the eventHandler
 		return eventHandler;
 	}
-
-	
-
 
 }

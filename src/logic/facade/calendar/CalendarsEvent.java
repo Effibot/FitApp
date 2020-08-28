@@ -8,6 +8,8 @@ import com.calendarfx.model.Calendar;
 
 public class CalendarsEvent extends Calendar {
 	private List<Calendar> availableCalendar;
+	// All Calendar list with its own label, style and then add to avaiableCalendar
+	// list
 
 	public CalendarsEvent() {
 		availableCalendar = new ArrayList<>();
@@ -39,9 +41,17 @@ public class CalendarsEvent extends Calendar {
 	}
 
 	public Calendar getCalendar(int i) {
+		/*
+		 * It return the calendar by id There is "connection" between id of the course
+		 * and id of this list. Each element of available.
+		 */
 		return availableCalendar.get(i);
 	}
 
+	/*
+	 * Method to return a calendar by name in which there is a iterator to iterate
+	 * among all calendar available.
+	 */
 	public Calendar getCalendarBynName(String name) {
 		Iterator<Calendar> calendarIterator = availableCalendar.iterator();
 		int i = 0;
@@ -51,24 +61,11 @@ public class CalendarsEvent extends Calendar {
 			}
 			i++;
 		}
-		System.out.println("INDEX OF i" + i);
 		return availableCalendar.get(i);
 
 	}
 
-	public Calendar getCalendarById(String name) {
-		Iterator<Calendar> calendarIterator = availableCalendar.iterator();
-		int i = 0;
-		while (calendarIterator.hasNext()) {
-			if (calendarIterator.next().getName().equals(name)) {
-				System.out.println("TROVATO");
-				return getCalendar(i);
-			}
-			i++;
-		}
-		return null;
-	}
-
+	/* Get all calendars */
 	public List<Calendar> getAvaiableCalendar() {
 
 		return availableCalendar;

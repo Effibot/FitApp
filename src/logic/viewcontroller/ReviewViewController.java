@@ -1,5 +1,4 @@
 package logic.viewcontroller;
-import java.io.IOException;
 
 import org.controlsfx.control.Rating;
 
@@ -20,10 +19,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import logic.factory.alertfactory.AlertFactory;
-import logic.factory.calendarviewfactory.CalendarViewFactory;
-import logic.factory.calendarviewfactory.CalendarViewType;
-import logic.view.calendarview.CalendarView;
+
+import logic.factory.viewfactory.ViewFactory;
+import logic.factory.viewfactory.ViewType;
 public class ReviewViewController {
 	@FXML
     private StackPane stackPane;
@@ -43,7 +41,7 @@ public class ReviewViewController {
     private AnchorPane anchorPane;
 
     Entry currEntry;
-    CalendarViewFactory calendarViewFactory = CalendarViewFactory.getInstance();
+    ViewFactory viewFactory = ViewFactory.getInstance();
     public ReviewViewController(){
 
     }
@@ -61,33 +59,26 @@ public class ReviewViewController {
 
     @FXML
     void writeReview(MouseEvent event) {
-        try {
-
-			/*
-			 * FXMLLoader rootFXML = new FXMLLoader(getClass().getResource("/logic/fxml/submitReview.fxml")); 
-			 * Parent root = rootFXML.load(); 
-			 * SubmitViewController submitViewController = rootFXML.getController();
-			 * submitViewController.setScene(currEntry);
-			 */
-            CalendarView calendarView = calendarViewFactory.createView(CalendarViewType.WRITEREWIES);
+        /*
+		 * FXMLLoader rootFXML = new FXMLLoader(getClass().getResource("/logic/fxml/submitReview.fxml")); 
+		 * Parent root = rootFXML.load(); 
+		 * SubmitViewController submitViewController = rootFXML.getController();
+		 * submitViewController.setScene(currEntry);
+		 */
+		viewFactory.create(ViewType.WRITEREWIES);
 //            SubmitViewController submitViewController = (SubmitViewController) calendarView.getController();
 //			submitViewController.setScene(currEntry);
-            Scene scene = writeBtn.getScene();
-            calendarView.getRoot().translateYProperty().set(scene.getHeight());
-            stackPane.getChildren().add(calendarView.getRoot());
-            Timeline timeLine = new Timeline();
-            KeyValue kv = new KeyValue(calendarView.getRoot().translateYProperty(), 0, Interpolator.EASE_IN);
-            KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
-            timeLine.getKeyFrames().add(kf);
-            timeLine.setOnFinished(event1 -> {
-                stackPane.getChildren().remove(anchorPane);
-            });
-            timeLine.play();
-
-
-        }catch (IOException e){
-        	AlertFactory.getInstance().createAlert(e);
-        }
+		Scene scene = writeBtn.getScene();
+		viewFactory.getRoot().translateYProperty().set(scene.getHeight());
+		stackPane.getChildren().add(viewFactory.getRoot());
+		Timeline timeLine = new Timeline();
+		KeyValue kv = new KeyValue(viewFactory.getRoot().translateYProperty(), 0, Interpolator.EASE_IN);
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
+		timeLine.getKeyFrames().add(kf);
+		timeLine.setOnFinished(event1 -> {
+		    stackPane.getChildren().remove(anchorPane);
+		});
+		timeLine.play();
     }
 
     public void setView(Entry entry) {
