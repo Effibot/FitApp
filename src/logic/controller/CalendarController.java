@@ -9,9 +9,7 @@ import java.util.List;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
-import com.calendarfx.model.Entry;
 
-import logic.bean.CalendarBean;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
 import logic.facade.calendar.EntryCustom;
@@ -33,7 +31,10 @@ public class CalendarController {
 	private List<EntryCustom<?>> allUserBookedSession;
 
 	private List<Session> managerSession;
-	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar, CalendarBean bean) {
+
+	// public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar
+	// entryCalendar, CalendarBean bean) {
+	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar) {
 		this.calendars = calendarsEvent;
 		this.entries = entryCalendar;
 		this.gymDAO = GymDAO.getInstance();
@@ -71,7 +72,7 @@ public class CalendarController {
 			 * entry to populate calendar
 			 */
 			for (Session managerCourse : managerSession) {
-				
+
 				// Getting name gym, name course to complete the Session entity
 				String gymName = gym.getGymName();
 				String courseName = sessionDAO.getCourseById(managerCourse.getCourseId());
@@ -91,12 +92,12 @@ public class CalendarController {
 				LocalDateTime dateTimeEndTime = localDate.atTime(timeEnd);
 
 				// Setting entry to calendar
-				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar,managerCourse);
+				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar, managerCourse);
 				entry.setSession(managerCourse);
 				// Calendar adds the entry
 				allEvEntryCustoms.add(entry);
 				calendar.addEntries(entry.getEntry());
-				
+
 			}
 		} else {
 			// Getting in database the specific list of event booked by userId
@@ -119,7 +120,7 @@ public class CalendarController {
 				LocalDateTime dateTimeStarTime = localDate.atTime(bookedSession.getTimeStart().toLocalTime());
 				LocalDateTime dateTimeEndTime = localDate.atTime(bookedSession.getTimeEnd().toLocalTime());
 
-				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar,bookedSession);
+				entry = entries.setEntryCalendar(dateTimeStarTime, dateTimeEndTime, calendar, bookedSession);
 				/*
 				 * Control the booked recurrence, if it is not null then set the recurrence
 				 * Pending: it could be necessary to iterate

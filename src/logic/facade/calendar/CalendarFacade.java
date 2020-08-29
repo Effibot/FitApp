@@ -6,7 +6,6 @@ import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.EventHandler;
-import logic.bean.CalendarBean;
 import logic.controller.CalendarController;
 
 public class CalendarFacade {
@@ -17,14 +16,17 @@ public class CalendarFacade {
 	private boolean userProperty;
 	private MonthPage monthPage;
 	private DayPage dayPage;
-	//Inseirre bean tra userPageView Controller / GymPage viewcontroller
-	public CalendarFacade(boolean userProperty, CalendarBean bean) {
-		
+
+	// Inseirre bean tra userPageView Controller / GymPage viewcontroller
+	// public CalendarFacade(boolean userProperty, CalendarBean bean) {
+	public CalendarFacade(boolean userProperty) {
 		this.calendarsEvent = new CalendarsEvent();
 		this.entryCalendar = new EntryCalendar(calendarsEvent);
 		this.userProperty = userProperty;
 		this.monthPage = new MonthPage();
-		this.calendarController = new CalendarController(calendarsEvent, entryCalendar,bean);
+		// this.calendarController = new CalendarController(calendarsEvent,
+		// entryCalendar, bean);
+		this.calendarController = new CalendarController(calendarsEvent, entryCalendar);
 		this.dayPage = new DayPage();
 	}
 
@@ -33,8 +35,8 @@ public class CalendarFacade {
 		// Take avaiable calendares and punt in a calendarSource
 		CalendarSource calendarSource = calendarController.getCalendarSource(id);
 		// Set al sources to manage calendar
-		calendarBehaviour.setSources( monthPage, calendarController, entryCalendar, calendarSource,
-				calendarsEvent, dayPage,userProperty);
+		calendarBehaviour.setSources(monthPage, calendarController, entryCalendar, calendarSource, calendarsEvent,
+				dayPage, userProperty);
 
 		// add all avaiable calendar ad insert into monthPage
 		monthPage.getCalendarSources().addAll(calendarSource);
@@ -44,7 +46,7 @@ public class CalendarFacade {
 		monthPage.setMinSize(680, 502);
 		monthPage.getMonthView().setShowWeekNumbers(false);
 		// Handling click on ad entry
-		monthPage.setEntryDetailsPopOverContentCallback(param-> calendarBehaviour.doubleClickEntry(param));
+		monthPage.setEntryDetailsPopOverContentCallback(param -> calendarBehaviour.doubleClickEntry(param));
 		// handling rightClick on calendar entry
 		monthPage.setEntryContextMenuCallback(param -> calendarBehaviour.rightClickEntry(param));
 		// show Full day View

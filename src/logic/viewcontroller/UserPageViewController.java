@@ -117,8 +117,8 @@ public class UserPageViewController {
 
 		// User user = bean.getUser();
 
-		sideUsername.setText(user.getName());
-		sideStreet.setText(user.getMyPosition());
+//		sideUsername.setText(user.getName());
+//		sideStreet.setText(user.getMyPosition());
 		calendarSetUp();
 
 	}
