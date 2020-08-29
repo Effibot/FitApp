@@ -28,14 +28,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.entity.Course;
-import logic.entity.Session;
 import logic.facade.calendar.CalendarBehaviour;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
 import logic.facade.calendar.EntryCustom;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
+import logic.model.entity.Course;
+import logic.model.entity.Session;
 
 public class GymPopUpCalendarViewController {
 	@FXML

@@ -10,7 +10,7 @@ import java.util.List;
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Entry;
 
-import logic.entity.Session;
+import logic.model.entity.Session;
 
 public class EntryCalendar {
 

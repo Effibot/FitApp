@@ -11,15 +11,16 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 
-import logic.entity.Gym;
-import logic.entity.Session;
-import logic.entity.User;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.SessionDAO;
-import logic.entity.dao.UserDAO;
+import logic.bean.CalendarBean;
 import logic.facade.calendar.CalendarsEvent;
 import logic.facade.calendar.EntryCalendar;
 import logic.facade.calendar.EntryCustom;
+import logic.model.dao.GymDAO;
+import logic.model.dao.SessionDAO;
+import logic.model.dao.UserDAO;
+import logic.model.entity.Gym;
+import logic.model.entity.Session;
+import logic.model.entity.User;
 
 public class CalendarController {
 
@@ -32,7 +33,7 @@ public class CalendarController {
 	private List<EntryCustom<?>> allUserBookedSession;
 
 	private List<Session> managerSession;
-	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar) {
+	public CalendarController(CalendarsEvent calendarsEvent, EntryCalendar entryCalendar, CalendarBean bean) {
 		this.calendars = calendarsEvent;
 		this.entries = entryCalendar;
 		this.gymDAO = GymDAO.getInstance();

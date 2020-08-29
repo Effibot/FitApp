@@ -30,12 +30,12 @@ import logic.bean.GymPageBean;
 import logic.controller.GymPageController;
 import logic.controller.MainController;
 import logic.controller.ManageTrainerController;
-import logic.entity.Course;
-import logic.entity.Trainer;
-import logic.entity.dao.SessionDAO;
-import logic.entity.dao.TrainerDAO;
 import logic.facade.calendar.CalendarFacade;
 import logic.factory.alertfactory.AlertFactory;
+import logic.model.dao.SessionDAO;
+import logic.model.dao.TrainerDAO;
+import logic.model.entity.Course;
+import logic.model.entity.Trainer;
 
 public class GymPageViewController {
 

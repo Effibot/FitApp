@@ -6,6 +6,7 @@ import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
 
 import javafx.event.EventHandler;
+import logic.bean.CalendarBean;
 import logic.controller.CalendarController;
 
 public class CalendarFacade {
@@ -16,15 +17,14 @@ public class CalendarFacade {
 	private boolean userProperty;
 	private MonthPage monthPage;
 	private DayPage dayPage;
-
-	public CalendarFacade(boolean userProperty) {
-
+	//Inseirre bean tra userPageView Controller / GymPage viewcontroller
+	public CalendarFacade(boolean userProperty, CalendarBean bean) {
 		
 		this.calendarsEvent = new CalendarsEvent();
 		this.entryCalendar = new EntryCalendar(calendarsEvent);
 		this.userProperty = userProperty;
 		this.monthPage = new MonthPage();
-		this.calendarController = new CalendarController(calendarsEvent, entryCalendar);
+		this.calendarController = new CalendarController(calendarsEvent, entryCalendar,bean);
 		this.dayPage = new DayPage();
 	}
 

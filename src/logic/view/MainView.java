@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import animatefx.animation.FadeIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
-import logic.factory.viewfactory.ViewFactory;
-import logic.factory.viewfactory.ViewType;
 
 public class MainView extends Application {
 	private double offsetX;
@@ -59,13 +54,16 @@ public class MainView extends Application {
 				mainStage.setX(event.getScreenX() - offsetX);
 				mainStage.setY(event.getScreenY() - offsetY);
 			});
-			MainController ctrl = MainController.getInstance();
-			ViewFactory factory = ViewFactory.getInstance();
-			View subview = factory.createView(ViewType.LOGIN);
-			ctrl.replace((BorderPane) getAllNodes(root).get(0), subview);
+			// MainController ctrl = MainController.getInstance();
+			// ViewFactory factory = ViewFactory.getInstance();
+			// View subview = factory.createView(ViewType.LOGIN);
+			// ctrl.replace((BorderPane) getAllNodes(root).get(0), subview);
+			// BorderPane bp = (BorderPane) getAllNodes(root).get(0);
+			// bp.setCenter(subview);
+
 			mainStage.show();
-			new FadeIn(root).play();
-			ctrl.setScene(mainView);
+			// new FadeIn(root).play();
+			// ctrl.setScene(mainView);
 		} catch (IllegalStateException e) {
 			AlertFactory.getInstance().createAlert(e);
 		}
@@ -86,7 +84,6 @@ public class MainView extends Application {
 	}
 
 	public static void main(String[] args) {
-		System.setProperty("java.net.useSystemProxies", "true");
 		launch(args);
 	}
 }

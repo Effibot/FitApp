@@ -2,7 +2,7 @@ package logic.facade.calendar;
 
 import com.calendarfx.model.Entry;
 
-import logic.entity.Session;
+import logic.model.entity.Session;
 
 public class EntryCustom<T> extends Entry<T>{
 	private Entry entry;

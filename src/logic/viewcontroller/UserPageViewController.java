@@ -14,9 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import logic.bean.UserBean;
 import logic.controller.MainController;
-import logic.entity.User;
-import logic.entity.dao.UserDAO;
+import logic.controller.UserPageController;
 import logic.facade.calendar.CalendarFacade;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
@@ -44,13 +44,11 @@ public class UserPageViewController {
 	@FXML
 	private Label sideStreet;
 
-
 	@FXML
 	private Pane calendarBox;
 
 	@FXML
 	private Button openCalendar;
-
 
 	private MonthPage mPage;
 
@@ -59,7 +57,7 @@ public class UserPageViewController {
 
 	@FXML
 	public void bookSession(ActionEvent event) {
-		if(event.getSource().equals(bookSession)) {
+		if (event.getSource().equals(bookSession)) {
 			try {
 				ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGFORM));
 			} catch (IOException e) {
@@ -68,12 +66,10 @@ public class UserPageViewController {
 		}
 	}
 
-
-
 	@FXML
-	private void showCalendar(ActionEvent event){
-		if(event.getSource().equals(openCalendar)) {
-			if(!calendarBox.isVisible()) {
+	private void showCalendar(ActionEvent event) {
+		if (event.getSource().equals(openCalendar)) {
+			if (!calendarBox.isVisible()) {
 				new ZoomIn(calendarBox).play();
 				calendarBox.setVisible(true);
 				calendarBox.toFront();
@@ -96,7 +92,6 @@ public class UserPageViewController {
 		calendarBox.setVisible(false);
 		mPage.getCalendars().get(0).addEventHandler(calendarFacade.getEventHandler());
 
-
 	}
 
 	@FXML
@@ -106,11 +101,25 @@ public class UserPageViewController {
 		assert bookSession != null : "fx:id=\"bookSession\" was not injected: check your FXML file 'UserPage.fxml'.";
 		assert sideUserIcon != null : "fx:id=\"sideUserIcon\" was not injected: check your FXML file 'UserPage.fxml'.";
 		assert sideUsername != null : "fx:id=\"sideUsername\" was not injected: check your FXML file 'UserPage.fxml'.";
-		User user = UserDAO.getInstance().getUserEntity(ctrl.getId());
+		UserBean bean = new UserBean();
+		UserPageController controller = new UserPageController(bean);
+		// da mettere in UserPageController
+		// User user = UserDAO.getInstance().getUserEntity(ctrl.getId());
+		// List<Integer> userSession =
+		// SessionDAO.getInstance().getBookedSessionById(user.getId());
+
+		// List<Session> s = new ArrayList<>();
+		// for(Integer i : userSession){
+		// s.add(SessionDAO.getInstance().getBookedSessionEntity(i));
+		// }
+		// user.setBookedSession(s);
+		/////
+
+		// User user = bean.getUser();
+
 		sideUsername.setText(user.getName());
 		sideStreet.setText(user.getMyPosition());
 		calendarSetUp();
-
 
 	}
 }

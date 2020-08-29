@@ -4,8 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import logic.bean.GymPageBean;
-import logic.entity.Trainer;
-import logic.entity.dao.TrainerDAO;
+import logic.model.dao.TrainerDAO;
+import logic.model.entity.Trainer;
 
 public class ManageTrainerController {
 	

@@ -8,13 +8,13 @@ import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.util.MarkerImageFactory;
 
-import logic.entity.Gym;
-import logic.entity.Session;
-import logic.entity.User;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.SessionDAO;
-import logic.entity.dao.UserDAO;
 import logic.maputil.Geocode;
+import logic.model.dao.GymDAO;
+import logic.model.dao.SessionDAO;
+import logic.model.dao.UserDAO;
+import logic.model.entity.Gym;
+import logic.model.entity.Session;
+import logic.model.entity.User;
 
 public class MapController {
 	 private static MapController instance = null;

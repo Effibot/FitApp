@@ -2,7 +2,6 @@ package logic.viewcontroller;
 
 import java.io.IOException;
 
-
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import javafx.event.ActionEvent;
@@ -20,12 +19,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import logic.bean.EmailBean;
 import logic.bean.LoginBean;
+import logic.bean.MainBean;
 import logic.controller.EmailController;
 import logic.controller.LoginController;
 import logic.controller.MainController;
-import logic.entity.dao.UserDAO;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
+import logic.model.dao.UserDAO;
 import logic.view.View;
 
 public class LoginViewController {
@@ -57,9 +57,10 @@ public class LoginViewController {
 	private Pane pnSignIn;
 	@FXML
 	private AnchorPane anchRoot;
-	
+
 	private MainController ctrl;
-	private LoginController logCtrl; 
+	private LoginController logCtrl;
+
 	@FXML
 	private void handleButtonEvent(ActionEvent event) throws IOException {
 		if (event.getSource().equals(btnNoAcc)) {
@@ -82,7 +83,7 @@ public class LoginViewController {
 			loginTransitions();
 		}
 	}
-	
+
 	@FXML
 	private void onEnter(KeyEvent key) throws IOException {
 		if (key.getCode().equals(KeyCode.ENTER)) {
@@ -94,13 +95,13 @@ public class LoginViewController {
 		String username = tfUsername.getText();
 		String password = tfPwd.getText();
 		if (!username.equals("") && !password.equals("")) {
-			
+
 			LoginBean bean = new LoginBean(username, password);
 			if (logCtrl.checkAuthentication(bean)) {
 				MainController.getInstance().setId(bean.getId());
 				ViewFactory factory = ViewFactory.getInstance();
 				View view;
-				if(bean.getUsername().toLowerCase().contentEquals("guest")) {
+				if (bean.getUsername().toLowerCase().contentEquals("guest")) {
 					view = factory.createView(ViewType.SIGNUP);
 				} else if (bean.getType()) {
 					view = factory.createView(ViewType.GYMPAGE);
@@ -110,7 +111,7 @@ public class LoginViewController {
 				ctrl.replace(ctrl.getContainer(), view);
 				ctrl.getTopBox().getChildren().add(ctrl.getTopBar());
 			}
-		} 
+		}
 	}
 
 	@FXML
@@ -155,8 +156,9 @@ public class LoginViewController {
 		assert tfPwd != null : "fx:id=\"tfPwd\" was not injected: check your FXML file 'scene.fxml'.";
 		assert btnLogIn != null : "fx:id=\"btnLogIn\" was not injected: check your FXML file 'scene.fxml'.";
 		assert btnNoAcc != null : "fx:id=\"btnNoAcc\" was not injected: check your FXML file 'scene.fxml'.";
-		
+
 		ctrl = MainController.getInstance();
+		MainBean bean = ctrl.getBean();
 		logCtrl = new LoginController();
 	}
 }

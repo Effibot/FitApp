@@ -1,10 +1,10 @@
 package logic.controller;
 
-import logic.entity.Gym;
-import logic.entity.Manager;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.ManagerDAO;
-import logic.entity.dao.TrainerDAO;
+import logic.model.dao.GymDAO;
+import logic.model.dao.ManagerDAO;
+import logic.model.dao.TrainerDAO;
+import logic.model.entity.Gym;
+import logic.model.entity.Manager;
 
 public class GymPageController {
 	

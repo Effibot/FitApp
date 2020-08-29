@@ -4,6 +4,7 @@ import animatefx.animation.FadeIn;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import logic.bean.MainBean;
 import logic.view.View;
 
 public class MainController {
@@ -13,6 +14,7 @@ public class MainController {
 	private VBox topBox;
 	private Scene scene;
 	private int id = 0;
+	private MainBean bean;
 
 	public void setId(int id) {
 		this.id = id;
@@ -23,6 +25,7 @@ public class MainController {
 	}
 
 	private MainController() {
+
 	}
 
 	public static synchronized MainController getInstance() {
@@ -36,25 +39,25 @@ public class MainController {
 		return container;
 	}
 
-	public void setContainer(BorderPane container) {
-		this.container = container;
-	}
+//	public void setContainer() {
+//		this.container = container;
+//	}
 
 	public BorderPane getTopBar() {
 		return topBar;
 	}
 
-	public void setTopBar(BorderPane topBar) {
-		this.topBar = topBar;
-	}
+//	public void setTopBar() {
+//		this.topBar = topBar;
+//	}
 
 	public VBox getTopBox() {
 		return topBox;
 	}
 
-	public void setTopBox(VBox topBox) {
-		this.topBox = topBox;
-	}
+//	public void setTopBox() {
+//		this.topBox = topBox;
+//	}
 
 	public Scene getScene() {
 		return scene;
@@ -65,8 +68,21 @@ public class MainController {
 	}
 
 	public void replace(BorderPane container, View node) {
+
 		container.setCenter(node.getRoot());
 		new FadeIn(container.getCenter()).play();
+	}
+
+	public void setBean(MainBean bean) {
+		this.bean = bean;
+		this.container = bean.getContainer();
+		this.topBar = bean.getTopBar();
+		this.topBox = bean.getTopBox();
+
+	}
+
+	public MainBean getBean() {
+		return bean;
 	}
 
 }

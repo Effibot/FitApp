@@ -23,8 +23,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.controller.MainController;
 import logic.controller.MapController;
-import logic.entity.Session;
 import logic.factory.alertfactory.AlertFactory;
+import logic.model.entity.Session;
 import logic.viewcontroller.GymPopupViewController;
 
 public class MapInitializer implements MapComponentInitializedListener {

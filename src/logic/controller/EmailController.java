@@ -6,12 +6,12 @@ import javax.mail.MessagingException;
 
 import logic.bean.EmailBean;
 import logic.emailutil.EmailSender;
-import logic.entity.Manager;
-import logic.entity.User;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.ManagerDAO;
-import logic.entity.dao.UserDAO;
 import logic.factory.alertfactory.AlertFactory;
+import logic.model.dao.GymDAO;
+import logic.model.dao.ManagerDAO;
+import logic.model.dao.UserDAO;
+import logic.model.entity.Manager;
+import logic.model.entity.User;
 
 public class EmailController {
 	private static EmailController instance = null;

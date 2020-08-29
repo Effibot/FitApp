@@ -4,8 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TextField;
 import logic.bean.SignUpBean;
-import logic.entity.dao.GymDAO;
-import logic.entity.dao.UserDAO;
+import logic.model.dao.GymDAO;
+import logic.model.dao.UserDAO;
 
 public class SignUpController {
 

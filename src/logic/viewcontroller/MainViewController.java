@@ -13,10 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.bean.MainBean;
 import logic.controller.MainController;
 import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
+import logic.view.View;
 
 public class MainViewController implements Initializable {
 
@@ -70,9 +72,24 @@ public class MainViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ctrl = MainController.getInstance();
 		factory = ViewFactory.getInstance();
-		ctrl.setContainer(container);
-		ctrl.setTopBar(topBar);
-		ctrl.setTopBox(topBox);
+//		ctrl.setContainer(container);
+//		ctrl.setTopBar(topBar);
+//		ctrl.setTopBox(topBox);
 		topBox.getChildren().remove(topBar);
+		MainBean bean = new MainBean();
+		bean.setContainer(container);
+		bean.setTopBar(topBar);
+		bean.setTopBox(topBox);
+		ctrl.setBean(bean);
+		// main = (AnchorPane) resources.getObject("main");
+		View subview;
+		try {
+			subview = factory.createView(ViewType.LOGIN);
+			ctrl.replace(ctrl.getContainer(), subview);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
