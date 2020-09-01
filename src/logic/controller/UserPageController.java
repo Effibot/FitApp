@@ -5,17 +5,25 @@ import logic.model.dao.UserDAO;
 import logic.model.entity.User;
 
 public class UserPageController {
-	private UserBean bean;
-	private UserDAO dao = UserDAO.getInstance();
+    private UserBean bean;
+    private UserDAO dao = UserDAO.getInstance();
 
-	public UserPageController(UserBean bean) {
-		this.bean = bean;
-		createUser();
-	}
+    public UserPageController(UserBean bean) {
+        this.bean = bean;
+        bean.setUser(createUser());
+    }
 
-	private void createUser() {
-		User user = dao.getUserEntity(null);
-	}
+    private User createUser() {
+        return dao.getUserEntity(bean.getUserId());
+    }
+
+    public UserBean getBean() {
+        return bean;
+    }
+
+    public void setBean(UserBean bean) {
+        this.bean = bean;
+    }
 }
 
 // User user = UserDAO.getInstance().getUserEntity(ctrl.getId());
@@ -31,6 +39,6 @@ public class UserPageController {
 /*
  * public class UserModel { private User user; private UserDAO dao; getdao
  * getuser setuser setdao
- * 
+ *
  * }
  */

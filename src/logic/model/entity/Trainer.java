@@ -3,121 +3,121 @@ package logic.model.entity;
 import java.util.Map;
 
 public class Trainer {
-	private String name;
-	private int trainerId;
-	private int gymId;
-	private Map<Course, Boolean> course;
-	private Boolean kick;
-	private Boolean boxe;
-	private Boolean salsa;
-	private Boolean zumba;
-	private Boolean funct;
-	private Boolean walk;
-	private Boolean pump;
-	
-	public Trainer() {
-		
-	}
-	
-	public Trainer(String name, int trainerId, int gymId, Map<Course, Boolean> course) {
-		setName(name);
-		setTrainerId(trainerId);
-		setGymId(gymId);
-		setCourse(course);
-	}
+    private String name;
+    private int trainerId;
+    private int gymId;
+    private Map<Course, Boolean> course;
+    private Boolean kick;
+    private Boolean boxe;
+    private Boolean salsa;
+    private Boolean zumba;
+    private Boolean funct;
+    private Boolean walk;
+    private Boolean pump;
 
-	public String getName() {
-		return name;
-	}
+    public Trainer() {
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    }
 
-	public int getTrainerId() {
-		return trainerId;
-	}
+    public Trainer(String name, int trainerId, int gymId, Map<Course, Boolean> course) {
+        setName(name);
+        setTrainerId(trainerId);
+        setGymId(gymId);
+        setCourse(course);
+    }
 
-	public void setTrainerId(int trainerId) {
-		this.trainerId = trainerId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getGymId() {
-		return gymId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setGymId(int gymId) {
-		this.gymId = gymId;
-	}
+    public int getTrainerId() {
+        return trainerId;
+    }
 
-	public Map<Course, Boolean> getCourse() {
-		return course;
-	}
+    public void setTrainerId(int trainerId) {
+        this.trainerId = trainerId;
+    }
 
-	public void setCourse(Map<Course, Boolean> course) {
-		this.course = course;
-		setKick(course.get(Course.KICKBOXING));
-		setBoxe(course.get(Course.PUGILATO));
-		setFunct(course.get(Course.FUNCTIONAL));
-		setPump(course.get(Course.PUMP));
-		setZumba(course.get(Course.ZUMBA));
-		setSalsa(course.get(Course.SALSA));
-		setWalk(course.get(Course.WALKING));
-	}
+    public int getGymId() {
+        return gymId;
+    }
 
-	public Boolean getKick() {
-		return kick;
-	}
+    public void setGymId(int gymId) {
+        this.gymId = gymId;
+    }
 
-	public void setKick(Boolean kick) {
-		this.kick = kick;
-	}
+    public Map<Course, Boolean> getCourse() {
+        return course;
+    }
 
-	public Boolean getBoxe() {
-		return boxe;
-	}
+    public void setCourse(Map<Course, Boolean> course) {
+        this.course = course;
+        setKick(course.get(Course.KICKBOXING));
+        setBoxe(course.get(Course.PUGILATO));
+        setFunct(course.get(Course.FUNCTIONAL));
+        setPump(course.get(Course.PUMP));
+        setZumba(course.get(Course.ZUMBA));
+        setSalsa(course.get(Course.SALSA));
+        setWalk(course.get(Course.WALKING));
+    }
 
-	public void setBoxe(Boolean boxe) {
-		this.boxe = boxe;
-	}
+    public Boolean getKick() {
+        return kick;
+    }
 
-	public Boolean getSalsa() {
-		return salsa;
-	}
+    public void setKick(Boolean kick) {
+        this.kick = kick;
+    }
 
-	public void setSalsa(Boolean salsa) {
-		this.salsa = salsa;
-	}
+    public Boolean getBoxe() {
+        return boxe;
+    }
 
-	public Boolean getZumba() {
-		return zumba;
-	}
+    public void setBoxe(Boolean boxe) {
+        this.boxe = boxe;
+    }
 
-	public void setZumba(Boolean zumba) {
-		this.zumba = zumba;
-	}
+    public Boolean getSalsa() {
+        return salsa;
+    }
 
-	public Boolean getFunct() {
-		return funct;
-	}
+    public void setSalsa(Boolean salsa) {
+        this.salsa = salsa;
+    }
 
-	public void setFunct(Boolean funct) {
-		this.funct = funct;
-	}
+    public Boolean getZumba() {
+        return zumba;
+    }
 
-	public Boolean getWalk() {
-		return walk;
-	}
+    public void setZumba(Boolean zumba) {
+        this.zumba = zumba;
+    }
 
-	public void setWalk(Boolean walk) {
-		this.walk = walk;
-	}
+    public Boolean getFunct() {
+        return funct;
+    }
 
-	public Boolean getPump() {
-		return pump;
-	}
+    public void setFunct(Boolean funct) {
+        this.funct = funct;
+    }
 
-	public void setPump(Boolean pump) {
-		this.pump = pump;
-	}
+    public Boolean getWalk() {
+        return walk;
+    }
+
+    public void setWalk(Boolean walk) {
+        this.walk = walk;
+    }
+
+    public Boolean getPump() {
+        return pump;
+    }
+
+    public void setPump(Boolean pump) {
+        this.pump = pump;
+    }
 }

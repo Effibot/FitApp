@@ -4,8 +4,8 @@ import logic.factory.viewfactory.ViewType;
 
 public class WriteReviewView extends View {
 
-	public WriteReviewView(ViewType view) {
-		super(view);
-	}
+    public WriteReviewView(ViewType view) {
+        super(view);
+    }
 
 }

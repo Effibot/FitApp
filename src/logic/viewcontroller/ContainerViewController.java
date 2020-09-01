@@ -15,7 +15,7 @@ import logic.factory.viewfactory.ViewFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable, ViewController {
+public class ContainerViewController implements Initializable, ViewController {
     Container mainParent;
 
     @Override

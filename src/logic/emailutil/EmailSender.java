@@ -1,27 +1,23 @@
 package logic.emailutil;
 
-import java.util.Properties;
+import logic.factory.alertfactory.AlertFactory;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import logic.factory.alertfactory.AlertFactory;
+import java.util.Properties;
 
 public class EmailSender {
     private static final String SENDER = "fitappispw@gmail.com";
-    private static final String PASSWORD ="ispw20192020";
+    private static final String PASSWORD = "ispw20192020";
     private static final String HOST = "mail.smtp.host";
     private static final String PORT = "mail.smtp.port";
     private static final String AUTH = "mail.smtp.auth";
 
 
     private Properties props;
-    public EmailSender(){
+
+    public EmailSender() {
         this.props = new Properties();
         props.put(HOST, "smtp.gmail.com");
         props.put(PORT, "465");
@@ -29,12 +25,11 @@ public class EmailSender {
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
-       
-        
-        
+
+
     }
 
-    public void sendEmails(String subject,String  object,String email) throws MessagingException {
+    public void sendEmails(String subject, String object, String email) throws MessagingException {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
@@ -65,23 +60,14 @@ public class EmailSender {
 
             // Send message
             Transport.send(message);
-            
 
-            
-            
-         
-            
 
         } catch (MessagingException mex) {
-        	AlertFactory.getInstance().createAlert(mex);
+            AlertFactory.getInstance().createAlert(mex);
         }
 
 
-
     }
-    
-
-
 
 
 }

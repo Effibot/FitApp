@@ -3,22 +3,22 @@ package logic.controller;
 import logic.bean.BookingOnMapBean;
 
 public class BookingOnMapController {
-	private static BookingOnMapController instance = null;
-	private BookingOnMapBean bookingOnMapBean;
-	
-	protected BookingOnMapController() {
-		bookingOnMapBean = new BookingOnMapBean();
-	}
-	
-	public BookingOnMapBean getBookingOnMapBean() {
+    private static BookingOnMapController instance = null;
+    private BookingOnMapBean bookingOnMapBean;
 
-		return bookingOnMapBean;
-	}
-	
+    protected BookingOnMapController() {
+        bookingOnMapBean = new BookingOnMapBean();
+    }
 
-	public static synchronized BookingOnMapController getSingletoneInstance() {
-		if(BookingOnMapController.instance == null)
-			BookingOnMapController.instance = new BookingOnMapController();
-		return BookingOnMapController.instance;
-	}
+    public BookingOnMapBean getBookingOnMapBean() {
+
+        return bookingOnMapBean;
+    }
+
+
+    public static synchronized BookingOnMapController getSingletoneInstance() {
+        if (BookingOnMapController.instance == null)
+            BookingOnMapController.instance = new BookingOnMapController();
+        return BookingOnMapController.instance;
+    }
 }

@@ -1,7 +1,7 @@
 package logic.bean;
 
 public class CalendarBean {
-	private int userId;
-	
-	
+    private int userId;
+
+
 }

@@ -1,8 +1,8 @@
 package logic.viewcontroller;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,80 +12,84 @@ import logic.bean.EmailBean;
 import logic.controller.EmailController;
 
 
-public class EmailViewController {
+public class EmailViewController implements ViewController {
+    Container mainParent;
 
-	@FXML
-	private Button closeBtn;
+    @Override
+    public void setMainParent(Container mainParent) {
+        this.mainParent = mainParent;
+    }
 
-	@FXML
-	private Label gymEmailTitle;
+    @FXML
+    private Button closeBtn;
 
-	@FXML
-	private Label evtLbl;
+    @FXML
+    private Label gymEmailTitle;
 
-	@FXML
-	private Label timeLbl;
+    @FXML
+    private Label evtLbl;
 
-	@FXML
-	private JFXTextField subjectTXTField;
+    @FXML
+    private Label timeLbl;
 
-	@FXML
-	private JFXButton sendEmail;
-	@FXML
-	private JFXTextArea txtArea;
-	private String evt;
+    @FXML
+    private JFXTextField subjectTXTField;
 
-	private String gymName;
+    @FXML
+    private JFXButton sendEmail;
+    @FXML
+    private JFXTextArea txtArea;
+    private String evt;
 
-
-	@FXML
-	void closingPopup(MouseEvent event) {
-		Stage stage = (Stage) closeBtn.getScene().getWindow();
-		stage.close();
-
-
-	}
+    private String gymName;
 
 
-
-	@FXML
-	void sendEmail(MouseEvent event) {
-		EmailController emailController = EmailController.getSingletoneInstance();
-
-		EmailBean emailBean = emailController.getEmailBean();
-
-		String subject = subjectTXTField.getText(); 
-		String msg = txtArea.getText();
-		if(!subject.equals("") && !msg.equals("")) {
-			emailBean.setGym(gymName);
-			emailBean.setSubject(subject);
-			emailBean.setMsg(msg);
-			emailBean.setEvent(evt);
-			emailController.sendEmail();
-
-		}
-
-		Stage stage = (Stage) sendEmail.getScene().getWindow(); 
-		stage.close(); }
+    @FXML
+    void closingPopup(MouseEvent event) {
+        Stage stage = (Stage) closeBtn.getScene().getWindow();
+        stage.close();
 
 
-	public void setEvent(String course, String time, String gym) {
-		gymEmailTitle.setText("Email to: "+gym+" course: "+course);
-		evtLbl.setText(course);
-		timeLbl.setText(time);
-		gymName = gym;
-		evt = course;
-	}
+    }
 
 
+    @FXML
+    void sendEmail(MouseEvent event) {
+        EmailController emailController = EmailController.getSingletoneInstance();
 
-	public void setEvent(String course, String time) {
-		gymEmailTitle.setText("Email tocourse: " + course);
-		evtLbl.setText(course);
-		timeLbl.setText(time);
-		evt = course;
-	}
+        EmailBean emailBean = emailController.getEmailBean();
 
+        String subject = subjectTXTField.getText();
+        String msg = txtArea.getText();
+        if (!subject.equals("") && !msg.equals("")) {
+            emailBean.setGym(gymName);
+            emailBean.setSubject(subject);
+            emailBean.setMsg(msg);
+            emailBean.setEvent(evt);
+            emailController.sendEmail();
+
+        }
+
+        Stage stage = (Stage) sendEmail.getScene().getWindow();
+        stage.close();
+    }
+
+
+    public void setEvent(String course, String time, String gym) {
+        gymEmailTitle.setText("Email to: " + gym + " course: " + course);
+        evtLbl.setText(course);
+        timeLbl.setText(time);
+        gymName = gym;
+        evt = course;
+    }
+
+
+    public void setEvent(String course, String time) {
+        gymEmailTitle.setText("Email tocourse: " + course);
+        evtLbl.setText(course);
+        timeLbl.setText(time);
+        evt = course;
+    }
 
 
 }

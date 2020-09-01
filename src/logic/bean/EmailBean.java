@@ -2,62 +2,64 @@ package logic.bean;
 
 
 public class EmailBean {
-	private String subject;
-	private String msg;
-	private String event;
-	private String gym;
-	private String email;
-	private Integer pwd;
-	
+    private String subject;
+    private String msg;
+    private String event;
+    private String gym;
+    private String email;
+    private String pwd;
 
-	public String getSubject() {
-		return subject;
-	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public String getMsg() {
-		return msg;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
+    public String getMsg() {
+        return msg;
+    }
 
-	public String getEvent() {
-		return event;
-	}
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
-	public void setEvent(String event) {
-		this.event = event;
-	}
+    public String getEvent() {
+        return event;
+    }
 
-	public void setGym(String gymName) {
-		this.gym = gymName;
-	}
-	public String getGym() {
-		return gym;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-		System.out.println(this.email);
+    public void setEvent(String event) {
+        this.event = event;
+    }
 
-	}
-	
-	public String getEmail() {
-		System.out.println(email);
+    public void setGym(String gymName) {
+        this.gym = gymName;
+    }
 
-		return email;
-	}
+    public String getGym() {
+        return gym;
+    }
 
-	public void setPwd(Integer pwd) {
-		this.pwd = pwd;
-	}
-	
-	public Integer getPwd() {
-		return pwd;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+        System.out.println(this.email);
+
+    }
+
+    public String getEmail() {
+        System.out.println(email);
+
+        return email;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
 
 }

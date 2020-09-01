@@ -1,74 +1,75 @@
 package logic.model.entity;
 
 public class AbstractUser {
-	private int id;
-	private String name;
-	private String pwd;
-	private String email;
-	private String myPosition;
-	private boolean manager;
+    private int id;
+    private String name;
+    private String pwd;
+    private String email;
+    private String myPosition;
+    private boolean manager;
 
-	protected AbstractUser() {}
-	
-	protected AbstractUser(int id, String name, String pwd, String email, boolean manager) {
-		setId(id);
-		setName(name);
-		setPwd(pwd);
-		setEmail(email);
-		setManager(manager);
-	}
+    protected AbstractUser() {
+    }
 
-	public int getId() {
-		return id;
-	}
+    protected AbstractUser(int id, String name, String pwd, String email, boolean manager) {
+        setId(id);
+        setName(name);
+        setPwd(pwd);
+        setEmail(email);
+        setManager(manager);
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPwd() {
-		return pwd;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
+    public String getPwd() {
+        return pwd;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getMyPosition() {
-		return this.myPosition;
-	}
-	
-	public void setMyPosition(String position) {
-		this.myPosition = position;
-	}
-	
-	public boolean isManager() {
-		return manager;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setManager(boolean manager) {
-		this.manager = manager;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("user: '%s' %nemail: '%s' %npassword: '%s' %nmanager: '%b'", this.name, this.email, this.pwd, this.manager);
-	}
-	
+    public String getMyPosition() {
+        return this.myPosition;
+    }
+
+    public void setMyPosition(String position) {
+        this.myPosition = position;
+    }
+
+    public boolean isManager() {
+        return manager;
+    }
+
+    public void setManager(boolean manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("user: '%s' %nemail: '%s' %npassword: '%s' %nmanager: '%b'", this.name, this.email, this.pwd, this.manager);
+    }
+
 }

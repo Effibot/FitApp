@@ -1,9 +1,6 @@
 package logic.viewcontroller;
 
-import java.io.IOException;
-
 import com.jfoenix.controls.JFXListView;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -15,12 +12,11 @@ import logic.bean.BookingOnMapBean;
 import logic.controller.BookingFormController;
 import logic.controller.MainController;
 import logic.controller.MapController;
-import logic.factory.alertfactory.AlertFactory;
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
 import logic.maputil.MapInitializer;
 
-public class BookingOnMapViewController {
+public class BookingOnMapViewController implements ViewController {
 
     @FXML
     private Hyperlink viewRecorder;
@@ -39,43 +35,43 @@ public class BookingOnMapViewController {
     private HBox mapBox;
 
 
-	private MainController ctrl = MainController.getInstance();
-	private ViewFactory factory = ViewFactory.getInstance();
-	private MapController mapController = MapController.getSingletonInstance();
-	
+    private MainController ctrl = MainController.getInstance();
+    private ViewFactory factory = ViewFactory.getInstance();
+    private MapController mapController = MapController.getSingletonInstance();
+
     @FXML
     void goBack(MouseEvent event) {
-    	try {
+        //try {
 
-    		listCell.getItems().clear();
-    		mapController.wipeAll();
-			ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGFORM));
-		} catch (IOException e) {
-			AlertFactory.getInstance().createAlert(e);
-		}
+        listCell.getItems().clear();
+        mapController.wipeAll();
+        mainParent.setView(ViewType.BOOKINGFORM);
+        //ctrl.replace(ctrl.getContainer(), factory.createView(ViewType.BOOKINGFORM));
+        //} catch (IOException e) {
+        //AlertFactory.getInstance().createAlert(e);
+        //}
     }
-   
-   
-  
-   
-    
 
 
-
-
-
-	@FXML
+    @FXML
     void initialize() {
-    		BookingFormController bookingFormController = BookingFormController.getSingletoneInstance();
-    		BookingOnMapBean bookingOnMapBean = bookingFormController.getBookingOnMapBean();
-    		String date = bookingOnMapBean.getDate();
-    		String time = bookingOnMapBean.getTime();
+        BookingFormController bookingFormController = BookingFormController.getSingletoneInstance();
+        BookingOnMapBean bookingOnMapBean = bookingFormController.getBookingOnMapBean();
+        String date = bookingOnMapBean.getDate();
+        String time = bookingOnMapBean.getTime();
 
-    		int event = bookingOnMapBean.getEvent();
-    		double radius = bookingOnMapBean.getRadius();
-    		MapInitializer map = new MapInitializer(date, time, event, radius);
-  
-    		map.setListCell(listCell);
-			mapBox.getChildren().add(map.getView());
+        int event = bookingOnMapBean.getEvent();
+        double radius = bookingOnMapBean.getRadius();
+        MapInitializer map = new MapInitializer(date, time, event, radius);
+
+        map.setListCell(listCell);
+        mapBox.getChildren().add(map.getView());
+    }
+
+    private Container mainParent;
+
+    @Override
+    public void setMainParent(Container mainParent) {
+        this.mainParent = mainParent;
     }
 }

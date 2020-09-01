@@ -1,46 +1,49 @@
 package logic.bean;
 
 public class LoginBean {
-	
-	private String password;
-	private String username;
-	private int id;
-	private boolean type = false;
-	
-	public LoginBean(String usrname, String pword) {
-		username = usrname;
-		password = pword;
-	}
-	
-	public boolean getType() {
-		return type;
-	}
 
-	public void setType(boolean type) {
-		this.type = type;
-	}
+    private String password;
+    private String username;
+    private int id;
+    private boolean type = false;
 
-	public String getUsername() {
-		return username;
-	}
+    public LoginBean() {
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public LoginBean(String usrname, String pword) {
+        username = usrname;
+        password = pword;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public boolean getType() {
+        return type;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setType(boolean type) {
+        this.type = type;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -1,11 +1,8 @@
 package logic.viewcontroller;
 
-import org.controlsfx.control.Rating;
-
 import com.calendarfx.model.Entry;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
-
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,11 +16,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import logic.factory.viewfactory.ViewFactory;
 import logic.factory.viewfactory.ViewType;
-public class ReviewViewController {
-	@FXML
+import org.controlsfx.control.Rating;
+
+public class ReviewViewController implements ViewController {
+    Container mainParent;
+
+    @Override
+    public void setMainParent(Container mainParent) {
+        this.mainParent = mainParent;
+    }
+
+
+    @FXML
     private StackPane stackPane;
 
     @FXML
@@ -42,11 +48,12 @@ public class ReviewViewController {
 
     Entry currEntry;
     ViewFactory viewFactory = ViewFactory.getInstance();
-    public ReviewViewController(){
+
+    public ReviewViewController() {
 
     }
 
-    public  ReviewViewController(Entry entry) {
+    public ReviewViewController(Entry entry) {
 
 
     }
@@ -60,25 +67,25 @@ public class ReviewViewController {
     @FXML
     void writeReview(MouseEvent event) {
         /*
-		 * FXMLLoader rootFXML = new FXMLLoader(getClass().getResource("/logic/fxml/submitReview.fxml")); 
-		 * Parent root = rootFXML.load(); 
-		 * SubmitViewController submitViewController = rootFXML.getController();
-		 * submitViewController.setScene(currEntry);
-		 */
-		viewFactory.create(ViewType.WRITEREWIES);
+         * FXMLLoader rootFXML = new FXMLLoader(getClass().getResource("/logic/fxml/submitReview.fxml"));
+         * Parent root = rootFXML.load();
+         * SubmitViewController submitViewController = rootFXML.getController();
+         * submitViewController.setScene(currEntry);
+         */
+        viewFactory.create(ViewType.WRITEREVIEWS);
 //            SubmitViewController submitViewController = (SubmitViewController) calendarView.getController();
 //			submitViewController.setScene(currEntry);
-		Scene scene = writeBtn.getScene();
-		viewFactory.getRoot().translateYProperty().set(scene.getHeight());
-		stackPane.getChildren().add(viewFactory.getRoot());
-		Timeline timeLine = new Timeline();
-		KeyValue kv = new KeyValue(viewFactory.getRoot().translateYProperty(), 0, Interpolator.EASE_IN);
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
-		timeLine.getKeyFrames().add(kf);
-		timeLine.setOnFinished(event1 -> {
-		    stackPane.getChildren().remove(anchorPane);
-		});
-		timeLine.play();
+        Scene scene = writeBtn.getScene();
+        viewFactory.getRoot().translateYProperty().set(scene.getHeight());
+        stackPane.getChildren().add(viewFactory.getRoot());
+        Timeline timeLine = new Timeline();
+        KeyValue kv = new KeyValue(viewFactory.getRoot().translateYProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
+        timeLine.getKeyFrames().add(kf);
+        timeLine.setOnFinished(event1 -> {
+            stackPane.getChildren().remove(anchorPane);
+        });
+        timeLine.play();
     }
 
     public void setView(Entry entry) {
@@ -91,15 +98,15 @@ public class ReviewViewController {
         //
         Rating rating = new Rating();
 
-        listView.getItems().addAll("CIAO","CIAO","CIAO","CIAO","CIAO");
+        listView.getItems().addAll("CIAO", "CIAO", "CIAO", "CIAO", "CIAO");
 
     }
 
-	public void setTypeView(boolean userProperty) {
-		if (userProperty)
-			writeBtn.setVisible(false);
-		else
-			writeBtn.setVisible(true);
+    public void setTypeView(boolean userProperty) {
+        if (userProperty)
+            writeBtn.setVisible(false);
+        else
+            writeBtn.setVisible(true);
 
-	}
+    }
 }
