@@ -3,46 +3,44 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="FitApp_Project.git">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="FitApp">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../eclipse/jee-2020-03/eclipse/"/>
+    <property name="ECLIPSE_HOME" value="../../../eclipse/jee-2020-03/eclipse/"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
     <path id="JavaFX SDK.libraryclasspath">
-        <pathelement location="../../.p2/pool/plugins/org.eclipse.fx.ide.css.jfx8_3.5.0.201907240300.jar"/>
+        <pathelement location="../../../.p2/pool/plugins/org.eclipse.fx.ide.css.jfx8_3.5.0.201907240300.jar"/>
     </path>
-    <path id="FitApp_Project.git.classpath">
+    <path id="FitApp.classpath">
         <pathelement location="bin"/>
         <path refid="JavaFX SDK.libraryclasspath"/>
-        <pathelement location="trunk/src/lib/animatefx-1.2.0.jar"/>
-        <pathelement location="trunk/src/lib/byte-buddy-1.6.11.jar"/>
-        <pathelement location="trunk/src/lib/byte-buddy-agent-1.6.11.jar"/>
-        <pathelement location="trunk/src/lib/controlsfx-8.40.14.jar"/>
-        <pathelement location="trunk/src/lib/fontawesomefx-commons-8.13.jar"/>
-        <pathelement location="trunk/src/lib/fontawesomefx-fontawesome-4.7.0-1.jar"/>
-        <pathelement location="trunk/src/lib/GMapsFXlib.jar"/>
-        <pathelement location="trunk/src/lib/javax_mail.jar"/>
-        <pathelement location="trunk/src/lib/javax.mail.jar"/>
-        <pathelement location="trunk/src/lib/jfoenix-8.0.8.jar"/>
-        <pathelement location="trunk/src/lib/json-simple-1.1.1.jar"/>
-        <pathelement location="trunk/src/lib/lib-recur-0.11.6.jar"/>
-        <pathelement location="trunk/src/lib/logback-classic-1.2.1.jar"/>
-        <pathelement location="trunk/src/lib/logback-core-1.2.1.jar"/>
-        <pathelement location="trunk/src/lib/mockito-core-2.7.17.jar"/>
-        <pathelement location="trunk/src/lib/objenesis-2.5.jar"/>
-        <pathelement location="trunk/src/lib/postgresql-42.2.9.jar"/>
-        <pathelement location="trunk/src/lib/recurrence-8.6.1.jar"/>
-        <pathelement location="trunk/src/lib/rfc5545-datetime-0.3.jar"/>
-        <pathelement location="trunk/src/lib/slf4j-api-1.7.23.jar"/>
-        <pathelement location="trunk/src/lib/view-8.6.1.jar"/>
+        <pathelement location="src/lib/animatefx-1.2.0.jar"/>
+        <pathelement location="src/lib/byte-buddy-1.6.11.jar"/>
+        <pathelement location="src/lib/byte-buddy-agent-1.6.11.jar"/>
+        <pathelement location="src/lib/jfoenix-8.0.8.jar"/>
+        <pathelement location="src/lib/json-simple-1.1.1.jar"/>
+        <pathelement location="src/lib/logback-classic-1.2.1.jar"/>
+        <pathelement location="src/lib/logback-core-1.2.1.jar"/>
+        <pathelement location="src/lib/mockito-core-2.7.17.jar"/>
+        <pathelement location="src/lib/objenesis-2.5.jar"/>
+        <pathelement location="src/lib/postgresql-42.2.9.jar"/>
+        <pathelement location="src/lib/slf4j-api-1.7.23.jar"/>
+        <pathelement location="src/lib/controlsfx-8.40.14.jar"/>
+        <pathelement location="src/lib/javax_mail.jar"/>
+        <pathelement location="src/lib/javax.mail.jar"/>
+        <pathelement location="src/lib/lib-recur-0.11.6.jar"/>
+        <pathelement location="src/lib/rfc5545-datetime-0.3.jar"/>
+        <pathelement location="src/lib/view-8.6.1.jar"/>
+        <pathelement location="src/lib/fontawesomefx-commons-8.13.jar"/>
+        <pathelement location="src/lib/fontawesomefx-fontawesome-4.7.0-1.jar"/>
+        <pathelement location="src/lib/GMapsFXlib.jar"/>
+	<pathelement location="src/lib/recurrence-8.6.1.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
-            <fileset dir="trunk/src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.xtend"/>
+            <fileset dir="src">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -56,8 +54,8 @@
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="trunk/src"/>
-            <classpath refid="FitApp_Project.git.classpath"/>
+            <src path="src"/>
+            <classpath refid="FitApp.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -74,9 +72,9 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="Main (8)">
+    <target name="Main">
         <java classname="logic.view.Main" failonerror="true" fork="yes">
-            <classpath refid="FitApp_Project.git.classpath"/>
+            <classpath refid="FitApp.classpath"/>
         </java>
     </target>
 </project>
