@@ -1,5 +1,9 @@
 package logic.facade.calendar;
 
+import java.util.Iterator;
+import java.util.List;
+
+import org.controlsfx.control.PopOver;
 
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
@@ -8,6 +12,7 @@ import com.calendarfx.view.DateControl.EntryDetailsPopOverContentParameter;
 import com.calendarfx.view.RequestEvent;
 import com.calendarfx.view.page.DayPage;
 import com.calendarfx.view.page.MonthPage;
+
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Node;
@@ -27,289 +32,284 @@ import logic.factory.viewfactory.ViewType;
 import logic.viewcontroller.GymPopUpCalendarViewController;
 import logic.viewcontroller.ReviewViewController;
 import logic.viewcontroller.UserPopupCalendarViewController;
-import org.controlsfx.control.PopOver;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class CalendarBehaviour {
-    private static CalendarBehaviour instance = null;
+	private static CalendarBehaviour instance = null;
 
-    private ViewFactory viewFactory = ViewFactory.getInstance();
-    private MonthPage monthPage;
-    private boolean userProperty;
-    private EntryCalendar entryCalendar;
-    private CalendarSource calendarSource;
-    private EventHandler<CalendarEvent> evtHandler;
-    private CalendarsEvent calendarsEvent;
-    private DayPage dayPage;
-    private List<EntryCustom<?>> allEvEntryCustoms;
-    private List<EntryCustom<?>> allBookedSession;
+	private ViewFactory viewFactory = ViewFactory.getInstance();
+	private MonthPage monthPage;
+	private boolean userProperty;
+	private EntryCalendar entryCalendar;
+	private CalendarSource calendarSource;
+	private EventHandler<CalendarEvent> evtHandler;
+	private CalendarsEvent calendarsEvent;
+	private DayPage dayPage;
+	private List<EntryCustom<?>> allEvEntryCustoms;
+	private List<EntryCustom<?>> allBookedSession;
 
-    public void setSources(MonthPage monthPage, CalendarController calendarController,
-                           EntryCalendar entryCalendar, CalendarSource calendarSource, CalendarsEvent calendarsEvent,
-                           DayPage dayPage, boolean userProperty) {
-        this.entryCalendar = entryCalendar;
-        this.monthPage = monthPage;
-        this.calendarSource = calendarSource;
-        this.calendarsEvent = calendarsEvent;
-        this.dayPage = dayPage;
-        this.allEvEntryCustoms = calendarController.getAllEntry();
-        this.allBookedSession = calendarController.getAllBookedSession();
-        this.userProperty = userProperty;
-    }
+	public void setSources(MonthPage monthPage, CalendarController calendarController, EntryCalendar entryCalendar,
+			CalendarSource calendarSource, CalendarsEvent calendarsEvent, DayPage dayPage, boolean userProperty) {
+		this.entryCalendar = entryCalendar;
+		this.monthPage = monthPage;
+		this.calendarSource = calendarSource;
+		this.calendarsEvent = calendarsEvent;
+		this.dayPage = dayPage;
+		this.allEvEntryCustoms = calendarController.getAllEntry();
+		this.allBookedSession = calendarController.getAllBookedSession();
+		this.userProperty = userProperty;
+	}
 
-    public CalendarsEvent getCalendarsEvent() {
-        return calendarsEvent;
-    }
+	public CalendarsEvent getCalendarsEvent() {
+		return calendarsEvent;
+	}
 
-    public EntryCalendar getEntryCalendar() {
-        return entryCalendar;
-    }
+	public EntryCalendar getEntryCalendar() {
+		return entryCalendar;
+	}
 
-    protected CalendarBehaviour() {
+	protected CalendarBehaviour() {
 
-    }
+	}
 
-    public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
-        // Loading of main popup of calendar
-        EntryCustom<?> currEntryCustom = null;
-        System.out.println(allEvEntryCustoms);
-        System.out.println("SONO gym");
-        Iterator<EntryCustom<?>> enIterator;
-        if (userProperty) {
-            enIterator = allEvEntryCustoms.iterator();
-        } else {
-            enIterator = allBookedSession.iterator();
+	public HBox doubleClickEntry(EntryDetailsPopOverContentParameter param) {
+		// Loading of main popup of calendar
+		EntryCustom<?> currEntryCustom = null;
+		System.out.println(allEvEntryCustoms);
+		System.out.println("SONO gym");
+		Iterator<EntryCustom<?>> enIterator;
+		if (userProperty) {
+			enIterator = allEvEntryCustoms.iterator();
+		} else {
+			enIterator = allBookedSession.iterator();
 
-        }
-        while (enIterator.hasNext()) {
-            EntryCustom<?> tEntryCustom = enIterator.next();
-            if (param.getEntry().equals(tEntryCustom.getEntry())) {
-                System.out.println("Entry Gia esistente");
-                tEntryCustom.setEntry(param.getEntry());
-                currEntryCustom = tEntryCustom;
-                System.out.println(currEntryCustom.getEntry());
+		}
+		while (enIterator.hasNext()) {
+			EntryCustom<?> tEntryCustom = enIterator.next();
+			if (param.getEntry().equals(tEntryCustom.getEntry())) {
+				System.out.println("Entry Gia esistente");
+				tEntryCustom.setEntry(param.getEntry());
+				currEntryCustom = tEntryCustom;
+				System.out.println(currEntryCustom.getEntry());
 
-            }
+			}
 
-        }
-        if (currEntryCustom == null) {
-            currEntryCustom = new EntryCustom<>(param.getEntry(), null);
-        }
-        System.out.println("THIS IS USER PROPERY" + userProperty);
-        if (userProperty) {
+		}
+		if (currEntryCustom == null) {
+			currEntryCustom = new EntryCustom<>(param.getEntry(), null);
+		}
+		System.out.println("THIS IS USER PROPERY" + userProperty);
+		if (userProperty) {
 
+			System.out.println("AARIVO QUI?");
+			viewFactory.create(ViewType.MAINPOPUP);
+			GymPopUpCalendarViewController popupViewController = (GymPopUpCalendarViewController) viewFactory
+					.getCurrentController();
+			// setting parameters to popupView
+			popupViewController.setParam(currEntryCustom, calendarsEvent, entryCalendar);
 
-            System.out.println("AARIVO QUI?");
-            viewFactory.create(ViewType.MAINPOPUP);
-            GymPopUpCalendarViewController popupViewController = (GymPopUpCalendarViewController) viewFactory.getCurrentController();
-            // setting parameters to popupView
-            popupViewController.setParam(currEntryCustom, calendarsEvent, entryCalendar);
+		} else {
+			System.out.println("ENtro qui");
+			viewFactory.create(ViewType.USERPOPUP);
+			UserPopupCalendarViewController popupViewController = (UserPopupCalendarViewController) viewFactory
+					.getCurrentController();
+			// setting parameters to popupView
+			popupViewController.setParam(currEntryCustom);
+		}
+		// adding popup to a box and return it
+		HBox box = new HBox();
+		box.getChildren().add(viewFactory.getRoot());
 
+		return box;
 
-        } else {
-            System.out.println("ENtro qui");
-            viewFactory.create(ViewType.USERPOPUP);
-            UserPopupCalendarViewController popupViewController = (UserPopupCalendarViewController) viewFactory.getCurrentController();
-            // setting parameters to popupView
-            popupViewController.setParam(currEntryCustom);
-        }
-        // adding popup to a box and return it
-        HBox box = new HBox();
-        box.getChildren().add(viewFactory.getRoot());
+	}
 
-        return box;
+	/*
+	 * Handling contexMenuItems item 1: view Reviews, item 2: delete only current
+	 * event, item 3: delete all current event from calendar, item 4:send email to
+	 * gym
+	 * 
+	 */
+	EntryCustom<?> contextEntry = null;
 
-    }
+	public ContextMenu rightClickEntry(EntryContextMenuParameter param) {
+		// define element of right click contextMenu
+		MenuItem item1 = new MenuItem("Information");
+		MenuItem item2 = new MenuItem("Delete this");
+		MenuItem item3 = new MenuItem("Delete All");
+		MenuItem item4 = new MenuItem("Send e-mail");
+		// getting current entry
 
-    /*
-     * Handling contexMenuItems item 1: view Reviews, item 2: delete only current
-     * event, item 3: delete all current event from calendar, item 4:send email to
-     * gym
-     *
-     */
-    EntryCustom<?> contextEntry = null;
+		Iterator<EntryCustom<?>> enIterator;
+		if (userProperty) {
+			enIterator = allEvEntryCustoms.iterator();
+		} else {
+			enIterator = allBookedSession.iterator();
 
-    public ContextMenu rightClickEntry(EntryContextMenuParameter param) {
-        // define element of right click contextMenu
-        MenuItem item1 = new MenuItem("Information");
-        MenuItem item2 = new MenuItem("Delete this");
-        MenuItem item3 = new MenuItem("Delete All");
-        MenuItem item4 = new MenuItem("Send e-mail");
-        // getting current entry
+		}
+		while (enIterator.hasNext()) {
+			EntryCustom<?> tEntryCustom = enIterator.next();
+			if (param.getEntry().equals(tEntryCustom.getEntry())) {
+				System.out.println("Entry Gia esistente");
+				tEntryCustom.setEntry(param.getEntry());
+				contextEntry = tEntryCustom;
+				System.out.println(contextEntry.getEntry());
 
-        Iterator<EntryCustom<?>> enIterator;
-        if (userProperty) {
-            enIterator = allEvEntryCustoms.iterator();
-        } else {
-            enIterator = allBookedSession.iterator();
+			}
 
-        }
-        while (enIterator.hasNext()) {
-            EntryCustom<?> tEntryCustom = enIterator.next();
-            if (param.getEntry().equals(tEntryCustom.getEntry())) {
-                System.out.println("Entry Gia esistente");
-                tEntryCustom.setEntry(param.getEntry());
-                contextEntry = tEntryCustom;
-                System.out.println(contextEntry.getEntry());
+		}
+		if (contextEntry == null) {
+			contextEntry = new EntryCustom<>(param.getEntry(), null);
+		}
 
-            }
+		// initialize stage
+		Stage reviewStage = new Stage();
+		reviewStage.initStyle(StageStyle.TRANSPARENT);
+		reviewStage.initModality(Modality.APPLICATION_MODAL);
+		reviewStage.setMinWidth(335);
+		reviewStage.setMinHeight(150);
 
-        }
-        if (contextEntry == null) {
-            contextEntry = new EntryCustom<>(param.getEntry(), null);
-        }
+		item1.setOnAction(event -> {
+			viewFactory.create(ViewType.REVIEW);
+			ReviewViewController reviewViewController = (ReviewViewController) viewFactory.getCurrentController();
+			reviewViewController.setTypeView(this.userProperty);
+			Scene scene = new Scene(viewFactory.getRoot());
+			reviewStage.setScene(scene);
+			reviewStage.showAndWait();
+		});
+		item2.setOnAction(event -> {
 
-        // initialize stage
-        Stage reviewStage = new Stage();
-        reviewStage.initStyle(StageStyle.TRANSPARENT);
-        reviewStage.initModality(Modality.APPLICATION_MODAL);
-        reviewStage.setMinWidth(335);
-        reviewStage.setMinHeight(150);
+			entryCalendar.deleteCalendarEntry(this.getContextEntry());
 
-        item1.setOnAction(event -> {
-            viewFactory.create(ViewType.REVIEW);
-            ReviewViewController reviewViewController = (ReviewViewController) viewFactory.getCurrentController();
-            reviewViewController.setTypeView(this.userProperty);
-            Scene scene = new Scene(viewFactory.getRoot());
-            reviewStage.setScene(scene);
-            reviewStage.showAndWait();
-        });
-        item2.setOnAction(event -> {
+		});
+		item3.setOnAction(event -> this.getContextEntry().getEntry().getCalendar().clear());
 
-            entryCalendar.deleteCalendarEntry(this.getContextEntry());
+		// Email sender
+		item4.setOnAction(event -> {
+			viewFactory.create(ViewType.EMAIL);
 
+			Scene scene = new Scene(viewFactory.getRoot());
+			reviewStage.setScene(scene);
+			reviewStage.showAndWait();
+		});
 
-        });
-        item3.setOnAction(event -> this.getContextEntry().getEntry().getCalendar().clear());
+		ContextMenu rBox = new ContextMenu();
 
-        // Email sender
-        item4.setOnAction(event -> {
-            viewFactory.create(ViewType.EMAIL);
+		if (userProperty) {
+			rBox.getItems().addAll(item1, item2, item3);
+		} else {
 
-            Scene scene = new Scene(viewFactory.getRoot());
-            reviewStage.setScene(scene);
-            reviewStage.showAndWait();
-        });
+			rBox.getItems().addAll(item1, item2, item3, item4);
 
-        ContextMenu rBox = new ContextMenu();
+		}
+		return rBox;
+	}
 
-        if (userProperty) {
-            rBox.getItems().addAll(item1, item2, item3);
-        } else {
+	/*
+	 * MultiplesEntris When on MonthPage there more than 2 event, it will show a
+	 * popUp to manage events
+	 * 
+	 */
 
-            rBox.getItems().addAll(item1, item2, item3, item4);
+	private EntryCustom<?> getContextEntry() {
+		return contextEntry;
+	}
 
-        }
-        return rBox;
-    }
+	public void multiplesEntries() {
 
-    /*
-     * MultiplesEntris When on MonthPage there more than 2 event, it will show a
-     * popUp to manage events
-     *
-     */
+		monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
 
-    private EntryCustom<?> getContextEntry() {
-        return contextEntry;
-    }
+			// set current date
+			dayPage.setDate(event.getDate());
+			PopOver popOver = this.fullDayOver();
+			// Auto hide property
+			popOver.setAutoHide(true);
+			popOver.show((Node) event.getTarget());
 
-    public void multiplesEntries() {
+		});
 
-        monthPage.addEventFilter(RequestEvent.REQUEST_DATE, event -> {
+	}
 
-            // set current date
-            dayPage.setDate(event.getDate());
-            PopOver popOver = this.fullDayOver();
-            // Auto hide property
-            popOver.setAutoHide(true);
-            popOver.show((Node) event.getTarget());
+	private int numberOfEntry = 0;
 
-        });
+	public EventHandler<CalendarEvent> setEventHandler() {
 
-    }
+		// Intercepting Calendar Event on clicking
+		this.evtHandler = new EventHandler<CalendarEvent>() {
 
-    private int numberOfEntry = 0;
+			@Override
+			public void handle(CalendarEvent event) {
 
-    public EventHandler<CalendarEvent> setEventHandler() {
+				EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
+				// Calendar Event new entry added on Month Page
+				if (event.getEventType().equals(calendarEvent1) && !userProperty) {
+					event.getEntry().removeFromCalendar();
 
-        // Intercepting Calendar Event on clicking
-        this.evtHandler = new EventHandler<CalendarEvent>() {
+				} else if (event.getEventType().equals(calendarEvent1) && userProperty) {
+					System.out.println("NUMBER" + numberOfEntry
+							+ monthPage.getCalendars().get(0).findEntries(event.getEntry().getTitle()));
+					if (event.getEntry().getTitle().equals("New Entry " + (numberOfEntry + 1)) && numberOfEntry != 0) {
+						CustomAlertBox alertDialog = AlertFactory.getInstance().createAlert(AlertType.INFORMATION,
+								"Multiple default Entry", "We recommend that you complete uncompleted events",
+								"Thanks!");
+						alertDialog.display();
+						numberOfEntry++;
+						event.getEntry().removeFromCalendar();
+						numberOfEntry--;
+					} else {
+						numberOfEntry++;
+					}
 
-            @Override
-            public void handle(CalendarEvent event) {
+				}
+			}
+		};
+		numberOfEntry = 0;
+		return this.evtHandler;
+	}
 
-                EventType<CalendarEvent> calendarEvent1 = CalendarEvent.ENTRY_CALENDAR_CHANGED;
-                // Calendar Event new entry added on Month Page
-                if (event.getEventType().equals(calendarEvent1) && !userProperty) {
-                    event.getEntry().removeFromCalendar();
+	/* Return only the eventHandler of the calendar */
+	public EventHandler<CalendarEvent> getEventHandler() {
 
-                } else if (event.getEventType().equals(calendarEvent1) && userProperty) {
-                    System.out.println("NUMBER" + numberOfEntry + monthPage.getCalendars().get(0).findEntries(event.getEntry().getTitle()));
-                    if (event.getEntry().getTitle().equals("New Entry " + (numberOfEntry + 1)) && numberOfEntry != 0) {
-                        CustomAlertBox alertDialog = AlertFactory.getInstance().createAlert(AlertType.INFORMATION, "Multiple default Entry",
-                                "We recommend that you complete uncompleted events", "Thanks!");
-                        alertDialog.display();
-                        numberOfEntry++;
-                        event.getEntry().removeFromCalendar();
-                        numberOfEntry--;
-                    } else {
-                        numberOfEntry++;
-                    }
+		return evtHandler;
+	}
+	/* Setting the behavior of a full day view */
 
+	public PopOver fullDayOver() {
+		// dayPage layOut
+		dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
+		dayPage.getCalendarSources().add(calendarSource);
+		dayPage.setMinWidth(340);
+		dayPage.setMaxHeight(300);
+		// handle double click on new Entry
+		dayPage.setEntryDetailsPopOverContentCallback(param -> instance.doubleClickEntry(param));
+		// handle right click on new Entry
+		dayPage.setEntryContextMenuCallback(param -> instance.rightClickEntry(param));
+		/*
+		 * Handling the behavior of calendar according to user or manager
+		 */
+		if (!userProperty) {
+			for (int i = 0; i < 8; i++) {
+				// all calendars are readOnly
+				dayPage.getCalendars().get(i).setReadOnly(true);
+			}
+			// all double click are disable
+			dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
 
-                }
-            }
-        };
-        numberOfEntry = 0;
-        return this.evtHandler;
-    }
+		} else {
+			for (int i = 0; i < 7; i++) {
+				// all calendar are manageable
+				dayPage.getCalendars().get(i).setReadOnly(false);
+			}
+			// all double click are enabled
+			dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
 
-    /* Return only the eventHandler of the calendar */
-    public EventHandler<CalendarEvent> getEventHandler() {
+		}
+		return new PopOver(this.dayPage);
 
-        return evtHandler;
-    }
-    /* Setting the behavior of a full day view */
+	}
 
-    public PopOver fullDayOver() {
-        // dayPage layOut
-        dayPage.setDayPageLayout(DayPage.DayPageLayout.DAY_ONLY);
-        dayPage.getCalendarSources().add(calendarSource);
-        dayPage.setMinWidth(340);
-        dayPage.setMaxHeight(300);
-        // handle double click on new Entry
-        dayPage.setEntryDetailsPopOverContentCallback(param -> instance.doubleClickEntry(param));
-        // handle right click on new Entry
-        dayPage.setEntryContextMenuCallback(param -> instance.rightClickEntry(param));
-        /*
-         * Handling the behavior of calendar according to user or manager
-         */
-        if (!userProperty) {
-            for (int i = 0; i < 8; i++) {
-                // all calendars are readOnly
-                dayPage.getCalendars().get(i).setReadOnly(true);
-            }
-            // all double click are disable
-            dayPage.getCalendars().get(0).addEventHandler(getEventHandler());
-
-        } else {
-            for (int i = 0; i < 7; i++) {
-                // all calendar are manageable
-                dayPage.getCalendars().get(i).setReadOnly(false);
-            }
-            // all double click are enabled
-            dayPage.getCalendars().get(0).removeEventHandler(getEventHandler());
-
-        }
-        return new PopOver(this.dayPage);
-
-    }
-
-    public static synchronized CalendarBehaviour getSingletoneInstance() {
-        if (CalendarBehaviour.instance == null)
-            CalendarBehaviour.instance = new CalendarBehaviour();
-        return CalendarBehaviour.instance;
-    }
+	public static synchronized CalendarBehaviour getSingletoneInstance() {
+		if (CalendarBehaviour.instance == null)
+			CalendarBehaviour.instance = new CalendarBehaviour();
+		return CalendarBehaviour.instance;
+	}
 }
