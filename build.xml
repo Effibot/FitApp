@@ -74,7 +74,6 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
- 
     <target name="Main (8)">
         <java classname="logic.view.Main" failonerror="true" fork="yes">
             <classpath refid="FitApp_Project.git.classpath"/>
